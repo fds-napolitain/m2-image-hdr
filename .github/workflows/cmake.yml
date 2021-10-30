@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: cppcheck-action
+      uses: deep5050/cppcheck-action@v3.0
+
     - uses: actions/checkout@v2
 
     - name: Install Qt
