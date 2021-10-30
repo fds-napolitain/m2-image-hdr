@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+    
     - name: cppcheck-action
       uses: deep5050/cppcheck-action@v3.0
-
-    - uses: actions/checkout@v2
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
