@@ -6,6 +6,9 @@
 #define QTHDR_IMAGE_HPP
 
 
+/**
+ * Ici, faudra utiliser une Mat OpenCV pour avoir une même base de travail
+ */
 class Image {
 
 };
