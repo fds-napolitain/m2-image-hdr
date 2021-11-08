@@ -13,7 +13,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(QtHDR main.cpp view/MainWindow.cpp view/MainWindow.hpp model/Image.cpp model/Image.hpp)
+add_executable(QtHDR main.cpp view/MainWindow.cpp view/MainWindow.hpp model/Image.cpp model/Image.hpp model/StackImage.cpp model/StackImage.hpp)
 target_link_libraries(QtHDR
         Qt5::Core
         Qt5::Gui

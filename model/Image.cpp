@@ -3,3 +3,21 @@
 //
 
 #include "Image.hpp"
+
+Image::Image() {
+
+}
+
+Image::Image(const QString& filename, bool isHDR = false) {
+	loadImage(filename);
+	this->isHDR = isHDR;
+}
+
+/**
+ * Charge une image
+ * @param filename
+ * @return
+ */
+bool Image::loadImage(const QString& filename) {
+	image.load(filename);
+}
