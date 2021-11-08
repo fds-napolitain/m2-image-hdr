@@ -18,4 +18,5 @@ bool StackImage::loadImages(const QString& foldername) {
 	for (const QString &image: stackImages) {
 		images[i] = Image(image);
 	}
+	return true;
 }
