@@ -1,17 +1,26 @@
 #include "MainWindow.hpp"
+#include <QPixmap>
+#include <iostream>
 
-MainWindow::MainWindow() {
-    auto *menu_file = new QMenu("&File");
-	menu_file->addAction("&Open...", this, SLOT(open()), Qt::CTRL + Qt::Key_O);
-	menu_file->addAction("&Save as...", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_S);
-    auto *menu_hdr = new QMenu("&HDR");
-    menu_hdr->addAction("&Merge", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_M);
+// https://doc.qt.io/qt-5/qtwidgets-mainwindows-menus-example.html
 
-    QMenuBar *menu_bar = menuBar();
-    menu_bar->addMenu(menu_file);
-    menu_bar->addMenu(menu_hdr);
-    menu_bar->show();
-    setMenuBar(menu_bar);
+MainWindow::MainWindow() : QMainWindow() {
+	QWidget *widget = new QWidget;
+	setCentralWidget(widget);
+
+	QWidget *topFiller = new QWidget;
+	topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	labelInfo = new QLabel(tr("<i>Choose a menu option, or right-click to "
+							  "invoke a context menu</i>"));
+	labelInfo->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+	labelInfo->setAlignment(Qt::AlignCenter);
+
+	QWidget *bottomFiller = new QWidget;
+	bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	createActions();
+	createMenus();
 
 	QImage myImage;
 	myImage.load("images/s1/IMG_0478.JPG");
@@ -19,18 +28,36 @@ MainWindow::MainWindow() {
 	QPixmap pm(QPixmap::fromImage(myImage)); // <- path to image file
 
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
-
 	QLabel myLabel;
 	myLabel.resize(400, 400);
 	myLabel.setPixmap(pm);
 //	myLabel.setPixmap(QPixmap::fromImage(myImage));
-
 	myLabel.show();
 }
 
-bool MainWindow::open() {
-	std::cout << "Open file.\n";
+/**
+ * Crée les actions
+ */
+void MainWindow::createActions() {
+	actionOpen = new QAction(tr("&Open"), this);
+	actionOpen->setShortcuts(QKeySequence::New);
+	actionOpen->setStatusTip(tr("Open an image"));
+	connect(actionOpen, &QAction::triggered, this, &MainWindow::open);
+}
 
+/**
+ * Crée les menus
+ */
+void MainWindow::createMenus() {
+	menuFile = menuBar()->addMenu(tr("&File"));
+	menuFile->addAction(actionOpen);
+}
+
+/**
+ * Slot action: ouvrir un dossier de fichiers
+ * (Pour le moment, 1 seul)
+ */
+void MainWindow::open() {
+	std::cout << "Open file.\n";
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
 }

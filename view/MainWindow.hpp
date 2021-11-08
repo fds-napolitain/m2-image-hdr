@@ -8,11 +8,22 @@
 
 class MainWindow : public QMainWindow {
 
-private:
-	bool open();
-public:
-    MainWindow();
-};
+	Q_OBJECT
 
+public:
+	MainWindow();
+
+private:
+	QMenu* menuFile;
+	QMenu* menuHDR;
+	QAction* actionOpen;
+	QLabel* labelInfo;
+	void createActions();
+	void createMenus();
+	Image image;
+
+private slots:
+	void open();
+};
 
 #endif //QTHDR_MAINWINDOW_HPP
