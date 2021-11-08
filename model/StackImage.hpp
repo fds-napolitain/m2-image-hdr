@@ -1,7 +1,3 @@
-//
-// Created by Maxime Boucher on 08/11/2021.
-//
-
 #ifndef QTHDR_STACKIMAGE_HPP
 #define QTHDR_STACKIMAGE_HPP
 

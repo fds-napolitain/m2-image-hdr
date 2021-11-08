@@ -1,7 +1,3 @@
-//
-// Created by Maxime Boucher on 08/11/2021.
-//
-
 #include "StackImage.hpp"
 
 StackImage::StackImage() = default;
