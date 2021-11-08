@@ -8,7 +8,7 @@ Image::Image() {
 
 }
 
-Image::Image(const QString& filename, bool isHDR = false) {
+Image::Image(const QString& filename, bool isHDR) {
 	loadImage(filename);
 	this->isHDR = isHDR;
 }

@@ -15,7 +15,7 @@ private:
 
 public:
 	Image();
-	explicit Image(const QString& filename, bool isHDR);
+	explicit Image(const QString& filename, bool isHDR  = false);
 	bool loadImage(const QString& filename);
 };
 
