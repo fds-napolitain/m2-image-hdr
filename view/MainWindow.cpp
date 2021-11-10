@@ -2,8 +2,9 @@
 #include <QPixmap>
 #include <iostream>
 
-// https://doc.qt.io/qt-5/qtwidgets-mainwindows-menus-example.html
-
+/**
+ * Fenêtre principale
+ */
 MainWindow::MainWindow() : QMainWindow() {
 	QWidget *widget = new QWidget;
 	setCentralWidget(widget);
@@ -56,6 +57,5 @@ void MainWindow::createMenus() {
 void MainWindow::open() {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
 	image.loadImage(fileName);
-
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
 }
