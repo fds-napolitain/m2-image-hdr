@@ -4,29 +4,30 @@
 
 #include "Image.hpp"
 
-Image::Image() {
+Image::Image() = default;
 
-}
-
+/**
+ * Initialise une image avec OpenCV.
+ * @param filename
+ * @param isHDR
+ */
 Image::Image(const QString& filename, bool isHDR) {
 	loadImage(filename);
 	this->isHDR = isHDR;
 }
 
 /**
- * Charge une image
- * @param filename
+ * Charge une image avec OpenCV
+ * @param filename QString filename
+ */
+void Image::loadImage(const QString& filename) {
+	image = cv::imread(filename.toStdString());
+}
+
+/**
+ * Retourne une image au format QImage
  * @return
  */
-bool Image::loadImage(const QString& filename) {
-	image.load(filename);
+QImage Image::getImage() const {
+	return QImage(image.data, image.cols, image.rows, QImage::Format_RGB888).rgbSwapped();
 }
-
-QImage Image::getImage() {
-	return image;
-}
-
-void Image::setImage(const QImage& _image) {
-    this->image = _image;
-}
-

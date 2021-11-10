@@ -49,7 +49,5 @@ void MainWindow::open() {
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
     myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
-    image.setImage(image.getImage().scaled(myLabel->size(),Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    myLabel->setPixmap(QPixmap::fromImage(image.getImage()));
-
+    myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }

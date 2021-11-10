@@ -3,8 +3,8 @@
 #define QTHDR_MAINWINDOW_HPP
 
 #include <QtWidgets>
-#include "../model/Image.hpp"
 #include <QString>
+#include "../model/Image.hpp"
 
 class MainWindow : public QMainWindow {
 
