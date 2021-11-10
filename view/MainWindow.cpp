@@ -13,8 +13,9 @@ MainWindow::MainWindow() : QMainWindow() {
 	createMenus();
 
 	myLabel = new QLabel(widget);
-    //myLabel->resize(1500,512);
+    //imagemyLabel->resize(1500,512);
     myLabel->setScaledContents(true);
+    myLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
     //myLabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
     myLabel->setPixmap(*pm);
@@ -47,6 +48,8 @@ void MainWindow::open() {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp .JPG)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
+    myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
     image.setImage(image.getImage().scaled(myLabel->size(),Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	myLabel->setPixmap(QPixmap::fromImage(image.getImage()));
+    myLabel->setPixmap(QPixmap::fromImage(image.getImage()));
+
 }
