@@ -41,7 +41,7 @@ void MainWindow::createMenus() {
  * (Pour le moment, 1 seul)
  */
 void MainWindow::open() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp .JPG)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
 	myLabel->setPixmap(QPixmap::fromImage(image.getImage()));
