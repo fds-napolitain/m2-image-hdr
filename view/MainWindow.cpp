@@ -6,28 +6,16 @@
  * Fenêtre principale
  */
 MainWindow::MainWindow() : QMainWindow() {
-	QWidget *widget = new QWidget;
+	widget = new QWidget;
 	setCentralWidget(widget);
-
-	QWidget *topFiller = new QWidget;
-	topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-	labelInfo = new QLabel(tr("<i>Choose a menu option, or right-click to "
-							  "invoke a context menu</i>"));
-	labelInfo->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
-	labelInfo->setAlignment(Qt::AlignCenter);
-
-	QWidget *bottomFiller = new QWidget;
-	bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	createActions();
 	createMenus();
 
-
-	myLabel.resize(400, 400);
-	myLabel.setPixmap(pm);
-//	myLabel.setPixmap(QPixmap::fromImage(myImage));
-	myLabel.show();
+	myLabel = new QLabel(widget);
+	myLabel->setPixmap(*pm);
+	myLabel->setPixmap(pm->scaled(400, 400, Qt::KeepAspectRatio));
+	myLabel->show();
 }
 
 /**
@@ -56,5 +44,5 @@ void MainWindow::open() {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
-	pm.load(fileName);
+	myLabel->setPixmap(QPixmap::fromImage(image.getImage()));
 }

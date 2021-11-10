@@ -21,3 +21,7 @@ Image::Image(const QString& filename, bool isHDR) {
 bool Image::loadImage(const QString& filename) {
 	image.load(filename);
 }
+
+QImage Image::getImage() {
+	return image;
+}

@@ -17,12 +17,12 @@ private:
 	QMenu* menuFile;
 	QMenu* menuHDR;
 	QAction* actionOpen;
-	QLabel* labelInfo;
+	QWidget* widget;
+	QPixmap* pm;
+	QLabel* myLabel;;
+	Image image;
 	void createActions();
 	void createMenus();
-	Image image;
-	QPixmap pm;
-	QLabel myLabel;
 
 private slots:
 	void open();
