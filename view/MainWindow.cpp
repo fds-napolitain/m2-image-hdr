@@ -23,9 +23,7 @@ MainWindow::MainWindow() : QMainWindow() {
 	createActions();
 	createMenus();
 
-	QPixmap pm;
 
-	QLabel myLabel;
 	myLabel.resize(400, 400);
 	myLabel.setPixmap(pm);
 //	myLabel.setPixmap(QPixmap::fromImage(myImage));
@@ -55,7 +53,8 @@ void MainWindow::createMenus() {
  * (Pour le moment, 1 seul)
  */
 void MainWindow::open() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
+	pm.load(fileName);
 }

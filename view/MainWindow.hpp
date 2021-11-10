@@ -21,6 +21,8 @@ private:
 	void createActions();
 	void createMenus();
 	Image image;
+	QPixmap pm;
+	QLabel myLabel;
 
 private slots:
 	void open();
