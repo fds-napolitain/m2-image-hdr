@@ -11,12 +11,14 @@ find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
-        REQUIRED)
+        REQUIRED
+        )
+find_package(OpenCV REQUIRED)
 
 add_executable(QtHDR main.cpp view/MainWindow.cpp view/MainWindow.hpp model/Image.cpp model/Image.hpp model/StackImage.cpp model/StackImage.hpp)
 target_link_libraries(QtHDR
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
+        ${OpenCV_LIBS}
         )
-
