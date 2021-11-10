@@ -18,6 +18,7 @@ public:
 	explicit Image(const QString& filename, bool isHDR  = false);
 	bool loadImage(const QString& filename);
 	QImage getImage();
+    void setImage(const QImage& _image);
 };
 
 

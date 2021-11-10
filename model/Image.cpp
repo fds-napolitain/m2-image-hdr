@@ -25,3 +25,8 @@ bool Image::loadImage(const QString& filename) {
 QImage Image::getImage() {
 	return image;
 }
+
+void Image::setImage(const QImage& _image) {
+    this->image = _image;
+}
+
