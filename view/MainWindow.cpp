@@ -49,16 +49,9 @@ void MainWindow::createMenus() {
  * (Pour le moment, 1 seul)
  */
 void MainWindow::openFiles() {
-    QFileDialog qfd = QFileDialog();
-    qfd.setFileMode(QFileDialog::ExistingFiles);
-    QStringList fileNames;
-    if (qfd.exec())
-        fileNames = qfd.selectedFiles();
-    qDebug() << fileNames;
-
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
-	image.loadImage(fileName);
-	std::cout << "Open file: " << fileName.toStdString() << std::endl;
+	QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
+	image.loadImage(fileNames[0]);
+	qDebug() << fileNames;
     myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
 	myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }

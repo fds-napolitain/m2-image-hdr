@@ -25,7 +25,7 @@ void Image::loadImage(const QString& filename) {
 }
 
 /**
- * Retourne une image au format QImage
+ * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).
  * @return
  */
 QImage Image::getImage() const {
