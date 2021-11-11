@@ -16,7 +16,8 @@ public:
 private:
 	QMenu* menuFile;
 	QMenu* menuHDR;
-	QAction* actionOpen;
+	QAction* actionOpenFiles;
+    QAction* actionOpenFolder;
 	QWidget* widget;
 	QPixmap* pm;
 	QLabel* myLabel;;
@@ -25,7 +26,8 @@ private:
 	void createMenus();
 
 private slots:
-	void open();
+	void openFiles();
+    void openFolder();
 };
 
 #endif //QTHDR_MAINWINDOW_HPP

@@ -23,10 +23,16 @@ MainWindow::MainWindow() : QMainWindow() {
  * Crée les actions
  */
 void MainWindow::createActions() {
-	actionOpen = new QAction(tr("&Open"), this);
-	actionOpen->setShortcuts(QKeySequence::New);
-	actionOpen->setStatusTip(tr("Open an image"));
-	connect(actionOpen, &QAction::triggered, this, &MainWindow::open);
+	actionOpenFiles = new QAction(tr("&Open Files"), this);
+
+    actionOpenFiles->setShortcut(QKeySequence(Qt::Key_O));
+    actionOpenFiles->setStatusTip(tr("Open a set of images"));
+	connect(actionOpenFiles, &QAction::triggered, this, &MainWindow::openFiles);
+
+    actionOpenFolder = new QAction(tr("&Open Folder"), this);
+    actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
+    actionOpenFolder->setStatusTip(tr("Open a folder of images"));
+    connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
 }
 
 /**
@@ -34,17 +40,42 @@ void MainWindow::createActions() {
  */
 void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
-	menuFile->addAction(actionOpen);
+	menuFile->addAction(actionOpenFiles);
+    menuFile->addAction(actionOpenFolder);
 }
 
 /**
  * Slot action: ouvrir un dossier de fichiers
  * (Pour le moment, 1 seul)
  */
-void MainWindow::open() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../images/", tr("Image Files (*.png *.jpg *.bmp .JPG)"));
+void MainWindow::openFiles() {
+
+    QFileDialog qfd = QFileDialog();
+    qfd.setFileMode(QFileDialog::ExistingFiles);
+    QStringList fileNames;
+    if (qfd.exec())
+        fileNames = qfd.selectedFiles();
+    qDebug() << fileNames;
+
+    QString fileName = qfd.getOpenFileName(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
     myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
-    myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+void MainWindow::openFolder() {
+    QFileDialog qfd = QFileDialog();
+    qfd.setFileMode(QFileDialog::DirectoryOnly);
+
+
+    QDir directory(qfd.getExistingDirectory(this, tr("Open folder"), "../images/"));
+    QStringList stackImages = directory.entryList(QStringList() << "*.jpg" << "*.JPG", QDir::Files);
+
+    int nbcol = stackImages.size() / 5;
+    int i = 0;
+    for (const QString &image: stackImages) {
+        qDebug() << image;
+
+    }
 }
