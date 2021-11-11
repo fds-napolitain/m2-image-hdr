@@ -13,12 +13,9 @@ MainWindow::MainWindow() : QMainWindow() {
 	createMenus();
 
 	myLabel = new QLabel(widget);
-    //imagemyLabel->resize(1500,512);
     myLabel->setScaledContents(true);
     myLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-    //myLabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-    myLabel->setPixmap(*pm);
 	myLabel->show();
 }
 
