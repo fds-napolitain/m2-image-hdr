@@ -23,6 +23,13 @@ Image::Image(const QString& filename, bool isHDR) {
 void Image::loadImage(const QString& filename) {
 	image = cv::imread(filename.toStdString());
 }
+/**
+ * Charge une image avec OpenCV
+ * @param filenames QString filenames
+ */
+void Image::loadImages(const QStringList& filenames) {
+	image = cv::imread(filenames[0].toStdString());
+}
 
 /**
  * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).

@@ -5,7 +5,7 @@
 #include <opencv2/opencv.hpp>
 
 /**
- * Ici, faudra utiliser peut etre une Mat OpenCV pour avoir une même base de travail
+ * Classe qui fait le pont entre une cv::Mat opencv (pour le traitement d'image) et QImage (pour l'interface graphique).
  */
 class Image {
 
@@ -17,7 +17,9 @@ public:
 	Image();
 	explicit Image(const QString& filename, bool isHDR  = false);
 	void loadImage(const QString& filename);
+	void loadImages(const QStringList& filenames);
 	[[nodiscard]] QImage getImage() const;
+
 };
 
 
