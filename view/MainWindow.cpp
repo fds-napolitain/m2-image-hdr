@@ -49,7 +49,6 @@ void MainWindow::createMenus() {
  * (Pour le moment, 1 seul)
  */
 void MainWindow::openFiles() {
-
     QFileDialog qfd = QFileDialog();
     qfd.setFileMode(QFileDialog::ExistingFiles);
     QStringList fileNames;
@@ -57,7 +56,7 @@ void MainWindow::openFiles() {
         fileNames = qfd.selectedFiles();
     qDebug() << fileNames;
 
-    QString fileName = qfd.getOpenFileName(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
 	image.loadImage(fileName);
 	std::cout << "Open file: " << fileName.toStdString() << std::endl;
     myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
@@ -69,13 +68,13 @@ void MainWindow::openFolder() {
     qfd.setFileMode(QFileDialog::DirectoryOnly);
 
 
-    QDir directory(qfd.getExistingDirectory(this, tr("Open folder"), "../images/"));
+    QDir directory(QFileDialog::getExistingDirectory(this, tr("Open folder"), "../images/"));
     QStringList stackImages = directory.entryList(QStringList() << "*.jpg" << "*.JPG", QDir::Files);
 
     int nbcol = stackImages.size() / 5;
     int i = 0;
-    for (const QString &image: stackImages) {
-        qDebug() << image;
+    for (const QString &img: stackImages) {
+        qDebug() << img;
 
     }
 }
