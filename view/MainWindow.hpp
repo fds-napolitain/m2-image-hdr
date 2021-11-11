@@ -19,7 +19,6 @@ private:
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
 	QWidget* widget;
-	QPixmap* pm;
 	QLabel* myLabel;;
 	Image image;
 	void createActions();

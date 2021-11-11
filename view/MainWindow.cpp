@@ -50,6 +50,7 @@ void MainWindow::createMenus() {
 void MainWindow::openFiles() {
 	QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp)"));
 	if (fileNames.empty()) {
+		qDebug() << tr("Empty file list");
 		return;
 	}
 	image.loadImages(fileNames);
@@ -63,19 +64,16 @@ void MainWindow::openFiles() {
  */
 void MainWindow::openFolder() {
     QDir directory(QFileDialog::getExistingDirectory(this, tr("Open folder"), "../images/"));
-	QStringList fileNames = directory.entryList(QStringList() << "*.jpg" << "*.JPG", QDir::Files);
+	QStringList fileNames = directory.entryList(QStringList() << tr("*.jpg") << tr("*.JPG"), QDir::Files);
+	for (QString& fileName: fileNames) {
+		fileName = directory.path().append(tr("/")).append(fileName);
+	}
 	if (fileNames.empty()) {
+		qDebug() << tr("Empty folder");
 		return;
 	}
 	image.loadImages(fileNames);
 	qDebug() << fileNames;
 	myLabel->resize(image.getImage().width()/10, image.getImage().height()/10); // faudrait trouver mieux adapter
 	myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-
-	/*int nbcol = fileNames.size() / 5;
-    int i = 0;
-    for (const QString &img: fileNames) {
-        qDebug() << img;
-
-    }*/
 }
