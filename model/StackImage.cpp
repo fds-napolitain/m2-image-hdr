@@ -2,17 +2,22 @@
 
 StackImage::StackImage() = default;
 
-StackImage::StackImage(const QString& foldername) {
-	loadImages(foldername);
+/**
+ * Crée et charge un ensemble d'images à partir d'une liste de chemins de fichiers
+ * @param filenames liste de chemins de fichiers
+ */
+StackImage::StackImage(const QStringList& filenames) {
+	loadImages(filenames);
 }
 
-bool StackImage::loadImages(const QString& foldername) {
-	QDir directory(foldername);
-	QStringList stackImages = directory.entryList(QStringList() << "*.jpg" << "*.JPG", QDir::Files);
-	images.reserve(stackImages.size());
+/**
+ * Charge un ensemble d'images à partir d'une liste de chemins de fichiers
+ * @param filenames liste de chemins de fichiers
+ */
+void StackImage::loadImages(const QStringList& filenames) {
+	images.reserve(filenames.size());
 	int i = 0;
-	for (const QString &image: stackImages) {
+	for (const QString &image: filenames) {
 		images[i] = Image(image);
 	}
-	return true;
 }

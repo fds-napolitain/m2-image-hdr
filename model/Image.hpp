@@ -11,15 +11,21 @@ class Image {
 
 private:
 	cv::Mat image;
+	float exposure;
+	float focal;
+	float ISO;
 	bool isHDR = false;
 
 public:
 	Image();
 	explicit Image(const QString& filename, bool isHDR  = false);
+	~Image();
 	void loadImage(const QString& filename);
-	void loadImages(const QStringList& filenames);
-	[[nodiscard]] QImage getImage() const;
-
+	[[nodiscard]] QImage getQImage() const;
+	[[nodiscard]] float getExposure() const;
+	[[nodiscard]] float getFocal() const;
+	[[nodiscard]] float getISO() const;
+	// -- méthode sur une image
 };
 
 

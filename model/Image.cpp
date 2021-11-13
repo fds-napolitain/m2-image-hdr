@@ -17,24 +17,46 @@ Image::Image(const QString& filename, bool isHDR) {
 }
 
 /**
+ * Destructeur
+ */
+Image::~Image() = default;
+
+/**
  * Charge une image avec OpenCV
- * @param filename QString filename
+ * @param filename chemin d'accès à l'image
  */
 void Image::loadImage(const QString& filename) {
 	image = cv::imread(filename.toStdString());
-}
-/**
- * Charge une image avec OpenCV
- * @param filenames QString filenames
- */
-void Image::loadImages(const QStringList& filenames) {
-	image = cv::imread(filenames[0].toStdString());
 }
 
 /**
  * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).
  * @return
  */
-QImage Image::getImage() const {
+QImage Image::getQImage() const {
 	return QImage(image.data, image.cols, image.rows, QImage::Format_RGB888).rgbSwapped();
+}
+
+/**
+ * Retourne le temps d'exposition en millieme de secondes
+ * @return
+ */
+float Image::getExposure() const {
+	return exposure;
+}
+
+/**
+ * Retourne la longueur focale en millimètre
+ * @return
+ */
+float Image::getFocal() const {
+	return focal;
+}
+
+/**
+ * Retourne la valeur ISO
+ * @return
+ */
+float Image::getISO() const {
+	return ISO;
 }

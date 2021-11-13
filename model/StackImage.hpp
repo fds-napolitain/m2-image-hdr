@@ -12,8 +12,10 @@ private:
 	std::vector<Image> images;
 public:
 	StackImage();
-	explicit StackImage(const QString& foldername);
-	bool loadImages(const QString& foldername);
+	explicit StackImage(const QStringList& filenames);
+	void loadImages(const QStringList& filenames);
+	// méthodes sur des images (ex: HDR)
+
 };
 
 

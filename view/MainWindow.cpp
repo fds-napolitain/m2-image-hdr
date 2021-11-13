@@ -12,11 +12,10 @@ MainWindow::MainWindow() : QMainWindow() {
 	createActions();
 	createMenus();
 
-	myLabel = new QLabel(widget);
-    myLabel->setScaledContents(true);
-    myLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
-	myLabel->show();
+	resultWidget = new QLabel(widget);
+    resultWidget->setScaledContents(true);
+    resultWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	resultWidget->show();
 }
 
 /**
@@ -53,10 +52,10 @@ void MainWindow::openFiles() {
 		qDebug() << tr("Empty file list");
 		return;
 	}
-	image.loadImages(fileNames);
+	images.loadImages(fileNames);
 	qDebug() << fileNames;
-    myLabel->resize(image.getImage().width()/10, image.getImage().height()/10);
-	myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    resultWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10);
+	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
 /**
@@ -74,6 +73,6 @@ void MainWindow::openFolder() {
 	}
 	image.loadImages(fileNames);
 	qDebug() << fileNames;
-	myLabel->resize(image.getImage().width()/10, image.getImage().height()/10); // faudrait trouver mieux adapter
-	myLabel->setPixmap(QPixmap::fromImage(image.getImage().scaled(myLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	resultWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
+	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
