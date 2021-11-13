@@ -25,7 +25,7 @@ public:
 	[[nodiscard]] float getExposure() const;
 	[[nodiscard]] float getFocal() const;
 	[[nodiscard]] float getISO() const;
-	// -- méthode sur une image
+	// -- méthodes sur une image
 };
 
 

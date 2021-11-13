@@ -4,10 +4,12 @@
 
 #include "ImageWidget.hpp"
 
-ImageWidget::ImageWidget() {
+ImageWidget::ImageWidget() = default;
 
-}
-
+/**
+ * Initialise un widget Image à partir de son parent.
+ * @param parent
+ */
 ImageWidget::ImageWidget(QWidget* parent) {
 	label = new QLabel(parent);
 	label->setScaledContents(true);

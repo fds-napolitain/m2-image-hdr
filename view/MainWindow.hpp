@@ -1,4 +1,3 @@
-
 #ifndef QTHDR_MAINWINDOW_HPP
 #define QTHDR_MAINWINDOW_HPP
 

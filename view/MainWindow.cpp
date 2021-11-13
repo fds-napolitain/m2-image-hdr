@@ -54,7 +54,7 @@ void MainWindow::openFiles() {
 	}
 	images.loadImages(fileNames);
 	qDebug() << fileNames;
-    resultWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10);
+    stackWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10);
 	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 

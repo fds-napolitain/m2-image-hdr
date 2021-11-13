@@ -14,7 +14,7 @@ public:
 	StackImage();
 	explicit StackImage(const QStringList& filenames);
 	void loadImages(const QStringList& filenames);
-	// méthodes sur des images (ex: HDR)
+	// -- méthodes sur des images (ex: HDR)
 
 };
 
