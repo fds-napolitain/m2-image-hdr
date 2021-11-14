@@ -64,6 +64,28 @@ void MainWindow::createMenus() {
 }
 
 /**
+ * Exécute toutes les actions
+ */
+void MainWindow::executePipeline() {
+	switch (pipeline.align) {
+		case Align::NONE:
+			break;
+		case Align::MTB:
+			images->alignMTB();
+			break;
+	}
+	switch (pipeline.merge) {
+		case Merge::NONE:
+			break;
+		case Merge::Debevec:
+			result->loadImage(images->mergeDebevec());
+			break;
+		case Merge::Mertens:
+			break;
+	}
+}
+
+/**
  * Slot action: ouvrir une ou plusieurs images
  */
 void MainWindow::openFiles() {
@@ -97,12 +119,14 @@ void MainWindow::openFolder() {
  * Slot action: alignement MTB
  */
 void MainWindow::alignMTB() {
-	images->alignMTB();
+	pipeline.align = Align::MTB;
+	executePipeline();
 }
 
 /**
  * Slot action: merge les images avec la méthode de Debevec.
  */
 void MainWindow::mergeDebevec() {
-	result->loadImage(images->mergeDebevec());
+	pipeline.merge = Merge::Debevec;
+	executePipeline();
 }

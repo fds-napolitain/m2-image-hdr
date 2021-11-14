@@ -5,6 +5,7 @@
 #include <QString>
 #include "StackImageWidget.hpp"
 #include "ImageWidget.hpp"
+#include "../model/Pipeline.hpp"
 
 class MainWindow : public QMainWindow {
 
@@ -26,8 +27,10 @@ private:
 	QGroupBox* hdrbox;
 	StackImageWidget* images;
 	ImageWidget* result;
+	Pipeline pipeline;
 	void createActions();
 	void createMenus();
+	void executePipeline();
 private slots:
 	void openFiles();
     void openFolder();
