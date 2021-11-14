@@ -27,10 +27,18 @@ void ImageWidget::loadImage(const QString& filename) {
 	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
+/**
+ * Retourne l'image avec cv::Mat
+ * @return
+ */
 Image ImageWidget::getImage() {
 	return image;
 }
 
+/**
+ * Retourne le label d'affichage de l'image.
+ * @return
+ */
 QLabel *ImageWidget::getQLabel() {
 	return label;
 }

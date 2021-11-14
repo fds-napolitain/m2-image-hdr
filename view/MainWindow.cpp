@@ -66,9 +66,7 @@ void MainWindow::openFolder() {
 	if (fileNames.empty()) {
 		qDebug() << tr("Empty folder");
 		return;
-	}/*
-	image.loadImages(fileNames);
+	}
+	images->loadImages(fileNames);
 	qDebug() << fileNames;
-	resultWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
-	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));*/
 }
