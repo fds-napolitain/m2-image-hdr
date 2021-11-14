@@ -39,6 +39,9 @@ std::vector<float> StackImage::getExposures() {
 	return exposures;
 }
 
+/**
+ * Alignement MTB: aligne les images dans le cas où les images n'ont pas été prises du même endroit.
+ */
 void StackImage::alignMTB() {
 	std::vector<cv::Mat> matrices = getMatrices();
 	cv::Ptr<cv::AlignMTB> alignMTB = cv::createAlignMTB();

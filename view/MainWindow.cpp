@@ -96,7 +96,6 @@ void MainWindow::openFolder() {
  */
 void MainWindow::alignMTB() {
 	images->alignMTB();
-
 }
 
 /**
