@@ -13,6 +13,8 @@ StackImageWidget::StackImageWidget() = default;
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
 	stack = new QGroupBox(parent);
+    stack->setLayout(new QHBoxLayout);
+
 }
 
 /**
@@ -21,12 +23,13 @@ StackImageWidget::StackImageWidget(QWidget *parent) {
  */
 void StackImageWidget::loadImages(const QStringList &filenames) {
 	images.resize(filenames.size());
+
 	for (int i = 0; i < filenames.size(); i++) {
 		images[i] = new ImageWidget(stack);
-		images[i]->loadImage(filenames[i]);
+		images[i]->loadImage(filenames[i], stack);
 		QSize size = images[i]->getQLabel()->size();
 		stack->resize(size.width()*filenames.size(), size.height());
-		stack->setLayout(new QHBoxLayout);
+
 	}
 }
 

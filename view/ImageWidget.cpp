@@ -4,6 +4,7 @@
 
 #include "ImageWidget.hpp"
 
+
 ImageWidget::ImageWidget() = default;
 
 /**
@@ -21,10 +22,12 @@ ImageWidget::ImageWidget(QWidget* parent) {
  * Charge une image et initialise ses composants graphiques.
  * @param filename
  */
-void ImageWidget::loadImage(const QString& filename) {
+void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
-	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
+    label->setGeometry(QRect(20, 10, 371, 311));
+	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10 ); // faudrait trouver mieux adapter
 	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    stack->layout()->addWidget(label);
 }
 
 /**

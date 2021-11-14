@@ -9,6 +9,9 @@
 #include <QLabel>
 #include "../model/Image.hpp"
 
+#include <QHBoxLayout>
+#include <QGroupBox>
+
 /**
  * Widget englobant une image.
  */
@@ -20,7 +23,7 @@ private:
 public:
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
-	void loadImage(const QString& filename);
+	void loadImage(const QString& filename, QGroupBox *stack);
 	Image getImage();
 	QLabel* getQLabel();
 
