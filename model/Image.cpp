@@ -58,5 +58,5 @@ void Image::tonemapDrago() {
 	tonemap->process(image, result);
 	result *= 255;
 	image = std::move(result);
-	// cv::imwrite("../images/test.jpg", image); // ca marche avec imwrite mais pas avec une copie classique
+	cv::imwrite("../images/test.jpg", image); // ca marche avec imwrite mais pas avec une copie classique
 }
