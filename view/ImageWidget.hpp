@@ -21,7 +21,7 @@ public:
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
 	void loadImage(const QString& filename);
-	Image getImage();
+	Image* getImage();
 	QLabel* getQLabel();
 
 };

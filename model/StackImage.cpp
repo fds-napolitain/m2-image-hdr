@@ -3,24 +3,16 @@
 
 StackImage::StackImage() = default;
 
-/**
- * Crée et charge un ensemble d'images à partir d'une liste de chemins de fichiers
- * @param filenames liste de chemins de fichiers
- */
-StackImage::StackImage(const QStringList& filenames) {
-	loadImages(filenames);
+StackImage::StackImage(int n) {
+	images.resize(n);
 }
 
-/**
- * Charge un ensemble d'images à partir d'une liste de chemins de fichiers
- * @param filenames liste de chemins de fichiers
- */
-void StackImage::loadImages(const QStringList& filenames) {
-	images.reserve(filenames.size());
-	int i = 0;
-	for (const QString &image: filenames) {
-		images[i] = Image(image);
-	}
+void StackImage::addImage(Image *image) {
+	images.push_back(image);
+}
+
+void StackImage::addImage(Image *image, int i) {
+	images[i] = image;
 }
 
 /**
@@ -30,7 +22,7 @@ void StackImage::loadImages(const QStringList& filenames) {
 std::vector<cv::Mat> StackImage::getMatrices() {
 	std::vector<cv::Mat> matrices(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		matrices[i] = images[i].getMat();
+		matrices[i] = images[i]->getMat();
 	}
 	return matrices;
 }
@@ -42,7 +34,7 @@ std::vector<cv::Mat> StackImage::getMatrices() {
 std::vector<float> StackImage::getExposures() {
 	std::vector<float> exposures(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		exposures[i] = images[i].getExposure();
+		exposures[i] = images[i]->getExposure();
 	}
 	return exposures;
 }

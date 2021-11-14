@@ -30,3 +30,10 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 	}
 }
 
+StackImage StackImageWidget::getImages() {
+	StackImage stackImage;
+	for (const auto &image: images) {
+		stackImage.addImage(image->getImage());
+	}
+	return stackImage;
+}

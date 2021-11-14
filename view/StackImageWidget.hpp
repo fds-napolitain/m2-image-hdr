@@ -8,6 +8,7 @@
 #include <vector>
 #include <QGroupBox>
 #include "ImageWidget.hpp"
+#include "../model/StackImage.hpp"
 
 class StackImageWidget {
 
@@ -18,7 +19,7 @@ public:
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);
 	void loadImages(const QStringList& filenames);
-
+	StackImage getImages();
 
 };
 

@@ -31,8 +31,8 @@ void ImageWidget::loadImage(const QString& filename) {
  * Retourne l'image avec cv::Mat
  * @return
  */
-Image ImageWidget::getImage() {
-	return image;
+Image* ImageWidget::getImage() {
+	return &image;
 }
 
 /**
