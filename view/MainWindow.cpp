@@ -87,5 +87,5 @@ void MainWindow::openFolder() {
  * Slot action: merge les images avec la méthode de Debevec.
  */
 void MainWindow::mergeDebevec() {
-
+	result->loadImage(images->mergeDebevec());
 }

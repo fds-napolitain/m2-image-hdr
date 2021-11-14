@@ -30,10 +30,22 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 	}
 }
 
+/**
+ * Retourne les Image sous forme de StackImage (pour HDR)
+ * @return
+ */
 StackImage StackImageWidget::getImages() {
 	StackImage stackImage;
 	for (const auto &image: images) {
 		stackImage.addImage(image->getImage());
 	}
 	return stackImage;
+}
+
+/**
+ * Applique le merge de Debevec sur une StackImage.
+ * @return
+ */
+Image StackImageWidget::mergeDebevec() {
+	return getImages().mergeDebevec();
 }

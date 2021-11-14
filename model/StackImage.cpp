@@ -22,7 +22,7 @@ void StackImage::addImage(Image *image, int i) {
 std::vector<cv::Mat> StackImage::getMatrices() {
 	std::vector<cv::Mat> matrices(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		matrices[i] = images[i]->getMat();
+		matrices[i] = images[i]->image;
 	}
 	return matrices;
 }
@@ -34,7 +34,7 @@ std::vector<cv::Mat> StackImage::getMatrices() {
 std::vector<float> StackImage::getExposures() {
 	std::vector<float> exposures(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		exposures[i] = images[i]->getExposure();
+		exposures[i] = images[i]->exposure;
 	}
 	return exposures;
 }

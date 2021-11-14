@@ -28,6 +28,16 @@ void ImageWidget::loadImage(const QString& filename) {
 }
 
 /**
+ * Charge une image à partir d'une image existante.
+ * @param image à copier
+ */
+void ImageWidget::loadImage(const Image& image) {
+	this->image = Image(image);
+	label->resize(this->image.getQImage().width() / 10, this->image.getQImage().height() / 10); // faudrait trouver mieux adapter
+	label->setPixmap(QPixmap::fromImage(this->image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+/**
  * Retourne l'image avec cv::Mat
  * @return
  */

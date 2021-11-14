@@ -20,7 +20,8 @@ public:
 	explicit StackImageWidget(QWidget* parent);
 	void loadImages(const QStringList& filenames);
 	StackImage getImages();
-
+	// -- méthodes hdr
+	Image mergeDebevec();
 };
 
 
