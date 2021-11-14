@@ -39,6 +39,6 @@ Image* ImageWidget::getImage() {
  * Retourne le label d'affichage de l'image.
  * @return
  */
-QLabel *ImageWidget::getQLabel() {
+QLabel* ImageWidget::getQLabel() {
 	return label;
 }

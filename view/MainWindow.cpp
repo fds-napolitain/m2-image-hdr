@@ -31,6 +31,7 @@ void MainWindow::createActions() {
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
 
+	actionMergeNaive = new QAction(tr("&Merge naively"), this);
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
 	actionMergeDebevec->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
