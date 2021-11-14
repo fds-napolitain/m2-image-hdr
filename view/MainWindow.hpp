@@ -3,7 +3,8 @@
 
 #include <QtWidgets>
 #include <QString>
-#include "../model/StackImage.hpp"
+#include "StackImageWidget.hpp"
+#include "ImageWidget.hpp"
 
 class MainWindow : public QMainWindow {
 
@@ -18,10 +19,8 @@ private:
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
 	QWidget* widget;
-	std::vector<QLabel*> stackWidget;
-	QLabel* resultWidget;
-	StackImage images;
-	Image result;
+	StackImageWidget* images;
+	ImageWidget* result;
 	void createActions();
 	void createMenus();
 

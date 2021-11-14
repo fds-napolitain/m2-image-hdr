@@ -12,10 +12,8 @@ MainWindow::MainWindow() : QMainWindow() {
 	createActions();
 	createMenus();
 
-	resultWidget = new QLabel(widget);
-    resultWidget->setScaledContents(true);
-    resultWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-	resultWidget->show();
+	images = new StackImageWidget(widget);
+	result = new ImageWidget(widget);
 }
 
 /**
@@ -52,10 +50,8 @@ void MainWindow::openFiles() {
 		qDebug() << tr("Empty file list");
 		return;
 	}
-	images.loadImages(fileNames);
+	images->loadImages(fileNames);
 	qDebug() << fileNames;
-    stackWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10);
-	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
 /**
@@ -70,9 +66,9 @@ void MainWindow::openFolder() {
 	if (fileNames.empty()) {
 		qDebug() << tr("Empty folder");
 		return;
-	}
+	}/*
 	image.loadImages(fileNames);
 	qDebug() << fileNames;
 	resultWidget->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
-	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	resultWidget->setPixmap(QPixmap::fromImage(image.getQImage().scaled(resultWidget->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));*/
 }

@@ -16,3 +16,21 @@ ImageWidget::ImageWidget(QWidget* parent) {
 	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	label->show();
 }
+
+/**
+ * Charge une image et initialise ses composants graphiques.
+ * @param filename
+ */
+void ImageWidget::loadImage(const QString& filename) {
+	image = Image(filename);
+	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
+	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+Image ImageWidget::getImage() {
+	return image;
+}
+
+QLabel *ImageWidget::getQLabel() {
+	return label;
+}
