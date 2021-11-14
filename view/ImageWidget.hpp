@@ -11,6 +11,7 @@
 
 #include <QHBoxLayout>
 #include <QGroupBox>
+#include <QGridLayout>
 
 /**
  * Widget englobant une image.

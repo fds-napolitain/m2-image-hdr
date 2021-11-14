@@ -3,6 +3,7 @@
 //
 
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include "StackImageWidget.hpp"
 
 StackImageWidget::StackImageWidget() = default;
