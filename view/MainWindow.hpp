@@ -15,9 +15,11 @@ public:
 
 private:
 	QMenu* menuFile;
-	QMenu* menuHDR;
+	QMenu* menuMerge;
+	QMenu* menuTonemap;
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+	QAction* actionMergeNaive;
 	QAction* actionMergeDebevec;
 	QWidget* widget;
 	StackImageWidget* images;

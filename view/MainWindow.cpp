@@ -44,8 +44,12 @@ void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
 	menuFile->addAction(actionOpenFiles);
     menuFile->addAction(actionOpenFolder);
-	menuHDR = menuBar()->addMenu(tr("&Merge"));
-	menuHDR->addAction(actionMergeDebevec);
+
+	menuMerge = menuBar()->addMenu(tr("&Merge"));
+	menuMerge->addAction(actionMergeNaive);
+	menuMerge->addAction(actionMergeDebevec);
+
+	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
 }
 
 /**

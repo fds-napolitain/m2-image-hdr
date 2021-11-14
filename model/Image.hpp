@@ -15,17 +15,19 @@ private:
 	float focal;
 	float ISO;
 	bool isHDR = false;
-
 public:
 	Image();
-	explicit Image(const QString& filename, bool isHDR  = false);
+	explicit Image(cv::Mat image, bool isHDR = true);
+	explicit Image(const QString& filename, bool isHDR = false);
 	~Image();
 	void loadImage(const QString& filename);
+	[[nodiscard]] cv::Mat getMat();
 	[[nodiscard]] QImage getQImage() const;
 	[[nodiscard]] float getExposure() const;
 	[[nodiscard]] float getFocal() const;
 	[[nodiscard]] float getISO() const;
 	// -- méthodes sur une image
+
 };
 
 

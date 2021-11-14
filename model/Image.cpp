@@ -2,9 +2,17 @@
 // Created by Maxime Boucher on 30/10/2021.
 //
 
+
+#include <utility>
 #include "Image.hpp"
 
+
 Image::Image() = default;
+
+Image::Image(cv::Mat image, bool isHDR) {
+	this->image = std::move(image);
+	this->isHDR = isHDR;
+}
 
 /**
  * Initialise une image avec OpenCV.
@@ -27,6 +35,14 @@ Image::~Image() = default;
  */
 void Image::loadImage(const QString& filename) {
 	image = cv::imread(filename.toStdString());
+}
+
+/**
+ * Retourne l'image format cv::Mat
+ * @return
+ */
+cv::Mat Image::getMat() {
+	return image;
 }
 
 /**

@@ -14,7 +14,10 @@ public:
 	StackImage();
 	explicit StackImage(const QStringList& filenames);
 	void loadImages(const QStringList& filenames);
+	[[nodiscard]] std::vector<cv::Mat> getMatrices();
+	[[nodiscard]] std::vector<float> getExposures();
 	// -- méthodes sur des images (ex: HDR)
+	Image mergeDebevec();
 
 };
 
