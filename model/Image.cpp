@@ -22,7 +22,6 @@ Image::Image(cv::Mat image, bool isHDR) {
 Image::Image(const QString& filename, bool isHDR) {
 	loadImage(filename);
 	this->isHDR = isHDR;
-	std::cout << filename.split('_').at(1).split('.').at(0).toStdString();
 	this->exposure = 1 / filename.split('_').at(1).split('.').at(0).toFloat();
 	std::cout << this->exposure;
 }

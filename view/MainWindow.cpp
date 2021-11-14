@@ -32,13 +32,13 @@ void MainWindow::createActions() {
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
 
 	actionAlignMTB = new QAction(tr("&Align images"), this);
-	actionAlignMTB->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
 	actionAlignMTB->setStatusTip(tr("Open a folder of images"));
 	connect(actionAlignMTB, &QAction::triggered, this, &MainWindow::alignMTB);
 
 	actionMergeNaive = new QAction(tr("&Merge naively"), this);
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
-	actionMergeDebevec->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
+	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_D));
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
 }
