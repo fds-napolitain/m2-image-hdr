@@ -23,7 +23,6 @@ private:
 public:
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
-	void loadImage(const QString& filename);
 	void loadImage(const Image& image);
 	void reloadImage();
 	Image* getImage();
