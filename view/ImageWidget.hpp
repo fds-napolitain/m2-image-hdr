@@ -25,6 +25,7 @@ public:
 	explicit ImageWidget(QWidget* parent);
 	void loadImage(const QString& filename);
 	void loadImage(const Image& image);
+	void reloadImage();
 	Image* getImage();
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();

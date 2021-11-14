@@ -31,6 +31,11 @@ void MainWindow::createActions() {
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
 
+	actionAlignMTB = new QAction(tr("&Align images"), this);
+	actionAlignMTB->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+	actionAlignMTB->setStatusTip(tr("Open a folder of images"));
+	connect(actionAlignMTB, &QAction::triggered, this, &MainWindow::alignMTB);
+
 	actionMergeNaive = new QAction(tr("&Merge naively"), this);
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
 	actionMergeDebevec->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
@@ -45,6 +50,9 @@ void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
 	menuFile->addAction(actionOpenFiles);
     menuFile->addAction(actionOpenFolder);
+
+	menuAlign = menuBar()->addMenu(tr("&Align"));
+	menuAlign->addAction(actionAlignMTB);
 
 	menuMerge = menuBar()->addMenu(tr("&Merge"));
 	menuMerge->addAction(actionMergeNaive);
@@ -81,6 +89,14 @@ void MainWindow::openFolder() {
 	}
 	images->loadImages(fileNames);
 	qDebug() << fileNames;
+}
+
+/**
+ * Slot action: alignement MTB
+ */
+void MainWindow::alignMTB() {
+	images->alignMTB();
+
 }
 
 /**

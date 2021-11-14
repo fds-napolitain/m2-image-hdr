@@ -25,8 +25,7 @@ ImageWidget::ImageWidget(QWidget* parent) {
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
     label->setGeometry(QRect(20, 10, 371, 311));
-	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10 ); // faudrait trouver mieux adapter
-	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	reloadImage();
     stack->layout()->addWidget(label);
 }
 
@@ -36,8 +35,7 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
-	label->resize(this->image.getQImage().width() / 10, this->image.getQImage().height() / 10); // faudrait trouver mieux adapter
-	label->setPixmap(QPixmap::fromImage(this->image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	reloadImage();
 }
 
 /**
@@ -54,4 +52,12 @@ Image* ImageWidget::getImage() {
  */
 QLabel* ImageWidget::getQLabel() {
 	return label;
+}
+
+/**
+ * Recharge l'image sur la page.
+ */
+void ImageWidget::reloadImage() {
+	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
+	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }

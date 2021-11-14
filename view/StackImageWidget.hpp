@@ -21,7 +21,9 @@ public:
 	void loadImages(const QStringList& filenames);
 	StackImage getImages();
 	// -- méthodes hdr
+	void alignMTB();
 	Image mergeDebevec();
+
 };
 
 

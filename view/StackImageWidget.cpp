@@ -46,6 +46,17 @@ StackImage StackImageWidget::getImages() {
 }
 
 /**
+ * Aligne les images (photos prises par téléphone).
+ * @return
+ */
+void StackImageWidget::alignMTB() {
+	getImages().alignMTB();
+	for (const auto &image: images) {
+		image->reloadImage();
+	}
+}
+
+/**
  * Applique le merge de Debevec sur une StackImage.
  * @return
  */

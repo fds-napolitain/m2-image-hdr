@@ -12,13 +12,14 @@ class MainWindow : public QMainWindow {
 
 public:
 	MainWindow();
-
 private:
 	QMenu* menuFile;
+	QMenu* menuAlign;
 	QMenu* menuMerge;
 	QMenu* menuTonemap;
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+	QAction* actionAlignMTB;
 	QAction* actionMergeNaive;
 	QAction* actionMergeDebevec;
 	QWidget* widget;
@@ -26,11 +27,12 @@ private:
 	ImageWidget* result;
 	void createActions();
 	void createMenus();
-
 private slots:
 	void openFiles();
     void openFolder();
+	void alignMTB();
 	void mergeDebevec();
+
 };
 
 #endif //QTHDR_MAINWINDOW_HPP

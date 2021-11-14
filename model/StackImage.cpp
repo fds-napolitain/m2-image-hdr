@@ -39,6 +39,12 @@ std::vector<float> StackImage::getExposures() {
 	return exposures;
 }
 
+void StackImage::alignMTB() {
+	std::vector<cv::Mat> matrices = getMatrices();
+	cv::Ptr<cv::AlignMTB> alignMTB = cv::createAlignMTB();
+	alignMTB->process(matrices, matrices);
+}
+
 /**
  * Applique le merge de Debevec.
  * https://learnopencv.com/high-dynamic-range-hdr-imaging-using-opencv-cpp-python/

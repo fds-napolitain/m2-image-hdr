@@ -18,6 +18,7 @@ public:
 	[[nodiscard]] std::vector<cv::Mat> getMatrices();
 	[[nodiscard]] std::vector<float> getExposures();
 	// -- méthodes sur des images (ex: HDR)
+	void alignMTB();
 	Image mergeDebevec();
 
 };
