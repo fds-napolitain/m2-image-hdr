@@ -56,16 +56,11 @@ void StackImage::alignMTB() {
 Image StackImage::mergeDebevec() {
 	cv::Mat responseDebevec;
 	cv::Mat result_debevec;
-    cv::Mat result;
 	std::vector<cv::Mat> matrices = getMatrices();
 	std::vector<float> exposures = getExposures();
 	cv::Ptr<cv::CalibrateDebevec> calibrateDebevec = cv::createCalibrateDebevec();
 	calibrateDebevec->process(matrices, responseDebevec, exposures);
 	cv::Ptr<cv::MergeDebevec> mergeDebevec = cv::createMergeDebevec();
 	mergeDebevec->process(matrices, result_debevec, exposures, responseDebevec);
-    cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(2.2);
-    tonemap->process(result_debevec, result);
-    result = result * 255;
-    cv::imwrite("../images/debevec.jpg", result);
-	return Image(result, true);
+	return Image(result_debevec, true);
 }

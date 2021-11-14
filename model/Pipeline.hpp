@@ -19,6 +19,7 @@ enum class Merge {
 
 enum class Tonemap {
 	NONE,
+	Drago,
 };
 
 class Pipeline {

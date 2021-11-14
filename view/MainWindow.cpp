@@ -40,9 +40,14 @@ void MainWindow::createActions() {
 
 	actionMergeNaive = new QAction(tr("&Merge naively"), this);
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
-	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_D));
+	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_Q));
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
+
+	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
+	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_W));
+	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
+	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
 }
 
 /**
@@ -61,6 +66,7 @@ void MainWindow::createMenus() {
 	menuMerge->addAction(actionMergeDebevec);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
+	menuTonemap->addAction(actionTonemapDrago);
 }
 
 /**
@@ -81,6 +87,13 @@ void MainWindow::executePipeline() {
 			result->loadImage(images->mergeDebevec());
 			break;
 		case Merge::Mertens:
+			break;
+	}
+	switch (pipeline.tonemap) {
+		case Tonemap::NONE:
+			break;
+		case Tonemap::Drago:
+			result->getImage()->tonemapDrago();
 			break;
 	}
 }
@@ -128,5 +141,13 @@ void MainWindow::alignMTB() {
  */
 void MainWindow::mergeDebevec() {
 	pipeline.merge = Merge::Debevec;
+	executePipeline();
+}
+
+/**
+ * Slot action: applique un mappage ton local avec la méthode de Drago.
+ */
+void MainWindow::tonemapDrago() {
+	pipeline.tonemap = Tonemap::Drago;
 	executePipeline();
 }
