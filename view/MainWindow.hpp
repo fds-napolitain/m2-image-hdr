@@ -18,6 +18,7 @@ private:
 	QMenu* menuHDR;
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+	QAction* actionMergeDebevec;
 	QWidget* widget;
 	StackImageWidget* images;
 	ImageWidget* result;
@@ -27,6 +28,7 @@ private:
 private slots:
 	void openFiles();
     void openFolder();
+	void mergeDebevec();
 };
 
 #endif //QTHDR_MAINWINDOW_HPP

@@ -30,6 +30,11 @@ void MainWindow::createActions() {
     actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
+
+	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
+	actionMergeDebevec->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
+	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
+	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
 }
 
 /**
@@ -39,6 +44,8 @@ void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
 	menuFile->addAction(actionOpenFiles);
     menuFile->addAction(actionOpenFolder);
+	menuHDR = menuBar()->addMenu(tr("&Merge"));
+	menuHDR->addAction(actionMergeDebevec);
 }
 
 /**
@@ -69,4 +76,11 @@ void MainWindow::openFolder() {
 	}
 	images->loadImages(fileNames);
 	qDebug() << fileNames;
+}
+
+/**
+ * Slot action: merge les images avec la méthode de Debevec.
+ */
+void MainWindow::mergeDebevec() {
+
 }
