@@ -12,8 +12,10 @@ MainWindow::MainWindow() : QMainWindow() {
 	createActions();
 	createMenus();
 
-	images = new StackImageWidget(widget);
-	result = new ImageWidget(widget);
+	hdrbox = new QGroupBox(widget);
+	hdrbox->setLayout(new QVBoxLayout);
+	images = new StackImageWidget(hdrbox);
+	result = new ImageWidget(hdrbox);
 }
 
 /**

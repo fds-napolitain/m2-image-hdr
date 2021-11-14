@@ -23,6 +23,7 @@ private:
 	QAction* actionMergeNaive;
 	QAction* actionMergeDebevec;
 	QWidget* widget;
+	QGroupBox* hdrbox;
 	StackImageWidget* images;
 	ImageWidget* result;
 	void createActions();

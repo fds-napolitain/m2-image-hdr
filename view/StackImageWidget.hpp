@@ -15,6 +15,7 @@ class StackImageWidget {
 private:
 	std::vector<ImageWidget*> images;
 	QGroupBox* stack;
+	QWidget* parent;
 public:
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);
