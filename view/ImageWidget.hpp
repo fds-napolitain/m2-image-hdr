@@ -27,7 +27,6 @@ public:
 	void loadImage(const Image& image);
 	Image* getImage();
 	void loadImage(const QString& filename, QGroupBox *stack);
-	Image getImage();
 	QLabel* getQLabel();
 
 };
