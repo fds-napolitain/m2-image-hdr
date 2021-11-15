@@ -26,7 +26,7 @@ ImageWidget::ImageWidget(QWidget* parent) {
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
     label->setGeometry(QRect(20, 10, 371, 311));
-	image.getQImage().save("../images/test1.jpg");
+	image.getQImage().save("../images/test1.jpg"); // marche
 	reloadImage();
     stack->layout()->addWidget(label);
 }
@@ -37,8 +37,8 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
-	cv::imwrite("../images/test2bis.jpg", this->image.image);
-	this->image.getQImage().save("../images/test2.jpg");
+	cv::imwrite("../images/test2bis.jpg", this->image.image); // marche
+	this->image.getQImage().save("../images/test2.jpg"); // marche pas
 	reloadImage();
 }
 

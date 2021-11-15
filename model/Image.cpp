@@ -45,7 +45,7 @@ void Image::loadImage(const QString& filename) {
  * @return
  */
 QImage Image::getQImage() const {
-	return QImage(image.data, image.cols, image.rows, QImage::Format_RGB888).rgbSwapped();
+	return QImage((uchar*) image.data, image.cols, image.rows, QImage::Format_RGB888).rgbSwapped();
 }
 
 /**
