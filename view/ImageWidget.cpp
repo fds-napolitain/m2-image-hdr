@@ -37,8 +37,8 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
+	cv::imwrite("../images/test2bis.jpg", this->image.image);
 	this->image.getQImage().save("../images/test2.jpg");
-	std::cout << image.isHDR;
 	reloadImage();
 }
 
