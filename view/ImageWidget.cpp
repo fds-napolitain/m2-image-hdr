@@ -16,6 +16,7 @@ ImageWidget::ImageWidget(QWidget* parent) {
 	label->setScaledContents(true);
 	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	label->show();
+	this->setParent(parent);
 }
 
 /**
@@ -34,7 +35,8 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  * @param image à copier
  */
 void ImageWidget::loadImage(const Image& image) {
-	this->image = Image(image);
+	this->image = image;
+	std::cout << image.isHDR;
 	reloadImage();
 }
 

@@ -10,13 +10,13 @@
 #include "ImageWidget.hpp"
 #include "../model/StackImage.hpp"
 
-class StackImageWidget {
+class StackImageWidget : public QWidget {
 
 private:
 	std::vector<ImageWidget*> images;
-	QGroupBox* stack;
 	QWidget* parent;
 public:
+	QGroupBox* stack;
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);
 	void loadImages(const QStringList& filenames);

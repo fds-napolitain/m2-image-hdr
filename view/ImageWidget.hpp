@@ -16,7 +16,7 @@
 /**
  * Widget englobant une image.
  */
-class ImageWidget : QWidget {
+class ImageWidget : public QWidget {
 
 private:
 	Image image;

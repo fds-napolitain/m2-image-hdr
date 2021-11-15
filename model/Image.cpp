@@ -49,14 +49,13 @@ QImage Image::getQImage() const {
 }
 
 /**
- * Applique "in-place" une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
+ * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
 void Image::tonemapDrago() {
 	cv::Mat result;
-	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(1);
+	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(2);
 	tonemap->process(image, result);
 	result *= 255;
 	image = std::move(result);
-	cv::imwrite("../images/test.jpg", image); // ca marche avec imwrite mais pas avec une copie classique
 }

@@ -55,12 +55,12 @@ void StackImage::alignMTB() {
  */
 Image StackImage::mergeDebevec() {
 	cv::Mat responseDebevec;
-	cv::Mat result_debevec;
+	cv::Mat resultDebevec;
 	std::vector<cv::Mat> matrices = getMatrices();
 	std::vector<float> exposures = getExposures();
 	cv::Ptr<cv::CalibrateDebevec> calibrateDebevec = cv::createCalibrateDebevec();
 	calibrateDebevec->process(matrices, responseDebevec, exposures);
 	cv::Ptr<cv::MergeDebevec> mergeDebevec = cv::createMergeDebevec();
-	mergeDebevec->process(matrices, result_debevec, exposures, responseDebevec);
-	return Image(result_debevec, true);
+	mergeDebevec->process(matrices, resultDebevec, exposures, responseDebevec);
+	return Image(resultDebevec, true);
 }

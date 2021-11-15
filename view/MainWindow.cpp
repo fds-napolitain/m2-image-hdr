@@ -16,6 +16,8 @@ MainWindow::MainWindow() : QMainWindow() {
 	hdrbox->setLayout(new QVBoxLayout);
 	images = new StackImageWidget(hdrbox);
 	result = new ImageWidget(hdrbox);
+	hdrbox->layout()->addWidget(images->stack);
+	hdrbox->layout()->addWidget(result->getQLabel());
 }
 
 /**
@@ -23,7 +25,6 @@ MainWindow::MainWindow() : QMainWindow() {
  */
 void MainWindow::createActions() {
 	actionOpenFiles = new QAction(tr("&Open Files"), this);
-
     actionOpenFiles->setShortcut(QKeySequence(Qt::Key_O));
     actionOpenFiles->setStatusTip(tr("Open a set of images"));
 	connect(actionOpenFiles, &QAction::triggered, this, &MainWindow::openFiles);
@@ -35,17 +36,16 @@ void MainWindow::createActions() {
 
 	actionAlignMTB = new QAction(tr("&Align images"), this);
 	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
-	actionAlignMTB->setStatusTip(tr("Open a folder of images"));
+	actionAlignMTB->setStatusTip(tr("Align images using MTB"));
 	connect(actionAlignMTB, &QAction::triggered, this, &MainWindow::alignMTB);
 
-	actionMergeNaive = new QAction(tr("&Merge naively"), this);
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
-	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_Q));
+	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_Z));
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
 
 	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
-	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_W));
+	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_E));
 	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
 }
@@ -62,7 +62,6 @@ void MainWindow::createMenus() {
 	menuAlign->addAction(actionAlignMTB);
 
 	menuMerge = menuBar()->addMenu(tr("&Merge"));
-	menuMerge->addAction(actionMergeNaive);
 	menuMerge->addAction(actionMergeDebevec);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));

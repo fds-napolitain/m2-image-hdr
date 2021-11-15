@@ -3,7 +3,6 @@
 //
 
 #include <QHBoxLayout>
-#include <QGridLayout>
 #include "StackImageWidget.hpp"
 
 StackImageWidget::StackImageWidget() = default;
@@ -16,6 +15,7 @@ StackImageWidget::StackImageWidget(QWidget *parent) {
 	stack = new QGroupBox(parent);
     stack->setLayout(new QHBoxLayout);
 	this->parent = parent;
+	this->setParent(parent);
 }
 
 /**
@@ -29,8 +29,8 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 		images[i] = new ImageWidget(stack);
 		images[i]->loadImage(filenames[i], stack);
 		size = images[i]->getQLabel()->size();
-		stack->resize(size.width()*filenames.size(), size.height());
 	}
+	stack->resize(size.width()*filenames.size(), size.height());
 	parent->resize(size.width()*filenames.size(), size.height()*2);
 }
 

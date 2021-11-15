@@ -26,5 +26,5 @@ target_link_libraries(QtHDR
 
 set_target_properties(QtHDR PROPERTIES
         WIN32_EXECUTABLE TRUE
-        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE FALSE
         )

@@ -21,7 +21,6 @@ private:
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
 	QAction* actionAlignMTB;
-	QAction* actionMergeNaive;
 	QAction* actionMergeDebevec;
 	QAction* actionTonemapDrago;
 	QWidget* widget;
