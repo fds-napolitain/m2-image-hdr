@@ -26,7 +26,6 @@ ImageWidget::ImageWidget(QWidget* parent) {
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
     label->setGeometry(QRect(20, 10, 371, 311));
-	image.getQImage().save("../images/test1.jpg"); // marche
 	reloadImage();
     stack->layout()->addWidget(label);
 }
@@ -37,17 +36,7 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
-
-
-    std::cout  << " \n channels : " << this->image.image.channels() << "\n";
-    std::cout  << " \n depth : " << this->image.image.depth() << "\n";
     this->image.image.convertTo(this->image.image, CV_8U);
-	cv::imwrite("../images/test2bis.jpg", this->image.image) ; // marche
-
-
-
-	this->image.getQImage().save("../images/test2.jpg"); // marche pas
-    std::cout << this->image.getQImage().format() << "\n";
 	reloadImage();
 }
 
@@ -71,10 +60,12 @@ QLabel* ImageWidget::getQLabel() {
  * Recharge l'image sur la page.
  */
 void ImageWidget::reloadImage() {
-    QSize fullsize = label->parentWidget()->parentWidget()->size();
-    int resW = fullsize.width() /10;
-    int resH = fullsize.height()/10;
-
-	label->resize(image.getQImage().width() / 10 , image.getQImage().height() / 10); // faudrait trouver mieux adapter
+	double w = image.getQImage().width() / 300.0;
+	double h = image.getQImage().height() / 400.0;
+	if (w > h) {
+		label->resize(image.getQImage().width() / w, image.getQImage().height() / w);
+	} else {
+		label->resize(image.getQImage().width() / h, image.getQImage().height() / h);
+	}
 	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
