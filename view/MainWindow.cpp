@@ -17,7 +17,9 @@ MainWindow::MainWindow() : QMainWindow() {
 	images = new StackImageWidget(hdrbox);
 	result = new ImageWidget(hdrbox);
 	hdrbox->layout()->addWidget(images->stack);
+
 	hdrbox->layout()->addWidget(result->getQLabel());
+
 }
 
 /**
