@@ -26,6 +26,7 @@ ImageWidget::ImageWidget(QWidget* parent) {
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
     label->setGeometry(QRect(20, 10, 371, 311));
+	image.getQImage().save("../images/test1.jpg"); // marche
 	reloadImage();
     stack->layout()->addWidget(label);
 }
@@ -35,8 +36,18 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  * @param image à copier
  */
 void ImageWidget::loadImage(const Image& image) {
-	this->image = image;
-	std::cout << image.isHDR;
+	this->image = Image(image);
+
+
+    std::cout  << " \n channels : " << this->image.image.channels() << "\n";
+    std::cout  << " \n depth : " << this->image.image.depth() << "\n";
+    this->image.image.convertTo(this->image.image, CV_8U);
+	cv::imwrite("../images/test2bis.jpg", this->image.image) ; // marche
+
+
+
+	this->image.getQImage().save("../images/test2.jpg"); // marche pas
+    std::cout << this->image.getQImage().format() << "\n";
 	reloadImage();
 }
 

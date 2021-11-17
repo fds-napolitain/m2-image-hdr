@@ -17,7 +17,9 @@ MainWindow::MainWindow() : QMainWindow() {
 	images = new StackImageWidget(hdrbox);
 	result = new ImageWidget(hdrbox);
 	hdrbox->layout()->addWidget(images->stack);
+
 	hdrbox->layout()->addWidget(result->getQLabel());
+
 }
 
 /**
@@ -37,17 +39,30 @@ void MainWindow::createActions() {
 	actionAlignMTB = new QAction(tr("&Align images"), this);
 	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
 	actionAlignMTB->setStatusTip(tr("Align images using MTB"));
+	actionAlignMTB->setCheckable(true);
 	connect(actionAlignMTB, &QAction::triggered, this, &MainWindow::alignMTB);
+	actionGroupAlign = new QActionGroup(this);
+	actionGroupAlign->addAction(actionAlignMTB);
+	actionGroupAlign->setExclusive(true);
 
 	actionMergeDebevec = new QAction(tr("&Merge with Debevec"), this);
 	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_Z));
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
+	actionMergeDebevec->setCheckable(true);
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
+	actionGroupMerge = new QActionGroup(this);
+	actionGroupMerge->addAction(actionMergeDebevec);
+	actionGroupMerge->setExclusive(true);
 
 	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
 	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_E));
 	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
+	actionTonemapDrago->setCheckable(true);
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
+
+	actionGroupAlign = new QActionGroup(this);
+	actionGroupAlign->addAction(actionTonemapDrago);
+	actionGroupAlign->setExclusive(true);
 }
 
 /**

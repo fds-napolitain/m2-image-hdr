@@ -45,10 +45,7 @@ void Image::loadImage(const QString& filename) {
  * @return
  */
 QImage Image::getQImage() const {
-
-    cv::imwrite("../images/debevec.jpg", image);
-
-	return QImage("../images/debevec.jpg");
+	return QImage(image.data, image.cols, image.rows, image.step1(), QImage::Format_RGB888).rgbSwapped();
 }
 
 /**
@@ -58,6 +55,7 @@ QImage Image::getQImage() const {
 void Image::tonemapDrago() {
 	cv::Mat result;
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(2);
+    image.convertTo(image, CV_32F);
 	tonemap->process(image, result);
 	result *= 255;
 	image = std::move(result);
