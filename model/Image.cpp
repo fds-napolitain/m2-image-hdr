@@ -55,6 +55,7 @@ QImage Image::getQImage() const {
 void Image::tonemapDrago() {
 	cv::Mat result;
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(2);
+    image.convertTo(image, CV_32F);
 	tonemap->process(image, result);
 	result *= 255;
 	image = std::move(result);
