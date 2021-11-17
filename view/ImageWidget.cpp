@@ -37,8 +37,17 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
-	cv::imwrite("../images/test2bis.jpg", this->image.image); // marche
+
+
+    std::cout  << " \n channels : " << this->image.image.channels() << "\n";
+    std::cout  << " \n depth : " << this->image.image.depth() << "\n";
+    this->image.image.convertTo(this->image.image, CV_8U);
+	cv::imwrite("../images/test2bis.jpg", this->image.image) ; // marche
+
+
+
 	this->image.getQImage().save("../images/test2.jpg"); // marche pas
+    std::cout << this->image.getQImage().format() << "\n";
 	reloadImage();
 }
 

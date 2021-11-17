@@ -57,6 +57,7 @@ void MainWindow::createActions() {
 	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
 	actionTonemapDrago->setCheckable(true);
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
+
 	actionGroupAlign = new QActionGroup(this);
 	actionGroupAlign->addAction(actionTonemapDrago);
 	actionGroupAlign->setExclusive(true);
