@@ -20,8 +20,11 @@ private:
 	QMenu* menuTonemap;
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+	QActionGroup* actionGroupAlign;
 	QAction* actionAlignMTB;
+	QActionGroup* actionGroupMerge;
 	QAction* actionMergeDebevec;
+	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapDrago;
 	QWidget* widget;
 	QGroupBox* hdrbox;
