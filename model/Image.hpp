@@ -24,6 +24,8 @@ public:
 	[[nodiscard]] QImage getQImage() const;
 	// -- méthodes sur une image
 	void tonemapDrago();
+
+	void tonemapReinhard();
 };
 
 
