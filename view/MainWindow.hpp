@@ -26,6 +26,7 @@ private:
 	QAction* actionMergeDebevec;
 	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapDrago;
+	QAction* actionTonemapReinhard;
 	QWidget* widget;
 	QGroupBox* hdrbox;
 	StackImageWidget* images;
@@ -40,6 +41,7 @@ private slots:
 	void alignMTB();
 	void mergeDebevec();
 	void tonemapDrago();
+	void tonemapReinhard();
 };
 
 #endif //QTHDR_MAINWINDOW_HPP
