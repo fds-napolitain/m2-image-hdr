@@ -84,9 +84,11 @@ void MainWindow::createMenus() {
 
 	menuMerge = menuBar()->addMenu(tr("&Merge"));
 	menuMerge->addAction(actionMergeDebevec);
+	//menuMerge->addAction(actionMergeDebevec);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
 	menuTonemap->addAction(actionTonemapDrago);
+	menuTonemap->addAction(actionTonemapReinhard);
 }
 
 /**
