@@ -71,6 +71,10 @@ QLabel* ImageWidget::getQLabel() {
  * Recharge l'image sur la page.
  */
 void ImageWidget::reloadImage() {
-	label->resize(image.getQImage().width() / 10, image.getQImage().height() / 10); // faudrait trouver mieux adapter
+    QSize fullsize = label->parentWidget()->parentWidget()->size();
+    int resW = fullsize.width() /10;
+    int resH = fullsize.height()/10;
+
+	label->resize(image.getQImage().width() / 10 , image.getQImage().height() / 10); // faudrait trouver mieux adapter
 	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
