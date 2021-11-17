@@ -46,9 +46,9 @@ void Image::loadImage(const QString& filename) {
  */
 QImage Image::getQImage() const {
 
-    cv::imwrite("../images/temp/debevec.jpg", image);
+    cv::imwrite("../images/debevec.jpg", image);
 
-	return QImage("../images/temp/debevec.jpg");
+	return QImage("../images/debevec.jpg");
 }
 
 /**
