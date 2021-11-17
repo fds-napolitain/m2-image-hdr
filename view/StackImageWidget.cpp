@@ -19,6 +19,15 @@ StackImageWidget::StackImageWidget(QWidget *parent) {
 }
 
 /**
+ * Destructeur
+ */
+StackImageWidget::~StackImageWidget() {
+	for (auto &image: images) {
+		delete image;
+	}
+}
+
+/**
  * Charge un lot d'images
  * @param filenames
  */

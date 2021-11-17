@@ -24,6 +24,7 @@ private:
 public:
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
+	~ImageWidget() override;
 	void loadImage(const Image& image);
 	void reloadImage();
 	Image* getImage();

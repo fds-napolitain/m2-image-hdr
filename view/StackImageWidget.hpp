@@ -19,6 +19,7 @@ public:
 	QGroupBox* stack;
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);
+	~StackImageWidget() override;
 	void loadImages(const QStringList& filenames);
 	StackImage getImages();
 	// -- méthodes hdr

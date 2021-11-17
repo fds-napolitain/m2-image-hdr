@@ -13,6 +13,7 @@ class MainWindow : public QMainWindow {
 
 public:
 	MainWindow();
+	~MainWindow();
 private:
 	QMenu* menuFile;
 	QMenu* menuAlign;

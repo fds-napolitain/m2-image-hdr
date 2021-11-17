@@ -24,6 +24,16 @@ MainWindow::MainWindow() : QMainWindow() {
 }
 
 /**
+ * Destructeur (utile ici? pas sur)
+ */
+MainWindow::~MainWindow() {
+	delete widget;
+	delete hdrbox;
+	delete images;
+	delete result;
+}
+
+/**
  * Crée les actions
  */
 void MainWindow::createActions() {
