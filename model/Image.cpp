@@ -48,7 +48,13 @@ void Image::loadImage(const QString& filename) {
  * @return
  */
 QImage Image::getQImage() const {
-	return QImage(image.data, image.cols, image.rows, image.step1(), QImage::Format_RGB888).rgbSwapped();
+	if (image.depth() == 5) {
+		cv::Mat image8;
+		image.convertTo(image8, CV_8U, 255);
+		return QImage((uchar*) image8.data, image8.cols, image8.rows, image8.step, QImage::Format_RGB888).rgbSwapped();
+	} else {
+		return QImage((uchar*) image.data, image.cols, image.rows, image.step, QImage::Format_RGB888).rgbSwapped();
+	}
 }
 
 /**
@@ -67,9 +73,7 @@ void Image::tonemapDrago() {
 	std::cout << "4. Exécute le mappage ton-local de Drago\n";
 	cv::Mat result;
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago();
-    image.convertTo(image, CV_32F);
 	tonemap->process(image, result);
-	result *= 255;
 	image = std::move(result);
 }
 
@@ -81,9 +85,7 @@ void Image::tonemapReinhard() {
 	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
 	cv::Mat result;
 	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard();
-	image.convertTo(image, CV_32F);
 	tonemap->process(image, result);
-	result *= 255;
 	image = std::move(result);
 }
 
