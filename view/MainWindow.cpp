@@ -51,11 +51,11 @@ void MainWindow::createActions() {
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	actionMergeDebevec->setCheckable(true);
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
-	actionMergeDebevec = new QAction(tr("&Merge with Mertens"), this);
-	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_S));
-	actionMergeDebevec->setStatusTip(tr("Merge files with Mertens method"));
-	actionMergeDebevec->setCheckable(true);
-	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeMertens);
+	actionMergeMertens = new QAction(tr("&Merge with Mertens"), this);
+	actionMergeMertens->setShortcut(QKeySequence(Qt::Key_S));
+	actionMergeMertens->setStatusTip(tr("Merge files with Mertens method"));
+	actionMergeMertens->setCheckable(true);
+	connect(actionMergeMertens, &QAction::triggered, this, &MainWindow::mergeMertens);
 	actionGroupMerge = new QActionGroup(this);
 	actionGroupMerge->addAction(actionMergeDebevec);
 	actionGroupMerge->addAction(actionMergeMertens);
