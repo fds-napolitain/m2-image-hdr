@@ -25,8 +25,10 @@ private:
 	QAction* actionAlignMTB;
 	QActionGroup* actionGroupMerge;
 	QAction* actionMergeDebevec;
+	QAction* actionMergeMertens;
 	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapDrago;
+	QAction* actionTonemapReinhard;
 	QWidget* widget;
 	QGroupBox* hdrbox;
 	StackImageWidget* images;
@@ -40,7 +42,9 @@ private slots:
     void openFolder();
 	void alignMTB();
 	void mergeDebevec();
+	void mergeMertens();
 	void tonemapDrago();
+	void tonemapReinhard();
 };
 
 #endif //QTHDR_MAINWINDOW_HPP

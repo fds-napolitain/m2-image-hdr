@@ -73,3 +73,11 @@ void StackImageWidget::alignMTB() {
 Image StackImageWidget::mergeDebevec() {
 	return getImages().mergeDebevec();
 }
+
+/**
+ * Applique le merge de Mertens sur une StackImage.
+ * @return
+ */
+Image StackImageWidget::mergeMertens() {
+	return getImages().mergeMertens();
+}

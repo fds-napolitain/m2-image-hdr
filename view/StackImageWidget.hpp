@@ -25,6 +25,7 @@ public:
 	// -- méthodes hdr
 	void alignMTB();
 	Image mergeDebevec();
+	Image mergeMertens();
 
 };
 

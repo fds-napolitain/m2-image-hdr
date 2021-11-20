@@ -66,3 +66,16 @@ Image StackImage::mergeDebevec() {
 	mergeDebevec->process(matrices, resultDebevec, exposures, responseDebevec);
 	return Image(resultDebevec, true);
 }
+
+/**
+ * Applique le merge de Mertens.
+ * @return
+ */
+Image StackImage::mergeMertens() {
+	cv::Mat resultMertens;
+	std::vector<cv::Mat> matrices = getMatrices();
+	std::vector<float> exposures = getExposures();
+	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
+	//mergeMertens->process(mergeMertens, matrices, exposures);
+	return Image(resultMertens, true);
+}
