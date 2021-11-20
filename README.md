@@ -16,6 +16,7 @@ Sinon utilisable par ligne de commande.
 Pré-requis :
 - OpenCV version 4
 - C++ 2017
+- Qt5
 
 ### Architecture
 
