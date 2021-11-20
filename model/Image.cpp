@@ -24,7 +24,11 @@ Image::Image(const QString& filename, bool isHDR) {
 	this->isHDR = isHDR;
 	QStringList tmp = filename.split('/');
 	tmp = tmp.at(tmp.size()-1).split('_').at(1).split('.');
-	this->exposure = (tmp.at(0) + tmp.at(1)).toFloat();
+	if (tmp.size() == 3) { // floating point
+		this->exposure = (tmp.at(0) + "." + tmp.at(1)).toFloat();
+	} else {
+		this->exposure = tmp.at(0).toFloat();
+	}
 	std::cout << this->exposure << "\n";
 }
 
