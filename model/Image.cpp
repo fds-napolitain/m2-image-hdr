@@ -9,9 +9,8 @@
 
 Image::Image() = default;
 
-Image::Image(cv::Mat image, bool isHDR) {
+Image::Image(cv::Mat image) {
 	this->image = std::move(image);
-	this->isHDR = isHDR;
 }
 
 /**
@@ -19,9 +18,8 @@ Image::Image(cv::Mat image, bool isHDR) {
  * @param filename
  * @param isHDR
  */
-Image::Image(const QString& filename, bool isHDR) {
+Image::Image(const QString& filename) {
 	loadImage(filename);
-	this->isHDR = isHDR;
 	QStringList tmp = filename.split('/');
 	tmp = tmp.at(tmp.size()-1).split('_').at(1).split('.');
 	if (tmp.size() == 3) { // floating point
@@ -54,6 +52,14 @@ QImage Image::getQImage() const {
 }
 
 /**
+ * Retourne le temps d'exposition de l'image
+ * @return
+ */
+float Image::getExposure() const {
+	return exposure;
+}
+
+/**
  * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
@@ -80,3 +86,4 @@ void Image::tonemapReinhard() {
 	result *= 255;
 	image = std::move(result);
 }
+

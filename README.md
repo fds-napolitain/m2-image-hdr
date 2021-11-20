@@ -13,7 +13,9 @@ Utilisation de l'outil de build cross-platform CMake.
 Il est conseillé d'utiliser un IDE comme CLion (license gratuite pour l'éducation), ou Visual Studio.
 Sinon utilisable par ligne de commande.
 
-Pré-requis : OpenCV version 4
+Pré-requis :
+- OpenCV version 4
+- C++ 2017
 
 ### Architecture
 

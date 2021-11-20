@@ -34,7 +34,7 @@ std::vector<cv::Mat> StackImage::getMatrices() {
 std::vector<float> StackImage::getExposures() {
 	std::vector<float> exposures(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		exposures[i] = images[i]->exposure;
+		exposures[i] = images[i]->getExposure();
 	}
 	return exposures;
 }
@@ -66,7 +66,7 @@ Image StackImage::mergeDebevec() {
 
 	cv::Ptr<cv::MergeDebevec> mergeDebevec = cv::createMergeDebevec();
 	mergeDebevec->process(matrices, resultDebevec, exposures, responseDebevec);
-	return Image(resultDebevec, true);
+	return Image(resultDebevec);
 }
 
 /**
@@ -79,7 +79,7 @@ Image StackImage::mergeMertens() {
 	cv::Mat resultMertens;
 	std::vector<cv::Mat> matrices = getMatrices();
 	std::vector<float> exposures = getExposures();
-	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens(5, 5, 5);
+	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
 	mergeMertens->process(matrices, resultMertens);
-	return Image(resultMertens, true);
+	return Image(resultMertens);
 }

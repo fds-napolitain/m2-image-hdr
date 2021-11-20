@@ -10,18 +10,16 @@
 class Image {
 
 private:
+	float exposure;
 public:
 	cv::Mat image;
-	float exposure;
-	float focal;
-	float ISO;
-	bool isHDR = false;
 	Image();
-	explicit Image(cv::Mat image, bool isHDR = true);
-	explicit Image(const QString& filename, bool isHDR = false);
+	explicit Image(cv::Mat image);
+	explicit Image(const QString& filename);
 	~Image();
 	void loadImage(const QString& filename);
 	[[nodiscard]] QImage getQImage() const;
+	[[nodiscard]] float getExposure() const;
 	// -- méthodes sur une image
 	void tonemapDrago();
 	void tonemapReinhard();

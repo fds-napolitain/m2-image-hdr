@@ -43,7 +43,7 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  */
 void ImageWidget::loadImage(const Image& image) {
 	this->image = Image(image);
-    this->image.image.convertTo(this->image.image, CV_8U);
+	this->image.image.convertTo(this->image.image, CV_8U);
 	reloadImage();
 }
 
