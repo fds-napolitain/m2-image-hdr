@@ -111,12 +111,14 @@ void MainWindow::createMenus() {
  * Exécute toutes les actions
  */
 void MainWindow::executePipeline() {
-	switch (pipeline.align) {
-		case Align::NONE:
-			break;
-		case Align::MTB:
-			images->alignMTB();
-			break;
+	if (!images->aligned) {
+		switch (pipeline.align) {
+			case Align::NONE:
+				break;
+			case Align::MTB:
+				images->alignMTB();
+				break;
+		}
 	}
 	switch (pipeline.merge) {
 		case Merge::NONE:

@@ -29,13 +29,15 @@ StackImageWidget::~StackImageWidget() {
 }
 
 /**
- * Charge un lot d'images
+ * Charge un lot d'images et supprimes si besoin les anciennes images chargées.
  * @param filenames
  */
 void StackImageWidget::loadImages(const QStringList &filenames) {
-	for (auto &image: images) {
+	std::cout << "1. Charge les images\n";
+	for (const auto &image: images) {
 		delete image;
 	}
+	aligned = false;
 	images.resize(filenames.size());
 	QSize size;
 	for (int i = 0; i < filenames.size(); i++) {
@@ -64,10 +66,12 @@ StackImage StackImageWidget::getImages() {
  * @return
  */
 void StackImageWidget::alignMTB() {
+	std::cout << "2. Exécute l'alignement MTB\n";
 	getImages().alignMTB();
 	for (const auto &image: images) {
 		image->reloadImage();
 	}
+	aligned = true;
 }
 
 /**
@@ -75,6 +79,7 @@ void StackImageWidget::alignMTB() {
  * @return
  */
 Image StackImageWidget::mergeDebevec() {
+	std::cout << "3. Exécute le merge de Debevec\n";
 	return getImages().mergeDebevec();
 }
 
@@ -83,5 +88,6 @@ Image StackImageWidget::mergeDebevec() {
  * @return
  */
 Image StackImageWidget::mergeMertens() {
+	std::cout << "3. Exécute le merge de Mertens.\n";
 	return getImages().mergeMertens();
 }

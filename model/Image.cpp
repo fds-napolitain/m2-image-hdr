@@ -58,6 +58,7 @@ QImage Image::getQImage() const {
  * @return
  */
 void Image::tonemapDrago() {
+	std::cout << "4. Exécute le mappage ton-local de Drago\n";
 	cv::Mat result;
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago();
     image.convertTo(image, CV_32F);
@@ -71,6 +72,7 @@ void Image::tonemapDrago() {
  * @return
  */
 void Image::tonemapReinhard() {
+	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
 	cv::Mat result;
 	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard();
 	image.convertTo(image, CV_32F);

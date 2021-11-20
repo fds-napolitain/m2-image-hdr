@@ -16,6 +16,7 @@ private:
 	std::vector<ImageWidget*> images;
 	QWidget* parent;
 public:
+	bool aligned = false;
 	QGroupBox* stack;
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);

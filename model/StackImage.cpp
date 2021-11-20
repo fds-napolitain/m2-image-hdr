@@ -79,7 +79,7 @@ Image StackImage::mergeMertens() {
 	cv::Mat resultMertens;
 	std::vector<cv::Mat> matrices = getMatrices();
 	std::vector<float> exposures = getExposures();
-	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
+	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens(5, 5, 5);
 	mergeMertens->process(matrices, resultMertens);
 	return Image(resultMertens, true);
 }
