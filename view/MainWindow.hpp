@@ -24,6 +24,7 @@ private:
 	QAction* actionAlignMTB;
 	QActionGroup* actionGroupMerge;
 	QAction* actionMergeDebevec;
+	QAction* actionMergeMertens;
 	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapDrago;
 	QAction* actionTonemapReinhard;
@@ -40,6 +41,7 @@ private slots:
     void openFolder();
 	void alignMTB();
 	void mergeDebevec();
+	void mergeMertens();
 	void tonemapDrago();
 	void tonemapReinhard();
 };

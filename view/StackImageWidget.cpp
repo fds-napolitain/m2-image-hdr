@@ -19,6 +19,15 @@ StackImageWidget::StackImageWidget(QWidget *parent) {
 }
 
 /**
+ * Destructeur
+ */
+StackImageWidget::~StackImageWidget() {
+	for (auto &image: images) {
+		delete image;
+	}
+}
+
+/**
  * Charge un lot d'images
  * @param filenames
  */
@@ -63,4 +72,12 @@ void StackImageWidget::alignMTB() {
  */
 Image StackImageWidget::mergeDebevec() {
 	return getImages().mergeDebevec();
+}
+
+/**
+ * Applique le merge de Mertens sur une StackImage.
+ * @return
+ */
+Image StackImageWidget::mergeMertens() {
+	return getImages().mergeMertens();
 }

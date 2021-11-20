@@ -51,8 +51,14 @@ void MainWindow::createActions() {
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	actionMergeDebevec->setCheckable(true);
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
+	actionMergeDebevec = new QAction(tr("&Merge with Mertens"), this);
+	actionMergeDebevec->setShortcut(QKeySequence(Qt::Key_S));
+	actionMergeDebevec->setStatusTip(tr("Merge files with Mertens method"));
+	actionMergeDebevec->setCheckable(true);
+	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeMertens);
 	actionGroupMerge = new QActionGroup(this);
 	actionGroupMerge->addAction(actionMergeDebevec);
+	actionGroupMerge->addAction(actionMergeMertens);
 	actionGroupMerge->setExclusive(true);
 
 	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
@@ -60,9 +66,9 @@ void MainWindow::createActions() {
 	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
 	actionTonemapDrago->setCheckable(true);
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
-	actionTonemapReinhard = new QAction(tr("&Tonemap with Drago"), this);
-	actionTonemapReinhard->setShortcut(QKeySequence(Qt::Key_E));
-	actionTonemapReinhard->setStatusTip(tr("Map images to a LDR image using Drago method"));
+	actionTonemapReinhard = new QAction(tr("&Tonemap with Reinhard"), this);
+	actionTonemapReinhard->setShortcut(QKeySequence(Qt::Key_D));
+	actionTonemapReinhard->setStatusTip(tr("Map images to a LDR image using Reinhard method"));
 	actionTonemapReinhard->setCheckable(true);
 	connect(actionTonemapReinhard, &QAction::triggered, this, &MainWindow::tonemapReinhard);
 	actionGroupTonemap = new QActionGroup(this);
@@ -84,7 +90,7 @@ void MainWindow::createMenus() {
 
 	menuMerge = menuBar()->addMenu(tr("&Merge"));
 	menuMerge->addAction(actionMergeDebevec);
-	//menuMerge->addAction(actionMergeDebevec);
+	menuMerge->addAction(actionMergeMertens);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
 	menuTonemap->addAction(actionTonemapDrago);
@@ -109,6 +115,7 @@ void MainWindow::executePipeline() {
 			result->loadImage(images->mergeDebevec());
 			break;
 		case Merge::Mertens:
+			result->loadImage(images->mergeMertens());
 			break;
 	}
 	switch (pipeline.tonemap) {
@@ -116,6 +123,9 @@ void MainWindow::executePipeline() {
 			break;
 		case Tonemap::Drago:
 			result->getImage()->tonemapDrago();
+			break;
+		case Tonemap::Reinhard:
+			result->getImage()->tonemapReinhard();
 			break;
 	}
 }
@@ -163,6 +173,14 @@ void MainWindow::alignMTB() {
  */
 void MainWindow::mergeDebevec() {
 	pipeline.merge = Merge::Debevec;
+	executePipeline();
+}
+
+/**
+ * Slot action: merge les images avec la méthode de Debevec.
+ */
+void MainWindow::mergeMertens() {
+	pipeline.merge = Merge::Mertens;
 	executePipeline();
 }
 
