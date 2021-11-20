@@ -122,17 +122,19 @@ void MainWindow::executePipeline() {
 				break;
 		}
 	}
-	if (result->merged != pipeline.merge) {
+	if (result->merged != pipeline.merge || result->tonemapped != pipeline.tonemap) {
 		switch (pipeline.merge) {
 			case Merge::NONE:
 				break;
 			case Merge::Debevec:
 				result->loadImage(images->mergeDebevec());
 				result->merged = Merge::Debevec;
+				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Mertens:
 				result->loadImage(images->mergeMertens());
 				result->merged = Merge::Mertens;
+				result->tonemapped = Tonemap::NONE;
 				break;
 		}
 	}
