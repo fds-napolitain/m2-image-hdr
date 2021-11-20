@@ -8,7 +8,7 @@
 
 #include <QLabel>
 #include "../model/Image.hpp"
-
+#include "../model/Pipeline.hpp"
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QGridLayout>
@@ -22,6 +22,8 @@ private:
 	Image image;
 	QLabel* label;
 public:
+	Merge merged = Merge::NONE;
+	Tonemap tonemapped = Tonemap::NONE;
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
 	~ImageWidget() override;

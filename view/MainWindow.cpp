@@ -111,35 +111,46 @@ void MainWindow::createMenus() {
  * Exécute toutes les actions
  */
 void MainWindow::executePipeline() {
-	if (!images->aligned) {
+	std::cout << "========== PIPELINE RUN START ===========\n";
+	if (images->aligned != pipeline.align) {
 		switch (pipeline.align) {
 			case Align::NONE:
 				break;
 			case Align::MTB:
 				images->alignMTB();
+				images->aligned = Align::MTB;
 				break;
 		}
 	}
-	switch (pipeline.merge) {
-		case Merge::NONE:
-			break;
-		case Merge::Debevec:
-			result->loadImage(images->mergeDebevec());
-			break;
-		case Merge::Mertens:
-			result->loadImage(images->mergeMertens());
-			break;
+	if (result->merged != pipeline.merge) {
+		switch (pipeline.merge) {
+			case Merge::NONE:
+				break;
+			case Merge::Debevec:
+				result->loadImage(images->mergeDebevec());
+				result->merged = Merge::Debevec;
+				break;
+			case Merge::Mertens:
+				result->loadImage(images->mergeMertens());
+				result->merged = Merge::Mertens;
+				break;
+		}
 	}
-	switch (pipeline.tonemap) {
-		case Tonemap::NONE:
-			break;
-		case Tonemap::Drago:
-			result->getImage()->tonemapDrago();
-			break;
-		case Tonemap::Reinhard:
-			result->getImage()->tonemapReinhard();
-			break;
+	if (result->tonemapped != pipeline.tonemap) {
+		switch (pipeline.tonemap) {
+			case Tonemap::NONE:
+				break;
+			case Tonemap::Drago:
+				result->getImage()->tonemapDrago();
+				result->tonemapped = Tonemap::Drago;
+				break;
+			case Tonemap::Reinhard:
+				result->getImage()->tonemapReinhard();
+				result->tonemapped = Tonemap::Reinhard;
+				break;
+		}
 	}
+	std::cout << "========== PIPELINE RUN END ===========\n";
 }
 
 /**

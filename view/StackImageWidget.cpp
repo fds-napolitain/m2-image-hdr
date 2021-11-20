@@ -37,7 +37,7 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 	for (const auto &image: images) {
 		delete image;
 	}
-	aligned = false;
+	aligned = Align::NONE;
 	images.resize(filenames.size());
 	QSize size;
 	for (int i = 0; i < filenames.size(); i++) {
@@ -71,7 +71,6 @@ void StackImageWidget::alignMTB() {
 	for (const auto &image: images) {
 		image->reloadImage();
 	}
-	aligned = true;
 }
 
 /**

@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include "ImageWidget.hpp"
 #include "../model/StackImage.hpp"
+#include "../model/Pipeline.hpp"
 
 class StackImageWidget : public QWidget {
 
@@ -16,7 +17,7 @@ private:
 	std::vector<ImageWidget*> images;
 	QWidget* parent;
 public:
-	bool aligned = false;
+	Align aligned = Align::NONE;
 	QGroupBox* stack;
 	StackImageWidget();
 	explicit StackImageWidget(QWidget* parent);
