@@ -50,6 +50,7 @@ void StackImage::alignMTB() {
 
 /**
  * Applique le merge de Debevec.
+ * Fusion d'images avec connaissances des temps d'expositions.
  * https://learnopencv.com/high-dynamic-range-hdr-imaging-using-opencv-cpp-python/
  * @return
  */
@@ -69,6 +70,8 @@ Image StackImage::mergeDebevec() {
 
 /**
  * Applique le merge de Mertens.
+ * Fusion de temps d'exposition, donc sans connaissances des temps d'expositions.
+ * https://learnopencv.com/exposure-fusion-using-opencv-cpp-python/
  * @return
  */
 Image StackImage::mergeMertens() {
@@ -76,6 +79,6 @@ Image StackImage::mergeMertens() {
 	std::vector<cv::Mat> matrices = getMatrices();
 	std::vector<float> exposures = getExposures();
 	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
-	//mergeMertens->process(mergeMertens, matrices, exposures);
+	mergeMertens->process(matrices, resultMertens);
 	return Image(resultMertens, true);
 }
