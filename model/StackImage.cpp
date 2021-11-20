@@ -41,6 +41,7 @@ std::vector<float> StackImage::getExposures() {
 
 /**
  * Alignement MTB: aligne les images dans le cas où les images n'ont pas été prises du même endroit.
+ * Utilisation de la valeur de luminance médiane, puis seuillage sur cette dernière.
  */
 void StackImage::alignMTB() {
 	std::vector<cv::Mat> matrices = getMatrices();

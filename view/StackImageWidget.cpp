@@ -25,6 +25,7 @@ StackImageWidget::~StackImageWidget() {
 	for (auto &image: images) {
 		delete image;
 	}
+	delete stack;
 }
 
 /**
@@ -32,6 +33,9 @@ StackImageWidget::~StackImageWidget() {
  * @param filenames
  */
 void StackImageWidget::loadImages(const QStringList &filenames) {
+	for (auto &image: images) {
+		delete image;
+	}
 	images.resize(filenames.size());
 	QSize size;
 	for (int i = 0; i < filenames.size(); i++) {
@@ -56,7 +60,7 @@ StackImage StackImageWidget::getImages() {
 }
 
 /**
- * Aligne les images (photos prises par téléphone).
+ * Aligne les images sans trépied.
  * @return
  */
 void StackImageWidget::alignMTB() {

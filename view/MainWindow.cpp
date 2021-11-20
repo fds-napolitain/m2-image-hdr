@@ -34,7 +34,7 @@ MainWindow::~MainWindow() {
 }
 
 /**
- * Crée les actions
+ * Crée les actions de la barre de menu.
  */
 void MainWindow::createActions() {
 	actionOpenFiles = new QAction(tr("&Open Files"), this);
@@ -88,7 +88,7 @@ void MainWindow::createActions() {
 }
 
 /**
- * Crée les menus
+ * Assemble la barre de menus.
  */
 void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
