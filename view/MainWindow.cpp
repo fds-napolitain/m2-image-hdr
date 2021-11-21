@@ -74,13 +74,18 @@ void MainWindow::createActions() {
 	actionGroupMerge->addAction(actionMergeMertens);
 	actionGroupMerge->setExclusive(true);
 
+	actionTonemapNone = new QAction(tr("&None"), this);
+	actionTonemapNone->setShortcut(QKeySequence(Qt::Key_E));
+	actionTonemapNone->setStatusTip(tr("None"));
+	actionTonemapNone->setCheckable(true);
+	connect(actionTonemapNone, &QAction::triggered, this, &MainWindow::tonemapNone);
 	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
-	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_E));
+	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_D));
 	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
 	actionTonemapDrago->setCheckable(true);
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
 	actionTonemapReinhard = new QAction(tr("&Tonemap with Reinhard"), this);
-	actionTonemapReinhard->setShortcut(QKeySequence(Qt::Key_D));
+	actionTonemapReinhard->setShortcut(QKeySequence(Qt::Key_C));
 	actionTonemapReinhard->setStatusTip(tr("Map images to a LDR image using Reinhard method"));
 	actionTonemapReinhard->setCheckable(true);
 	connect(actionTonemapReinhard, &QAction::triggered, this, &MainWindow::tonemapReinhard);
@@ -107,6 +112,7 @@ void MainWindow::createMenus() {
 	menuMerge->addAction(actionMergeMertens);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
+	menuTonemap->addAction(actionTonemapNone);
 	menuTonemap->addAction(actionTonemapDrago);
 	menuTonemap->addAction(actionTonemapReinhard);
 }
@@ -148,10 +154,12 @@ void MainWindow::executePipeline() {
 				break;
 			case Tonemap::Drago:
 				result->getImage()->tonemapDrago();
+				result->reloadImage();
 				result->tonemapped = Tonemap::Drago;
 				break;
 			case Tonemap::Reinhard:
 				result->getImage()->tonemapReinhard();
+				result->reloadImage();
 				result->tonemapped = Tonemap::Reinhard;
 				break;
 		}
@@ -217,6 +225,14 @@ void MainWindow::mergeDebevec() {
  */
 void MainWindow::mergeMertens() {
 	pipeline.merge = Merge::Mertens;
+	executePipeline();
+}
+
+/**
+ * Reset tonemap
+ */
+void MainWindow::tonemapNone() {
+	pipeline.tonemap = Tonemap::NONE;
 	executePipeline();
 }
 

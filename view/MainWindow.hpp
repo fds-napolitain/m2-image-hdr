@@ -28,6 +28,7 @@ private:
 	QAction* actionMergeDebevec;
 	QAction* actionMergeMertens;
 	QActionGroup* actionGroupTonemap;
+	QAction* actionTonemapNone;
 	QAction* actionTonemapDrago;
 	QAction* actionTonemapReinhard;
 	QWidget* widget;
@@ -45,6 +46,7 @@ private slots:
 	void alignMTB();
 	void mergeDebevec();
 	void mergeMertens();
+	void tonemapNone();
 	void tonemapDrago();
 	void tonemapReinhard();
 };
