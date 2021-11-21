@@ -44,17 +44,26 @@ void Image::loadImage(const QString& filename) {
 }
 
 /**
+ * Return normalized 8 bit unsigned char cv matrix unique (automatic destruction) pointer.
+ * @return
+ */
+std::unique_ptr<cv::Mat> Image::getMatrix() const {
+	if (image.depth() == 5) {
+		std::unique_ptr<cv::Mat> image8;
+		image.convertTo(*image8, CV_8U, 255);
+		return image8;
+	} else {
+		return std::make_unique<cv::Mat>(image);
+	}
+}
+
+/**
  * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).
  * @return
  */
 QImage Image::getQImage() const {
-	if (image.depth() == 5) {
-		cv::Mat image8;
-		image.convertTo(image8, CV_8U, 255);
-		return QImage((uchar*) image8.data, image8.cols, image8.rows, image8.step, QImage::Format_RGB888).rgbSwapped();
-	} else {
-		return QImage((uchar*) image.data, image.cols, image.rows, image.step, QImage::Format_RGB888).rgbSwapped();
-	}
+	std::unique_ptr<cv::Mat> mat = getMatrix();
+	return QImage((uchar*) mat->data, mat->cols, mat->rows, mat->step, QImage::Format_RGB888).rgbSwapped();
 }
 
 /**
@@ -63,6 +72,28 @@ QImage Image::getQImage() const {
  */
 float Image::getExposure() const {
 	return exposure;
+}
+
+/**
+ * Get local entropy to measure HDR like DxOMark.
+ * @return
+ */
+float Image::getAverageEntropy() {
+	if (image.depth() == 5) {
+		cv::Mat image8;
+		image.convertTo(image8, CV_8U, 255);
+		return QImage((uchar*) image8.data, image8.cols, image8.rows, image8.step, QImage::Format_RGB888).rgbSwapped();
+	} else {
+		return QImage((uchar*) image.data, image.cols, image.rows, image.step, QImage::Format_RGB888).rgbSwapped();
+	}
+	std::vector<unsigned char> histogram(256);
+	uchar* p = image.data;
+	for (int i = 0; i < image.total(); ++i) {
+		histogram[p++]++;
+	}
+	float entropy = 0.0;
+
+	return entropy;
 }
 
 /**
@@ -88,4 +119,3 @@ void Image::tonemapReinhard() {
 	tonemap->process(image, result);
 	image = std::move(result);
 }
-

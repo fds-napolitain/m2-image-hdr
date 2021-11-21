@@ -11,6 +11,7 @@ class Image {
 
 private:
 	float exposure;
+	[[nodiscard]] std::unique_ptr<cv::Mat> getMatrix() const;
 public:
 	cv::Mat image;
 	Image();
@@ -20,9 +21,11 @@ public:
 	void loadImage(const QString& filename);
 	[[nodiscard]] QImage getQImage() const;
 	[[nodiscard]] float getExposure() const;
+	float getAverageEntropy();
 	// -- méthodes sur une image
 	void tonemapDrago();
 	void tonemapReinhard();
+
 };
 
 
