@@ -21,6 +21,7 @@ private:
 	QMenu* menuTonemap;
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+    QAction* actionQuit;
 	QActionGroup* actionGroupAlign;
 	QAction* actionAlignMTB;
 	QActionGroup* actionGroupMerge;
@@ -40,6 +41,7 @@ private:
 private slots:
 	void openFiles();
     void openFolder();
+	static void quit();
 	void alignMTB();
 	void mergeDebevec();
 	void mergeMertens();

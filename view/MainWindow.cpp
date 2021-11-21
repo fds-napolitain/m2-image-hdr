@@ -41,11 +41,14 @@ void MainWindow::createActions() {
     actionOpenFiles->setShortcut(QKeySequence(Qt::Key_O));
     actionOpenFiles->setStatusTip(tr("Open a set of images"));
 	connect(actionOpenFiles, &QAction::triggered, this, &MainWindow::openFiles);
-
     actionOpenFolder = new QAction(tr("&Open Folder"), this);
     actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
+    actionQuit = new QAction(tr("&Quit"), this);
+    actionQuit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    actionQuit->setStatusTip(tr("Quit"));
+    connect(actionQuit, &QAction::triggered, this, &MainWindow::quit);
 
 	actionAlignMTB = new QAction(tr("&Align images"), this);
 	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
@@ -94,6 +97,7 @@ void MainWindow::createMenus() {
 	menuFile = menuBar()->addMenu(tr("&File"));
 	menuFile->addAction(actionOpenFiles);
     menuFile->addAction(actionOpenFolder);
+    menuFile->addAction(actionQuit);
 
 	menuAlign = menuBar()->addMenu(tr("&Align"));
 	menuAlign->addAction(actionAlignMTB);
@@ -183,6 +187,13 @@ void MainWindow::openFolder() {
 	}
 	images->loadImages(fileNames);
 	qDebug() << fileNames;
+}
+
+/**
+ * Quitte l'application
+ */
+void MainWindow::quit() {
+	QApplication::quit();
 }
 
 /**
