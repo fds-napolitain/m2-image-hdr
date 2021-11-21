@@ -79,17 +79,11 @@ float Image::getExposure() const {
  * @return
  */
 float Image::getAverageEntropy() {
-	if (image.depth() == 5) {
-		cv::Mat image8;
-		image.convertTo(image8, CV_8U, 255);
-		return QImage((uchar*) image8.data, image8.cols, image8.rows, image8.step, QImage::Format_RGB888).rgbSwapped();
-	} else {
-		return QImage((uchar*) image.data, image.cols, image.rows, image.step, QImage::Format_RGB888).rgbSwapped();
-	}
+	std::unique_ptr<cv::Mat> mat = getMatrix();
 	std::vector<unsigned char> histogram(256);
-	uchar* p = image.data;
-	for (int i = 0; i < image.total(); ++i) {
-		histogram[p++]++;
+	uchar* p = mat->data;
+	for (int i = 0; i < mat->total(); ++i) {
+		//histogram[p++]++;
 	}
 	float entropy = 0.0;
 
