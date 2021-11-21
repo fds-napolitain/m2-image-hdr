@@ -49,7 +49,7 @@ void Image::loadImage(const QString& filename) {
  */
 std::unique_ptr<cv::Mat> Image::getMatrix() const {
 	if (image.depth() == 5) {
-		std::unique_ptr<cv::Mat> image8;
+		std::unique_ptr<cv::Mat> image8 = std::make_unique<cv::Mat>();
 		image.convertTo(*image8, CV_8U, 255);
 		return image8;
 	} else {
