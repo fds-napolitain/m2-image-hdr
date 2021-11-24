@@ -80,16 +80,28 @@ float Image::getExposure() const {
  */
 float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
-	std::vector<unsigned char> histogram(256);
-	uchar* p = mat.data;
-	for (int i = 0; i < mat.total(); ++i) {
-		histogram[(*p)++]++;
+	const int boxOffset = 8; // nombre de sous image par longueur
+	const int w = mat.rows / boxOffset; // longueur, largeur sous image
+	const int h = mat.cols / boxOffset;
+	float entropy = 0.0; // entropie moyenne
+	for (int i = 0; i < boxOffset; ++i) {
+		for (int j = 0; j < boxOffset; ++j) {
+			cv::Mat subImg = mat(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
+			std::vector<unsigned char> histogram(256);
+			uchar* p = subImg.data;
+
+			for (int l = 0; l < subImg.total(); ++l) {
+				histogram[*(p++)]++; // incrément histogramme et pointeur
+			}
+ 			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
+			for (int k = 0; k < 256; ++k) {
+				float pi = histogram[k] / (float) subImg.total();
+				if (pi == 0) continue;
+				entropy +=  -pi * log(pi); //histogram[k] * log(1.0/histogram[k]);
+			}
+		}
 	}
-	float entropy = 0.0;
-	for (int k = 0; k < 256; ++k) {
-		entropy += histogram[k] * log(1/histogram[k]);
-	}
-	return entropy;
+	return entropy/boxOffset; // retourne entropie moyenne des sous images
 }
 
 /**

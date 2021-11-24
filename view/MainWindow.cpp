@@ -90,6 +90,7 @@ void MainWindow::createActions() {
 	actionTonemapReinhard->setCheckable(true);
 	connect(actionTonemapReinhard, &QAction::triggered, this, &MainWindow::tonemapReinhard);
 	actionGroupTonemap = new QActionGroup(this);
+	actionGroupTonemap->addAction(actionTonemapNone);
 	actionGroupTonemap->addAction(actionTonemapDrago);
 	actionGroupTonemap->addAction(actionTonemapReinhard);
 	actionGroupTonemap->setExclusive(true);
