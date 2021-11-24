@@ -21,6 +21,7 @@ public:
 	void loadImage(const QString& filename);
 	[[nodiscard]] QImage getQImage() const;
 	[[nodiscard]] float getExposure() const;
+	std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange);
 	float getAverageEntropy();
 	// -- méthodes sur une image
 	void tonemapDrago();
