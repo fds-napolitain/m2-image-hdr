@@ -74,6 +74,51 @@ float Image::getExposure() const {
 	return exposure;
 }
 
+std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange, float maxRange)
+{
+	std::vector<cv::Mat> histograms;
+	histograms.reserve(3);
+
+	std::vector<cv::Mat> bgr_planes;
+	split( mat, bgr_planes );
+
+	int histSize = size;
+	float range[] = { minRange, maxRange }; //the upper boundary is exclusive
+	const float* histRange[] = { range };
+
+	cv::Mat b_hist, g_hist, r_hist;
+	calcHist( &bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, histRange, true, false );
+	calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, histRange, true, false );
+	calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
+
+	normalize(b_hist, b_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(g_hist, g_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(r_hist, r_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+
+	histograms.push_back(r_hist);
+	histograms.push_back(g_hist);
+	histograms.push_back(b_hist);
+
+	int hist_w = 512, hist_h = 400;
+	int bin_w = cvRound( (double) hist_w/histSize );
+	cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
+	for( int i = 1; i < histSize; i++ )
+	{
+		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ),
+			  cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+			  cv::Scalar( 255, 0, 0), 2, 8, 0  );
+		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ),
+			  cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
+			  cv::Scalar( 0, 255, 0), 2, 8, 0  );
+		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ),
+			  cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
+			  cv::Scalar( 0, 0, 255), 2, 8, 0  );
+	}
+
+	cv::imshow("Histogramme", histImage);
+	return histograms;
+}
+
 /**
  * Get local entropy to measure HDR like DxOMark.
  * @return
@@ -84,15 +129,12 @@ float Image::getAverageEntropy() {
 	const int w = mat.rows / boxOffset; // longueur, largeur sous image
 	const int h = mat.cols / boxOffset;
 	float entropy = 0.0; // entropie moyenne
+
+
 	for (int i = 0; i < boxOffset; ++i) {
 		for (int j = 0; j < boxOffset; ++j) {
-			cv::Mat subImg = mat(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
-			std::vector<unsigned char> histogram(256);
-			uchar* p = subImg.data;
-
-			for (int l = 0; l < subImg.total(); ++l) {
-				histogram[*(p++)]++; // incrément histogramme et pointeur
-			}
+			cv::Mat subImg = mat(cv::Range(w*i, w*(i+1)), cv::Range(h*j, h*(j+1)));
+			std::vector<cv::Mat> histogram = getHistogram(subImg, 256, 0.f, 255.f);
  			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
 			for (int k = 0; k < 256; ++k) {
 				float pi = histogram[k] / (float) subImg.total();
