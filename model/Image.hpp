@@ -11,7 +11,7 @@ class Image {
 
 private:
 	float exposure;
-	[[nodiscard]] std::unique_ptr<cv::Mat> getMatrix() const;
+	[[nodiscard]] cv::Mat getMatrix() const;
 public:
 	cv::Mat image;
 	Image();

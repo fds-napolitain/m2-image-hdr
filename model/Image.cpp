@@ -47,13 +47,13 @@ void Image::loadImage(const QString& filename) {
  * Return normalized 8 bit unsigned char cv matrix unique (automatic destruction) pointer.
  * @return
  */
-std::unique_ptr<cv::Mat> Image::getMatrix() const {
+cv::Mat Image::getMatrix() const {
 	if (image.depth() == 5) {
-		std::unique_ptr<cv::Mat> image8 = std::make_unique<cv::Mat>();
-		image.convertTo(*image8, CV_8U, 255);
+		cv::Mat image8;
+		image.convertTo(image8, CV_8U, 255);
 		return image8;
 	} else {
-		return std::make_unique<cv::Mat>(image);
+		return image;
 	}
 }
 
@@ -62,8 +62,8 @@ std::unique_ptr<cv::Mat> Image::getMatrix() const {
  * @return
  */
 QImage Image::getQImage() const {
-	std::unique_ptr<cv::Mat> mat = getMatrix();
-	return QImage((uchar*) mat->data, mat->cols, mat->rows, mat->step, QImage::Format_RGB888).rgbSwapped();
+	cv::Mat mat = getMatrix();
+	return QImage((uchar*) mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888).rgbSwapped();
 }
 
 /**
@@ -79,14 +79,16 @@ float Image::getExposure() const {
  * @return
  */
 float Image::getAverageEntropy() {
-	std::unique_ptr<cv::Mat> mat = getMatrix();
+	cv::Mat mat = getMatrix();
 	std::vector<unsigned char> histogram(256);
-	uchar* p = mat->data;
-	for (int i = 0; i < mat->total(); ++i) {
-		//histogram[p++]++;
+	uchar* p = mat.data;
+	for (int i = 0; i < mat.total(); ++i) {
+		histogram[(*p)++]++;
 	}
 	float entropy = 0.0;
-
+	for (int k = 0; k < 256; ++k) {
+		entropy += histogram[k] * log(1/histogram[k]);
+	}
 	return entropy;
 }
 
