@@ -74,10 +74,7 @@ float Image::getExposure() const {
 	return exposure;
 }
 
-std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange, float maxRange)
-{
-	std::vector<cv::Mat> histograms;
-	histograms.reserve(3);
+std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result) {
 
 	std::vector<cv::Mat> bgr_planes;
 	split( mat, bgr_planes );
@@ -95,9 +92,11 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	normalize(g_hist, g_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
 	normalize(r_hist, r_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
 
-	histograms.push_back(r_hist);
-	histograms.push_back(g_hist);
-	histograms.push_back(b_hist);
+	result.resize(4);
+	result[0] = r_hist;
+	result[1] = g_hist;
+	result[2] = b_hist;
+	result[3] = complete_hist;
 
 	int hist_w = 512, hist_h = 400;
 	int bin_w = cvRound( (double) hist_w/histSize );
@@ -134,16 +133,27 @@ float Image::getAverageEntropy() {
 	for (int i = 0; i < boxOffset; ++i) {
 		for (int j = 0; j < boxOffset; ++j) {
 			cv::Mat subImg = mat(cv::Range(w*i, w*(i+1)), cv::Range(h*j, h*(j+1)));
-			std::vector<cv::Mat> histogram = getHistogram(subImg, 256, 0.f, 255.f);
- 			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
+			cv::cvtColor(subImg, subImg, cv::COLOR_BGR2GRAY);
+			std::vector<float> histogram(256);
+			//getHistogram(subImg, 256, 0.f, 255.f, histogram);
+			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
+			uchar* p = subImg.data;
+			for(int i = 0; i < 256; i++) {
+				histogram[*p]++;
+				p++;
+			}
+
 			for (int k = 0; k < 256; ++k) {
 				float pi = histogram[k] / (float) subImg.total();
-				if (pi == 0) continue;
-				entropy +=  -pi * log(pi); //histogram[k] * log(1.0/histogram[k]);
+
+
+				if (pi != 0) {
+					entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
+				}
 			}
 		}
 	}
-	return entropy/boxOffset; // retourne entropie moyenne des sous images
+	return entropy / pow(boxOffset, 2); // retourne entropie moyenne des sous images
 }
 
 /**
