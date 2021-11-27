@@ -15,6 +15,8 @@ class MainWindow : public QMainWindow {
 public:
 	MainWindow();
 	~MainWindow() override;
+	void zoom(const Image& image);
+
 private:
 	// menus
 	QMenu* menuFile;
@@ -44,10 +46,11 @@ private:
 	void createActions();
 	void createMenus();
 	void executePipeline();
+
 private slots:
-	void openFiles();
-    void openFolder();
 	static void quit();
+	void openFiles();
+	void openFolder();
 	void alignMTB();
 	void mergeDebevec();
 	void mergeMertens();

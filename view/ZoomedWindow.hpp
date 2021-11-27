@@ -14,7 +14,7 @@ class ZoomedWindow : public QMainWindow {
 public:
 	ZoomedWindow();
 	~ZoomedWindow() override;
-
+	void setImage(const Image& image);
 private:
 	QMenu* menuFile;
 	QAction* actionQuit;

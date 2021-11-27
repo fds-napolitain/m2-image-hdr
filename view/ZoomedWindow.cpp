@@ -47,6 +47,14 @@ void ZoomedWindow::createMenus() {
 }
 
 /**
+ * Initialise l'image
+ */
+void ZoomedWindow::setImage(const Image& image) {
+	result->loadImage(image);
+	result->reloadImage();
+}
+
+/**
  * Slot action: quit window
  */
 void ZoomedWindow::quit() {

@@ -20,6 +20,16 @@ ImageWidget::ImageWidget(QWidget* parent) {
 	this->setParent(parent);
 }
 
+ImageWidget::ImageWidget(QWidget *parent, MainWindow* mainWindow) {
+	this->parent = parent;
+	label = new QLabel(parent);
+	label->setScaledContents(true);
+	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	label->show();
+	this->setParent(parent);
+	this->mainWindow = mainWindow;
+}
+
 /**
  * Destructeur
  */
@@ -84,6 +94,6 @@ void ImageWidget::reloadImage() {
  */
 void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 	if (e->button() == Qt::LeftButton) {
-
+		mainWindow->zoom();
 	}
 }

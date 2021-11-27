@@ -9,6 +9,7 @@
 #include <QLabel>
 #include "../model/Image.hpp"
 #include "../model/Pipeline.hpp"
+#include "MainWindow.hpp"
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QGridLayout>
@@ -23,11 +24,13 @@ private:
 	QWidget* parent;
 	Image image;
 	QLabel* label;
+	MainWindow* mainWindow;
 public:
 	Merge merged = Merge::NONE;
 	Tonemap tonemapped = Tonemap::NONE;
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
+	ImageWidget(QWidget* parent, MainWindow* mainWindow);
 	~ImageWidget() override;
 	void loadImage(const Image& image);
 	void reloadImage();

@@ -169,6 +169,22 @@ void MainWindow::executePipeline() {
 }
 
 /**
+ * Zoom une image dans une deuxième fenêtre
+ */
+void MainWindow::zoom(const Image& image) {
+	zoomedWindow = new ZoomedWindow;
+	zoomedWindow->setImage(image);
+	zoomedWindow->showMaximized();
+}
+
+/**
+ * Quitte l'application
+ */
+void MainWindow::quit() {
+	QApplication::quit();
+}
+
+/**
  * Slot action: ouvrir une ou plusieurs images
  */
 void MainWindow::openFiles() {
@@ -196,13 +212,6 @@ void MainWindow::openFolder() {
 	}
 	images->loadImages(fileNames);
 	qDebug() << fileNames;
-}
-
-/**
- * Quitte l'application
- */
-void MainWindow::quit() {
-	QApplication::quit();
 }
 
 /**
