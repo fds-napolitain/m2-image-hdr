@@ -12,6 +12,7 @@ ImageWidget::ImageWidget() = default;
  * @param parent
  */
 ImageWidget::ImageWidget(QWidget* parent) {
+	this->parent = parent;
 	label = new QLabel(parent);
 	label->setScaledContents(true);
 	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -75,4 +76,14 @@ void ImageWidget::reloadImage() {
 	}
 	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
 	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+/**
+ * Ouvrir une image en plein écran dans une deuxième fenêtre.
+ * @param e
+ */
+void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
+	if (e->button() == Qt::LeftButton) {
+
+	}
 }

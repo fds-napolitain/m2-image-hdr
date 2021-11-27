@@ -46,7 +46,7 @@ void MainWindow::createActions() {
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
     actionQuit = new QAction(tr("&Quit"), this);
-    actionQuit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    actionQuit->setShortcut(QKeySequence(Qt::Key_Escape));
     actionQuit->setStatusTip(tr("Quit"));
     connect(actionQuit, &QAction::triggered, this, &MainWindow::quit);
 

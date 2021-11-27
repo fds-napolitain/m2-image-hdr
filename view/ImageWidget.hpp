@@ -12,6 +12,7 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QGridLayout>
+#include <QMouseEvent>
 
 /**
  * Widget englobant une image.
@@ -19,6 +20,7 @@
 class ImageWidget : public QWidget {
 
 private:
+	QWidget* parent;
 	Image image;
 	QLabel* label;
 public:
@@ -32,6 +34,7 @@ public:
 	Image* getImage();
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();
+	void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 };
 
