@@ -94,6 +94,6 @@ void ImageWidget::reloadImage() {
  */
 void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 	if (e->button() == Qt::LeftButton) {
-		mainWindow->zoom();
+		mainWindow->zoom(image);
 	}
 }
