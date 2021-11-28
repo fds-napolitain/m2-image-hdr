@@ -82,16 +82,11 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	int histSize = size;
 	float range[] = { minRange, maxRange }; //the upper boundary is exclusive
 	const float* histRange[] = { range };
-	int x = mat.channels();
 
-
-
-
-	cv::Mat b_hist, g_hist, r_hist, complete_hist;
-	calcHist( &bgr_planes[0], 1, nullptr, cv::Mat(), b_hist, 1, &histSize, histRange, true, false );
-	calcHist( &bgr_planes[1], 1, nullptr, cv::Mat(), g_hist, 1, &histSize, histRange, true, false );
-	calcHist( &bgr_planes[2], 1, nullptr, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
-	calcHist( &mat, 1, &x, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
+	cv::Mat b_hist, g_hist, r_hist;
+	calcHist( &bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, histRange, true, false );
+	calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, histRange, true, false );
+	calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
 
 	normalize(b_hist, b_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
 	normalize(g_hist, g_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
@@ -120,7 +115,7 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	}
 
 	cv::imshow("Histogramme", histImage);
-	return result;
+	return histograms;
 }
 
 /**
@@ -134,23 +129,6 @@ float Image::getAverageEntropy() {
 	const int h = mat.cols / boxOffset;
 	float entropy = 0.0; // entropie moyenne
 
-	std::vector<float> histogram1(256);
-	//cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
-	uchar* m = mat.data;
-	for(int i = 0; i < 256; i++) {
-		histogram1[*m]++;
-		m++;
-	}
-	for (int k = 0; k < 256; ++k) {
-		float pi = histogram1[k] / (float) mat.total();
-
-		if (pi != 0) {
-			entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
-		}
-	}
-
-	std::cout << "entropy image original : " << entropy << std::endl;
-	entropy = 0.0;
 
 	for (int i = 0; i < boxOffset; ++i) {
 		for (int j = 0; j < boxOffset; ++j) {
