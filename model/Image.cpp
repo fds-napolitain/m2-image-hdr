@@ -132,10 +132,10 @@ float Image::getAverageEntropy() {
 	cv::cvtColor(mat, mat, cv::COLOR_BGR2HSV);
 	cv::Mat hue, saturation, value;
 	std::vector<cv::Mat> matrices(3);
-	matrices[0] = hue;
-	matrices[1] = saturation;
-	matrices[2] = value;
-	cv::split(mat, matrices);
+    cv::split(mat, matrices);
+    hue = matrices[0];
+    saturation = matrices[1] ;
+    value = matrices[2];
 	const int boxOffset = 8; // nombre de sous image par longueur
 	const int w = value.rows / boxOffset; // longueur, largeur sous image
 	const int h = value.cols / boxOffset;
@@ -180,7 +180,7 @@ float Image::getAverageEntropy() {
 			}
 		}
 	}
-	return entropy; // retourne entropie moyenne des sous images
+	return entropy / pow(boxOffset, 2)  ; // retourne entropie moyenne des sous images
 }
 
 /**
