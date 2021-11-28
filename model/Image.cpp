@@ -129,34 +129,13 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
  */
 float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
-	cv::cvtColor(mat, mat, cv::COLOR_BGR2HSV);
-	cv::Mat hue, saturation, value;
-	std::vector<cv::Mat> matrices(3);
-    cv::split(mat, matrices);
-    hue = matrices[0];
-    saturation = matrices[1] ;
-    value = matrices[2];
+	cv::Mat value;
+	cv::cvtColor(mat, value, cv::COLOR_BGR2GRAY);
 	const int boxOffset = 8; // nombre de sous image par longueur
 	const int w = value.rows / boxOffset; // longueur, largeur sous image
 	const int h = value.cols / boxOffset;
+
 	float entropy = 0.0; // entropie moyenne
-
-	std::vector<float> histogram1(256);
-	unsigned char* m = value.data;
-	for (int i = 0; i < 256; i++) {
-		histogram1[*m]++;
-		m++;
-	}
-	for (int k = 0; k < 256; ++k) {
-		float pi = histogram1[k] / (float) value.total();
-
-		if (pi != 0) {
-			entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
-		}
-	}
-
-	entropy = 0.0;
-
 	for (int i = 0; i < boxOffset; ++i) {
 		for (int j = 0; j < boxOffset; ++j) {
 			cv::Mat subImg = value(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
@@ -164,16 +143,13 @@ float Image::getAverageEntropy() {
 			std::vector<float> histogram(256);
 			//getHistogram(subImg, 256, 0.f, 255.f, histogram);
 			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
-			uchar* p = subImg.data;
-			for(int i = 0; i < 256; i++) {
+			unsigned char* p = subImg.data;
+			for(int i = 0; i < subImg.total(); i++) {
 				histogram[*p]++;
 				p++;
 			}
-
 			for (int k = 0; k < 256; ++k) {
 				float pi = histogram[k] / (float) subImg.total();
-
-
 				if (pi != 0) {
 					entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
 				}
