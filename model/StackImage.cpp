@@ -70,6 +70,25 @@ Image StackImage::mergeDebevec() {
 }
 
 /**
+ * Applique le merge de Robertson.
+ * Fusion d'images avec connaissances des temps d'expositions.
+ * @return
+ */
+Image StackImage::mergeRobertson() {
+	cv::Mat responseRobertson;
+	cv::Mat resultRobertson;
+	std::vector<cv::Mat> matrices = getMatrices();
+	std::vector<float> exposures = getExposures();
+
+	cv::Ptr<cv::CalibrateRobertson> calibrateRobertson = cv::createCalibrateRobertson();
+	calibrateRobertson->process(matrices, responseRobertson, exposures);
+
+	cv::Ptr<cv::MergeRobertson> mergeRobertson = cv::createMergeRobertson();
+	mergeRobertson->process(matrices, resultRobertson, exposures, responseRobertson);
+	return Image(resultRobertson);
+}
+
+/**
  * Applique le merge de Mertens.
  * Fusion de temps d'exposition, donc sans connaissances des temps d'expositions.
  * https://learnopencv.com/exposure-fusion-using-opencv-cpp-python/

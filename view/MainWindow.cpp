@@ -81,8 +81,13 @@ void MainWindow::createActions() {
 	actionMergeDebevec->setStatusTip(tr("Merge files with Debevec method"));
 	actionMergeDebevec->setCheckable(true);
 	connect(actionMergeDebevec, &QAction::triggered, this, &MainWindow::mergeDebevec);
+	actionMergeRobertson = new QAction(tr("&Merge with Robertson"), this);
+	actionMergeRobertson->setShortcut(QKeySequence(Qt::Key_S));
+	actionMergeRobertson->setStatusTip(tr("Merge files with Debevec method"));
+	actionMergeRobertson->setCheckable(true);
+	connect(actionMergeRobertson, &QAction::triggered, this, &MainWindow::mergeRobertson);
 	actionMergeMertens = new QAction(tr("&Merge with Mertens"), this);
-	actionMergeMertens->setShortcut(QKeySequence(Qt::Key_S));
+	actionMergeMertens->setShortcut(QKeySequence(Qt::Key_X));
 	actionMergeMertens->setStatusTip(tr("Merge files with Mertens method"));
 	actionMergeMertens->setCheckable(true);
 	connect(actionMergeMertens, &QAction::triggered, this, &MainWindow::mergeMertens);
@@ -127,6 +132,7 @@ void MainWindow::createMenus() {
 
 	menuMerge = menuBar()->addMenu(tr("&Merge"));
 	menuMerge->addAction(actionMergeDebevec);
+	menuMerge->addAction(actionMergeRobertson);
 	menuMerge->addAction(actionMergeMertens);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
@@ -157,6 +163,11 @@ void MainWindow::executePipeline() {
 			case Merge::Debevec:
 				result->loadImage(images->mergeDebevec());
 				result->merged = Merge::Debevec;
+				result->tonemapped = Tonemap::NONE;
+				break;
+			case Merge::Robertson:
+				result->loadImage(images->mergeRobertson());
+				result->merged = Merge::Robertson;
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Mertens:
@@ -239,6 +250,14 @@ void MainWindow::alignMTB() {
  */
 void MainWindow::mergeDebevec() {
 	pipeline.merge = Merge::Debevec;
+	executePipeline();
+}
+
+/**
+ * Slot action: merge les images avec la méthode de Debevec.
+ */
+void MainWindow::mergeRobertson() {
+	pipeline.merge = Merge::Robertson;
 	executePipeline();
 }
 

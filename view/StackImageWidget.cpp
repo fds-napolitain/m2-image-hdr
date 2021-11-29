@@ -83,6 +83,15 @@ Image StackImageWidget::mergeDebevec() {
 }
 
 /**
+ * Applique le merge de Robertson sur une StackImage.
+ * @return
+ */
+Image StackImageWidget::mergeRobertson() {
+	std::cout << "3. Exécute le merge de Robertson\n";
+	return getImages().mergeRobertson();
+}
+
+/**
  * Applique le merge de Mertens sur une StackImage.
  * @return
  */
