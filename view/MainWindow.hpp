@@ -15,7 +15,6 @@ class MainWindow : public QMainWindow {
 public:
 	MainWindow();
 	~MainWindow() override;
-	void zoom(const Image& image);
 
 private:
 	// menus

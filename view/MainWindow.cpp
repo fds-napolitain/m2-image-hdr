@@ -170,15 +170,6 @@ void MainWindow::executePipeline() {
 }
 
 /**
- * Zoom une image dans une deuxième fenêtre
- */
-void MainWindow::zoom(const Image& image) {
-	zoomedWindow = new ZoomedWindow;
-	zoomedWindow->setImage(image);
-	zoomedWindow->showMaximized();
-}
-
-/**
  * Quitte l'application
  */
 void MainWindow::quit() {
