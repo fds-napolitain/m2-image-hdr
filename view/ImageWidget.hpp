@@ -34,6 +34,7 @@ public:
 	Image* getImage();
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();
+	void reset();
 	void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 };

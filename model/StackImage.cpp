@@ -7,12 +7,6 @@ StackImage::StackImage(int n) {
 	images.resize(n);
 }
 
-StackImage::~StackImage() {
-	for (auto &image: images) {
-		delete image;
-	}
-}
-
 void StackImage::addImage(Image *image) {
 	images.push_back(image);
 }

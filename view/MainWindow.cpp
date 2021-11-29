@@ -24,7 +24,7 @@ MainWindow::MainWindow() : QMainWindow() {
 }
 
 /**
- * Destructeur (utile ici? pas sur)
+ * Destructeur
  */
 MainWindow::~MainWindow() {
 	delete widget;
@@ -47,6 +47,7 @@ MainWindow::~MainWindow() {
 	delete menuAlign;
 	delete menuMerge;
 	delete menuTonemap;
+	delete zoomedWindow;
 }
 
 /**
@@ -203,6 +204,7 @@ void MainWindow::openFiles() {
 		return;
 	}
 	images->loadImages(fileNames);
+	result->reset();
 	qDebug() << fileNames;
 }
 
@@ -220,6 +222,7 @@ void MainWindow::openFolder() {
 		return;
 	}
 	images->loadImages(fileNames);
+	result->reset();
 	qDebug() << fileNames;
 }
 

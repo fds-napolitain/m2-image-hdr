@@ -13,7 +13,6 @@ private:
 public:
 	StackImage();
 	explicit StackImage(int n);
-	~StackImage();
 	void addImage(Image* image);
 	void addImage(Image* image, int i);
 	[[nodiscard]] std::vector<cv::Mat> getMatrices();

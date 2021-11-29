@@ -86,3 +86,10 @@ void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 
 	}
 }
+
+/**
+ * Reset image view
+ */
+void ImageWidget::reset() {
+	label->clear();
+}
