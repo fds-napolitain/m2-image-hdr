@@ -127,7 +127,7 @@ cv::Mat Image::calcEqualization(bool Clahe){
     cv::Mat mat = this->getMatrix();
     cv::Mat value;
     cv::Mat matrices[3];
-    cv::cvtColor(mat, value, cv::COLOR_HSV2RGB);
+    cv::cvtColor(mat, value, cv::COLOR_BGR2HSV);
     cv::split(value, matrices);
 
     if(Clahe)
@@ -141,7 +141,7 @@ cv::Mat Image::calcEqualization(bool Clahe){
     }
 
     cv::merge(matrices, 3 , value);
-    cv::cvtColor(value, mat, cv::COLOR_HSV2RGB);
+    cv::cvtColor(value, mat, cv::COLOR_HSV2BGR);
 
     return mat;
 }

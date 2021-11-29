@@ -146,6 +146,7 @@ void MainWindow::executePipeline() {
 				result->loadImage(images->mergeMertens());
 				result->merged = Merge::Mertens;
                 result->getImage()->image = result->getImage()->calcEqualization(true);
+                result->reloadImage();
                 result->tonemapped = Tonemap::NONE;
                // std::cout << "Entropy: " << result->getImage()->getAverageEntropy() << "\n";
 				break;
@@ -154,7 +155,7 @@ void MainWindow::executePipeline() {
 	if (result->tonemapped != pipeline.tonemap) {
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
-                result->reloadImage();
+                ;
 				break;
 			case Tonemap::Drago:
 				result->getImage()->tonemapDrago();
