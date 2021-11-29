@@ -165,10 +165,8 @@ float Image::getAverageEntropy() {
  */
 void Image::tonemapDrago() {
 	std::cout << "4. Exécute le mappage ton-local de Drago\n";
-	cv::Mat result;
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago();
-	tonemap->process(image, result);
-	image = std::move(result);
+	tonemap->process(image, image);
 }
 
 /**
@@ -177,8 +175,6 @@ void Image::tonemapDrago() {
  */
 void Image::tonemapReinhard() {
 	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
-	cv::Mat result;
 	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard();
-	tonemap->process(image, result);
-	image = std::move(result);
+	tonemap->process(image, image);
 }

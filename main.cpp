@@ -5,7 +5,6 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow window;
-    window.resize(1000, 800);
-    window.show();
+	window.showFullScreen();
     return QApplication::exec();
 }

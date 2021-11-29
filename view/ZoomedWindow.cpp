@@ -20,7 +20,6 @@ ZoomedWindow::ZoomedWindow() : QMainWindow() {
 
 	result = new ImageWidget;
 	result->getQLabel()->setScaledContents(false);
-
 }
 
 ZoomedWindow::~ZoomedWindow() {

@@ -31,6 +31,22 @@ MainWindow::~MainWindow() {
 	delete hdrbox;
 	delete images;
 	delete result;
+	delete actionOpenFiles;
+	delete actionOpenFolder;
+	delete actionQuit;
+	delete actionAlignMTB;
+	delete actionGroupAlign;
+	delete actionMergeDebevec;
+	delete actionMergeMertens;
+	delete actionGroupMerge;
+	delete actionTonemapNone;
+	delete actionTonemapDrago;
+	delete actionTonemapReinhard;
+	delete actionGroupTonemap;
+	delete menuFile;
+	delete menuAlign;
+	delete menuMerge;
+	delete menuTonemap;
 }
 
 /**
