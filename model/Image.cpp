@@ -131,7 +131,7 @@ float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
 	cv::Mat value;
 	cv::cvtColor(mat, value, cv::COLOR_BGR2GRAY);
-	const int boxOffset = 8; // nombre de sous image par longueur
+	constexpr int boxOffset = 8; // nombre de sous image par longueur
 	const int w = value.rows / boxOffset; // longueur, largeur sous image
 	const int h = value.cols / boxOffset;
 
