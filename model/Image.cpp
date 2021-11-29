@@ -123,6 +123,29 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	return result;
 }
 
+cv::Mat Image::calcEqualization(bool Clahe){
+    cv::Mat mat = this->getMatrix();
+    cv::Mat value;
+    cv::Mat matrices[3];
+    cv::cvtColor(mat, value, cv::COLOR_HSV2RGB);
+    cv::split(value, matrices);
+
+    if(Clahe)
+    {
+        cv::Ptr<cv::CLAHE> cl  =  cv::createCLAHE(2.0);
+        cl->apply(matrices[2], matrices[2]);
+    }
+    else
+    {
+        cv::equalizeHist(matrices[2], matrices[2]);
+    }
+
+    cv::merge(matrices, 3 , value);
+    cv::cvtColor(value, mat, cv::COLOR_HSV2RGB);
+
+    return mat;
+}
+
 /**
  * Get local entropy to measure HDR like DxOMark.
  * @return
@@ -130,32 +153,34 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
 	cv::Mat value;
-	cv::cvtColor(mat, value, cv::COLOR_BGR2GRAY);
-	const int boxOffset = 8; // nombre de sous image par longueur
-	const int w = value.rows / boxOffset; // longueur, largeur sous image
-	const int h = value.cols / boxOffset;
+	cv::cvtColor(mat, value, cv::COLOR_RGB2HSV);
 
-	float entropy = 0.0; // entropie moyenne
-	for (int i = 0; i < boxOffset; ++i) {
-		for (int j = 0; j < boxOffset; ++j) {
-			cv::Mat subImg = value(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
-			//cv::cvtColor(subImg, subImg, cv::COLOR_BGR2GRAY);
-			std::vector<float> histogram(256);
-			//getHistogram(subImg, 256, 0.f, 255.f, histogram);
-			//cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
-			unsigned char* p = subImg.data;
-			for(int i = 0; i < subImg.total(); i++) {
-				histogram[*p]++;
-				p++;
-			}
-			for (int k = 0; k < 256; ++k) {
-				float pi = histogram[k] / (float) subImg.total();
-				if (pi != 0) {
-					entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
-				}
-			}
-		}
-	}
+    const int boxOffset = 8; // nombre de sous image par longueur
+    const int w = value.rows / boxOffset; // longueur, largeur sous image
+    const int h = value.cols / boxOffset;
+
+    float entropy = 0.0; // entropie moyenne
+    for (int i = 0; i < boxOffset; ++i) {
+        for (int j = 0; j < boxOffset; ++j) {
+            cv::Mat subImg = value(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
+            //cv::cvtColor(subImg, subImg, cv::COLOR_BGR2GRAY);
+            std::vector<float> histogram(256);
+            //getHistogram(subImg, 256, 0.f, 255.f, histogram);
+            //cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
+            unsigned char* p = subImg.data;
+            for(int i = 0; i < subImg.total(); i++) {
+                histogram[*p]++;
+                p++;
+            }
+            for (int k = 0; k < 256; ++k) {
+                float pi = histogram[k] / (float) subImg.total();
+                if (pi != 0) {
+                    entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
+                }
+            }
+        }
+    }
+
 	return entropy / pow(boxOffset, 2)  ; // retourne entropie moyenne des sous images
 }
 
