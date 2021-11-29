@@ -152,6 +152,7 @@ void MainWindow::executePipeline() {
 	if (result->tonemapped != pipeline.tonemap) {
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
+				result->reloadImage();
 				break;
 			case Tonemap::Drago:
 				result->getImage()->tonemapDrago();
