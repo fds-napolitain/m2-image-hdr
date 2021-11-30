@@ -67,8 +67,8 @@ QLabel* ImageWidget::getQLabel() {
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
-	double w = img.width() / 300.0;
-	double h = img.height() / 400.0;
+	double w = img.width() / 200.0;
+	double h = img.height() / 300.0;
 	if (w > h) {
 		label->resize(img.width() / w, img.height() / w);
 	}
@@ -77,16 +77,6 @@ void ImageWidget::reloadImage() {
 	}
 	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
 	label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-}
-
-/**
- * Ouvrir une image en plein écran dans une deuxième fenêtre.
- * @param e
- */
-void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
-	if (e->button() == Qt::LeftButton) {
-
-	}
 }
 
 /**

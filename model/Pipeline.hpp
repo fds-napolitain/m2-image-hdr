@@ -24,11 +24,17 @@ enum class Tonemap {
 	Reinhard,
 };
 
+enum class Contrast {
+	NONE,
+	Histogram,
+};
+
 class Pipeline {
 public:
 	Align align = Align::NONE;
 	Merge merge = Merge::NONE;
 	Tonemap tonemap = Tonemap::NONE;
+	Contrast contrast = Contrast::NONE;
 };
 
 

@@ -20,13 +20,13 @@ public:
 	~Image();
 	void loadImage(const QString& filename);
 	[[nodiscard]] QImage getQImage() const;
-	[[nodiscard]] float getExposure() const;
-    cv::Mat calcEqualization(bool clahe);
-	std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
-	float getAverageEntropy();
 	// -- méthodes sur une image
+	[[nodiscard]] float getExposure() const;
+	float getAverageEntropy();
+	static std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
 	void tonemapDrago();
 	void tonemapReinhard();
+	cv::Mat calcEqualization(bool clahe);
 
 };
 

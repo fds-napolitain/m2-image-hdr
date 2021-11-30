@@ -26,6 +26,7 @@ private:
 public:
 	Merge merged = Merge::NONE;
 	Tonemap tonemapped = Tonemap::NONE;
+	Contrast contrasted = Contrast::NONE;
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
 	~ImageWidget() override;
@@ -35,7 +36,6 @@ public:
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();
 	void reset();
-	void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 };
 

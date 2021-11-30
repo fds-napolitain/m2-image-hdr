@@ -4,7 +4,7 @@
 #include <QtWidgets>
 #include <QString>
 #include "StackImageWidget.hpp"
-#include "ImageWidget.hpp"
+#include "ZoomableImageWidget.hpp"
 #include "../model/Pipeline.hpp"
 #include "ZoomedWindow.hpp"
 
@@ -22,6 +22,7 @@ private:
 	QMenu* menuAlign;
 	QMenu* menuMerge;
 	QMenu* menuTonemap;
+	QMenu* menuContrast;
 	// actions et actiongroup
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
@@ -36,6 +37,9 @@ private:
 	QAction* actionTonemapNone;
 	QAction* actionTonemapDrago;
 	QAction* actionTonemapReinhard;
+	QActionGroup* actionGroupContrast;
+	QAction* actionContrastNone;
+	QAction* actionContrastHistogram;
 	// widget d'affichage et fonctionnels
 	QWidget* widget;
 	QGroupBox* hdrbox;
@@ -58,6 +62,9 @@ private slots:
 	void tonemapNone();
 	void tonemapDrago();
 	void tonemapReinhard();
+	void contrastNone();
+	void contrastHistogram();
+
 };
 
 #endif //QTHDR_MAINWINDOW_HPP

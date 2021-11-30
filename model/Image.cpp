@@ -123,20 +123,24 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	return result;
 }
 
+/**
+ * Égalisation d'histogramme pour amélioration de contraste.
+ * @param Clahe
+ * @return
+ */
 cv::Mat Image::calcEqualization(bool Clahe){
-    cv::Mat mat = this->getMatrix();
+	std::cout << "5. Exécute l'égalisation d'histogramme.\n";
+
+	cv::Mat mat = this->getMatrix();
     cv::Mat value;
     cv::Mat matrices[3];
     cv::cvtColor(mat, value, cv::COLOR_BGR2HSV);
     cv::split(value, matrices);
 
-    if(Clahe)
-    {
+    if (Clahe) {
         cv::Ptr<cv::CLAHE> cl  =  cv::createCLAHE(2.0);
         cl->apply(matrices[2], matrices[2]);
-    }
-    else
-    {
+    } else {
         cv::equalizeHist(matrices[2], matrices[2]);
     }
 

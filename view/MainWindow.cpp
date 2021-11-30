@@ -20,11 +20,11 @@ MainWindow::MainWindow() : QMainWindow() {
 
     result->getQLabel()->setScaledContents(false);
 	hdrbox->layout()->addWidget(result->getQLabel());
-
 }
 
 /**
  * Destructeur
+ * TODO: vérifier que ca marche
  */
 MainWindow::~MainWindow() {
 	delete widget;
@@ -37,12 +37,16 @@ MainWindow::~MainWindow() {
 	delete actionAlignMTB;
 	delete actionGroupAlign;
 	delete actionMergeDebevec;
+	delete actionMergeRobertson;
 	delete actionMergeMertens;
 	delete actionGroupMerge;
 	delete actionTonemapNone;
 	delete actionTonemapDrago;
 	delete actionTonemapReinhard;
 	delete actionGroupTonemap;
+	delete actionContrastNone;
+	delete actionContrastHistogram;
+	delete actionGroupContrast;
 	delete menuFile;
 	delete menuAlign;
 	delete menuMerge;
@@ -116,6 +120,20 @@ void MainWindow::createActions() {
 	actionGroupTonemap->addAction(actionTonemapDrago);
 	actionGroupTonemap->addAction(actionTonemapReinhard);
 	actionGroupTonemap->setExclusive(true);
+
+	actionContrastNone = new QAction(tr("&None"), this);
+	actionContrastNone->setShortcut(QKeySequence(Qt::Key_R));
+	actionContrastNone->setStatusTip(tr("None"));
+	actionContrastNone->setCheckable(true);
+	connect(actionContrastNone, &QAction::triggered, this, &MainWindow::contrastNone);
+	actionContrastHistogram = new QAction(tr("&Contrast with histogram"), this);
+	actionContrastHistogram->setShortcut(QKeySequence(Qt::Key_F));
+	actionContrastHistogram->setStatusTip(tr("Add more contrast using histogram method"));
+	actionContrastHistogram->setCheckable(true);
+	connect(actionContrastHistogram, &QAction::triggered, this, &MainWindow::contrastHistogram);
+	actionGroupContrast = new QActionGroup(this);
+	actionGroupContrast->addAction(actionContrastNone);
+	actionGroupContrast->addAction(actionContrastHistogram);
 }
 
 /**
@@ -139,6 +157,10 @@ void MainWindow::createMenus() {
 	menuTonemap->addAction(actionTonemapNone);
 	menuTonemap->addAction(actionTonemapDrago);
 	menuTonemap->addAction(actionTonemapReinhard);
+
+	menuContrast = menuBar()->addMenu(tr("&Contrast"));
+	menuContrast->addAction(actionContrastNone);
+	menuContrast->addAction(actionContrastHistogram);
 }
 
 /**
@@ -156,7 +178,7 @@ void MainWindow::executePipeline() {
 				break;
 		}
 	}
-	if (result->merged != pipeline.merge || result->tonemapped != pipeline.tonemap) {
+	if (result->merged != pipeline.merge || result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast) {
 		switch (pipeline.merge) {
 			case Merge::NONE:
 				break;
@@ -173,12 +195,11 @@ void MainWindow::executePipeline() {
 			case Merge::Mertens:
 				result->loadImage(images->mergeMertens());
 				result->merged = Merge::Mertens;
-                result->getImage()->image = result->getImage()->calcEqualization(true);
                 result->tonemapped = Tonemap::NONE;
 				break;
 		}
 	}
-	if (result->tonemapped != pipeline.tonemap) {
+	if (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast) {
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
 				result->reloadImage();
@@ -192,6 +213,18 @@ void MainWindow::executePipeline() {
 				result->getImage()->tonemapReinhard();
 				result->reloadImage();
 				result->tonemapped = Tonemap::Reinhard;
+				break;
+		}
+	}
+	if (result->contrasted != pipeline.contrast) {
+		switch (pipeline.contrast) {
+			case Contrast::NONE:
+				result->reloadImage();
+				result->contrasted = Contrast::NONE;
+			case Contrast::Histogram:
+				result->getImage()->image = result->getImage()->calcEqualization(true);
+				result->reloadImage();
+				result->contrasted = Contrast::Histogram;
 				break;
 		}
 	}
@@ -290,5 +323,21 @@ void MainWindow::tonemapDrago() {
  */
 void MainWindow::tonemapReinhard() {
 	pipeline.tonemap = Tonemap::Reinhard;
+	executePipeline();
+}
+
+/**
+ * Reset contrast
+ */
+void MainWindow::contrastNone() {
+	pipeline.contrast = Contrast::NONE;
+	executePipeline();
+}
+
+/**
+ * Slot action: applique une égalisation d'histogramme pour rehausser le contraste.
+ */
+void MainWindow::contrastHistogram() {
+	pipeline.contrast = Contrast::Histogram;
 	executePipeline();
 }
