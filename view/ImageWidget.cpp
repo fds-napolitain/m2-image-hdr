@@ -66,15 +66,17 @@ QLabel* ImageWidget::getQLabel() {
  * Recharge l'image sur la page.
  */
 void ImageWidget::reloadImage() {
-	double w = image.getQImage().width() / 300.0;
-	double h = image.getQImage().height() / 400.0;
+	QImage img = image.getQImage();
+	double w = img.width() / 300.0;
+	double h = img.height() / 400.0;
 	if (w > h) {
-		label->resize(image.getQImage().width() / w, image.getQImage().height() / w);
-	} else {
-		label->resize(image.getQImage().width() / h, image.getQImage().height() / h);
+		label->resize(img.width() / w, img.height() / w);
+	}
+	else {
+		label->resize(img.width() / h, img.height() / h);
 	}
 	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
-	label->setPixmap(QPixmap::fromImage(image.getQImage().scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+	label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
 /**
