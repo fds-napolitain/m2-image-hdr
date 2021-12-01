@@ -1,33 +1,49 @@
 #include "MainWindow.hpp"
 #include <QPixmap>
 #include <iostream>
-
+#include <QSizePolicy>
 /**
  * Fenêtre principale
  */
 MainWindow::MainWindow() : QMainWindow() {
 	widget = new QWidget;
+    QGridLayout* widgetLayout = new QGridLayout(widget);
+    widget->setLayout(widgetLayout);
+
+    //widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	setCentralWidget(widget);
 
-	createActions();
-	createMenus();
-	hdrbox = new QGroupBox(widget);
-	hdrbox->setLayout(new QVBoxLayout);
-	images = new StackImageWidget(hdrbox);
-	result = new ImageWidget(hdrbox);
+    createActions();
+    createMenus();
+    hdrbox      = new QGroupBox(widget);
+    settingsBox = new QGroupBox(widget);
+//    settingsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+
+
+
+    hdrbox->setLayout(new QVBoxLayout);
+    settingsBox->setLayout(new QVBoxLayout);
+   // settingsBox->layout()->setContentsMargins(0,0,1500,0);
+    images = new StackImageWidget(hdrbox);
+    result = new ImageWidget(hdrbox);
+    hdrbox->layout()->addWidget(images->stack);
+
     toneMapGamma = new QLabel("1");
-	hdrbox->layout()->addWidget(images->stack);
-
-
-
     toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
     toneMapSlider->setTickPosition(QSlider::TicksAbove);
     toneMapSlider->setValue(1);
+    settingsBox->layout()->addWidget(toneMapSlider);
+    settingsBox->layout()->addWidget(toneMapGamma);
+    widgetLayout->addWidget(hdrbox,0,0,1,8);
+    widgetLayout->addWidget(settingsBox,1,0,1,2);
+
+
+
+
 
     result->getQLabel()->setScaledContents(false);
-	hdrbox->layout()->addWidget(result->getQLabel());
-    hdrbox->layout()->addWidget(toneMapGamma);
-    hdrbox->layout()->addWidget(toneMapSlider);
+    hdrbox->layout()->addWidget(result->getQLabel());
     QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
         toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
 		result->tonemapped = Tonemap::NONE;

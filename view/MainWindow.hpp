@@ -43,6 +43,7 @@ private:
 	// widget d'affichage et fonctionnels
 	QWidget* widget;
 	QGroupBox* hdrbox;
+    QGroupBox* settingsBox;
     QLabel* toneMapGamma;
     QSlider* toneMapSlider;
 	StackImageWidget* images;
