@@ -21,16 +21,18 @@ MainWindow::MainWindow() : QMainWindow() {
 
 
     toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
+    toneMapSlider->setTickPosition(QSlider::TicksAbove);
+
     result->getQLabel()->setScaledContents(false);
 	hdrbox->layout()->addWidget(result->getQLabel());
     hdrbox->layout()->addWidget(toneMapGamma);
     hdrbox->layout()->addWidget(toneMapSlider);
     QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
-        toneMapGamma->setText(QString::number(toneMapSlider->value()));
+        toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
         if(result->merged != Merge::NONE){
-            Image temp = cache.clone();
-            result = temp;
-            result->getImage()->tonemapDrago(toneMapSlider->value());
+
+            result->loadImage(cache);
+            result->getImage()->tonemapDrago(toneMapSlider->value() * 0.25f);
             result->reloadImage();
         }
     });
