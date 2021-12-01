@@ -26,6 +26,7 @@ private:
 	// actions et actiongroup
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
+    QAction* actionSave;
     QAction* actionQuit;
 	QActionGroup* actionGroupAlign;
 	QAction* actionAlignMTB;
@@ -43,8 +44,9 @@ private:
 	// widget d'affichage et fonctionnels
 	QWidget* widget;
 	QGroupBox* hdrbox;
-    QLabel* toneMapGamma;
-    QSlider* toneMapSlider;
+	QGroupBox* resultStack;
+    QLabel* tonemapGamma;
+    QSlider* tonemapSlider;
 	StackImageWidget* images;
 	ImageWidget* result;
 	Image cache;
@@ -59,6 +61,7 @@ private slots:
 	static void quit();
 	void openFiles();
 	void openFolder();
+	void save();
 	void alignMTB();
 	void mergeDebevec();
 	void mergeRobertson();

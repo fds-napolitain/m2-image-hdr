@@ -13,24 +13,26 @@ MainWindow::MainWindow() : QMainWindow() {
 	createMenus();
 	hdrbox = new QGroupBox(widget);
 	hdrbox->setLayout(new QVBoxLayout);
+	resultStack = new QGroupBox(hdrbox);
+	resultStack->setLayout(new QHBoxLayout);
+
 	images = new StackImageWidget(hdrbox);
-	result = new ImageWidget(hdrbox);
-    toneMapGamma = new QLabel("1");
+	result = new ImageWidget(resultStack);
+	tonemapGamma = new QLabel("1");
+	tonemapSlider = new QSlider(Qt::Horizontal, resultStack);
+	tonemapSlider->setTickPosition(QSlider::TicksAbove);
+	tonemapSlider->setValue(1);
+
 	hdrbox->layout()->addWidget(images->stack);
-
-
-
-    toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
-    toneMapSlider->setTickPosition(QSlider::TicksAbove);
-    toneMapSlider->setValue(1);
+	resultStack->layout()->addWidget(result);
+	resultStack->layout()->addWidget(tonemapGamma);
+	resultStack->layout()->addWidget(tonemapSlider);
 
     result->getQLabel()->setScaledContents(false);
 	hdrbox->layout()->addWidget(result->getQLabel());
-    hdrbox->layout()->addWidget(toneMapGamma);
-    hdrbox->layout()->addWidget(toneMapSlider);
-    QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
-        toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
-		result->tonemapped = Tonemap::NONE;
+    QObject::connect(tonemapSlider, &QSlider::valueChanged, this, [=] () {
+        tonemapGamma->setText(QString::number(tonemapSlider->value() * 0.25f));
+		result->tonemapped = Tonemap::NONE; // rejoue la pipeline à partir de tonemap
 		executePipeline();
     });
 }
@@ -46,6 +48,7 @@ MainWindow::~MainWindow() {
 	delete result;
 	delete actionOpenFiles;
 	delete actionOpenFolder;
+	delete actionSave;
 	delete actionQuit;
 	delete actionAlignMTB;
 	delete actionGroupAlign;
@@ -65,6 +68,9 @@ MainWindow::~MainWindow() {
 	delete menuMerge;
 	delete menuTonemap;
 	delete zoomedWindow;
+	delete tonemapSlider;
+	delete tonemapGamma;
+	delete resultStack;
 }
 
 /**
@@ -79,6 +85,10 @@ void MainWindow::createActions() {
     actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
+    actionOpenFolder = new QAction(tr("&Save HDR image"), this);
+    actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    actionOpenFolder->setStatusTip(tr("Save HDR image"));
+    connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::save);
     actionQuit = new QAction(tr("&Quit"), this);
     actionQuit->setShortcut(QKeySequence(Qt::Key_Escape));
     actionQuit->setStatusTip(tr("Quit"));
@@ -242,12 +252,12 @@ void MainWindow::executePipeline() {
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Drago:
-				result->getImage()->tonemapDrago(toneMapSlider->value());
+				result->getImage()->tonemapDrago(tonemapSlider->value());
 				result->tonemapped = Tonemap::Drago;
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
-				result->getImage()->tonemapReinhard(toneMapSlider->value());
+				result->getImage()->tonemapReinhard(tonemapSlider->value());
 				result->tonemapped = Tonemap::Reinhard;
 				result->contrasted = Contrast::NONE;
 				break;
@@ -306,6 +316,18 @@ void MainWindow::openFolder() {
 	resetAll();
 	result->reset();
 	qDebug() << fileNames;
+}
+
+/**
+ * Enregistre l'image sur le système de fichiers.
+ */
+void MainWindow::save() {
+	if (result->merged != Merge::NONE) {
+		QString filename = QFileDialog::getSaveFileName();
+		result->getImage()->getQImage().save(filename);
+	} else {
+		std::cout << "No HDR image found.\n";
+	}
 }
 
 /**

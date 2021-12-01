@@ -66,12 +66,11 @@ QLabel* ImageWidget::getQLabel() {
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
-	double w = img.width() / 500.0;
-	double h = img.height() / 500.0;
+	double w = img.width() / 400.0;
+	double h = img.height() / 400.0;
 	if (w > h) {
 		label->resize(img.width() / w, img.height() / w);
-	}
-	else {
+	} else {
 		label->resize(img.width() / h, img.height() / h);
 	}
 	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
