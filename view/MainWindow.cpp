@@ -167,7 +167,7 @@ void MainWindow::createMenus() {
 /**
  * Réinitialise les actions (ce qui est coché est décoché).
  */
-void MainWindow::resetActions() {
+void MainWindow::resetAll() {
 	actionAlignMTB->setChecked(false);
 	actionMergeDebevec->setChecked(false);
 	actionMergeRobertson->setChecked(false);
@@ -177,6 +177,10 @@ void MainWindow::resetActions() {
 	actionTonemapReinhard->setChecked(false);
 	actionContrastNone->setChecked(false);
 	actionContrastHistogram->setChecked(false);
+	pipeline.align = Align::NONE;
+	pipeline.merge = Merge::NONE;
+	pipeline.tonemap = Tonemap::NONE;
+	pipeline.contrast = Contrast::NONE;
 }
 
 /**
@@ -201,17 +205,17 @@ void MainWindow::executePipeline() {
 			case Merge::NONE:
 				break;
 			case Merge::Debevec:
-				cache = Image(images->mergeDebevec().image);
+				cache = Image(images->mergeDebevec());
 				result->merged = Merge::Debevec;
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Robertson:
-				cache = Image(images->mergeRobertson().image);
+				cache = Image(images->mergeRobertson());
 				result->merged = Merge::Robertson;
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Mertens:
-				cache = Image(images->mergeMertens().image);
+				cache = Image(images->mergeMertens());
 				result->merged = Merge::Mertens;
 				result->tonemapped = Tonemap::NONE;
 				break;
@@ -270,7 +274,7 @@ void MainWindow::openFiles() {
 		return;
 	}
 	images->loadImages(fileNames);
-	resetActions();
+	resetAll();
 	result->reset();
 	qDebug() << fileNames;
 }
@@ -289,7 +293,7 @@ void MainWindow::openFolder() {
 		return;
 	}
 	images->loadImages(fileNames);
-	resetActions();
+	resetAll();
 	result->reset();
 	qDebug() << fileNames;
 }

@@ -30,6 +30,15 @@ Image::Image(const QString& filename) {
 }
 
 /**
+ * Constructeur par recopie
+ * @param image
+ */
+Image::Image(const Image &image) {
+	this->image = image.image.clone();
+	this->exposure = image.getExposure();
+}
+
+/**
  * Destructeur
  */
 Image::~Image() = default;

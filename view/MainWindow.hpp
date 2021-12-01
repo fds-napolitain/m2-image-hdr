@@ -50,7 +50,7 @@ private:
 	ZoomedWindow* zoomedWindow;
 	void createActions();
 	void createMenus();
-	void resetActions();
+	void resetAll();
 	void executePipeline();
 
 private slots:

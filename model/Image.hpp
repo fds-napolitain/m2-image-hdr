@@ -17,6 +17,7 @@ public:
 	Image();
 	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
+	Image(const Image& image);
 	~Image();
 	void loadImage(const QString& filename);
 	[[nodiscard]] QImage getQImage() const;
