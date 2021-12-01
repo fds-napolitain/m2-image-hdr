@@ -32,7 +32,6 @@ ImageWidget::~ImageWidget() {
  */
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
-    label->setGeometry(QRect(20, 10, 371, 311));
 	reloadImage();
     stack->layout()->addWidget(label);
 }

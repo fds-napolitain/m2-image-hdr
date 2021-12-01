@@ -243,13 +243,11 @@ void MainWindow::executePipeline() {
 				break;
 			case Tonemap::Drago:
 				result->getImage()->tonemapDrago(toneMapSlider->value());
-				result->reloadImage();
 				result->tonemapped = Tonemap::Drago;
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
 				result->getImage()->tonemapReinhard(toneMapSlider->value());
-				result->reloadImage();
 				result->tonemapped = Tonemap::Reinhard;
 				result->contrasted = Contrast::NONE;
 				break;
@@ -258,15 +256,14 @@ void MainWindow::executePipeline() {
 	if (result->merged != Merge::NONE && (result->contrasted != pipeline.contrast)) {
 		switch (pipeline.contrast) {
 			case Contrast::NONE:
-				result->reloadImage();
 				result->contrasted = Contrast::NONE;
 			case Contrast::Histogram:
 				result->getImage()->image = result->getImage()->calcEqualization(true);
-				result->reloadImage();
 				result->contrasted = Contrast::Histogram;
 				break;
 		}
 	}
+	result->reloadImage();
 	std::cout << "========== PIPELINE RUN END ===========\n";
 }
 
