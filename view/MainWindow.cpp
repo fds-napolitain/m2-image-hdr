@@ -11,15 +11,29 @@ MainWindow::MainWindow() : QMainWindow() {
 
 	createActions();
 	createMenus();
-
 	hdrbox = new QGroupBox(widget);
 	hdrbox->setLayout(new QVBoxLayout);
 	images = new StackImageWidget(hdrbox);
 	result = new ImageWidget(hdrbox);
+    toneMapGamma = new QLabel("0");
 	hdrbox->layout()->addWidget(images->stack);
 
+
+
+    toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
     result->getQLabel()->setScaledContents(false);
 	hdrbox->layout()->addWidget(result->getQLabel());
+    hdrbox->layout()->addWidget(toneMapGamma);
+    hdrbox->layout()->addWidget(toneMapSlider);
+    QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
+        toneMapGamma->setText(QString::number(toneMapSlider->value()));
+        if(result->merged != Merge::NONE){
+            Image temp = cache.clone();
+            result = temp;
+            result->getImage()->tonemapDrago(toneMapSlider->value());
+            result->reloadImage();
+        }
+    });
 }
 
 /**
@@ -225,7 +239,7 @@ void MainWindow::executePipeline() {
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Drago:
-				result->getImage()->tonemapDrago();
+				result->getImage()->tonemapDrago(toneMapSlider->value());
 				result->reloadImage();
 				result->tonemapped = Tonemap::Drago;
 				result->contrasted = Contrast::NONE;
