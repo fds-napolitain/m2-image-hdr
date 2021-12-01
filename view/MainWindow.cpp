@@ -284,7 +284,7 @@ void MainWindow::openFiles() {
  */
 void MainWindow::openFolder() {
     QDir directory(QFileDialog::getExistingDirectory(this, tr("Open folder"), "../images/"));
-	QStringList fileNames = directory.entryList(QStringList() << tr("*.jpg") << tr("*.JPG"), QDir::Files);
+	QStringList fileNames = directory.entryList(QStringList() << tr("*.jpg") << tr("*.JPG") << tr("*.png")  << tr("*.bmp"), QDir::Files);
 	for (QString& fileName: fileNames) {
 		fileName = directory.path().append(tr("/")).append(fileName);
 	}
