@@ -26,7 +26,7 @@ public:
 	float getAverageEntropy();
 	static std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
 	void tonemapDrago(float gamma);
-	void tonemapReinhard();
+	void tonemapReinhard(float gamma);
 	cv::Mat calcEqualization(bool clahe);
 
 };

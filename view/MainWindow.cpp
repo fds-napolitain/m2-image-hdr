@@ -15,13 +15,14 @@ MainWindow::MainWindow() : QMainWindow() {
 	hdrbox->setLayout(new QVBoxLayout);
 	images = new StackImageWidget(hdrbox);
 	result = new ImageWidget(hdrbox);
-    toneMapGamma = new QLabel("0");
+    toneMapGamma = new QLabel("1");
 	hdrbox->layout()->addWidget(images->stack);
 
 
 
     toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
     toneMapSlider->setTickPosition(QSlider::TicksAbove);
+    toneMapSlider->setValue(1);
 
     result->getQLabel()->setScaledContents(false);
 	hdrbox->layout()->addWidget(result->getQLabel());
@@ -29,12 +30,8 @@ MainWindow::MainWindow() : QMainWindow() {
     hdrbox->layout()->addWidget(toneMapSlider);
     QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
         toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
-        if(result->merged != Merge::NONE){
-
-            result->loadImage(cache);
-            result->getImage()->tonemapDrago(toneMapSlider->value() * 0.25f);
-            result->reloadImage();
-        }
+		result->tonemapped = Tonemap::NONE;
+		executePipeline();
     });
 }
 
@@ -251,7 +248,7 @@ void MainWindow::executePipeline() {
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
-				result->getImage()->tonemapReinhard();
+				result->getImage()->tonemapReinhard(toneMapSlider->value());
 				result->reloadImage();
 				result->tonemapped = Tonemap::Reinhard;
 				result->contrasted = Contrast::NONE;
