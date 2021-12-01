@@ -165,6 +165,21 @@ void MainWindow::createMenus() {
 }
 
 /**
+ * Réinitialise les actions (ce qui est coché est décoché).
+ */
+void MainWindow::resetActions() {
+	actionAlignMTB->setChecked(false);
+	actionMergeDebevec->setChecked(false);
+	actionMergeRobertson->setChecked(false);
+	actionMergeMertens->setChecked(false);
+	actionTonemapNone->setChecked(false);
+	actionTonemapDrago->setChecked(false);
+	actionTonemapReinhard->setChecked(false);
+	actionContrastNone->setChecked(false);
+	actionContrastHistogram->setChecked(false);
+}
+
+/**
  * Exécute toutes les actions
  */
 void MainWindow::executePipeline() {
@@ -255,6 +270,7 @@ void MainWindow::openFiles() {
 		return;
 	}
 	images->loadImages(fileNames);
+	resetActions();
 	result->reset();
 	qDebug() << fileNames;
 }
@@ -273,6 +289,7 @@ void MainWindow::openFolder() {
 		return;
 	}
 	images->loadImages(fileNames);
+	resetActions();
 	result->reset();
 	qDebug() << fileNames;
 }
