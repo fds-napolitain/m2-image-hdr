@@ -1,38 +1,52 @@
 #include "MainWindow.hpp"
 #include <QPixmap>
 #include <iostream>
-
+#include <QSizePolicy>
 /**
  * Fenêtre principale
  */
 MainWindow::MainWindow() : QMainWindow() {
 	widget = new QWidget;
+    QGridLayout* widgetLayout = new QGridLayout(widget);
+    widget->setLayout(widgetLayout);
+
+    //widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	setCentralWidget(widget);
 
-	createActions();
-	createMenus();
-	hdrbox = new QGroupBox(widget);
-	hdrbox->setLayout(new QVBoxLayout);
-	resultStack = new QGroupBox(hdrbox);
-	resultStack->setLayout(new QHBoxLayout);
+    createActions();
+    createMenus();
+    hdrbox      = new QGroupBox(widget);
+    settingsBox = new QGroupBox(widget);
+//    settingsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-	images = new StackImageWidget(hdrbox);
-	result = new ImageWidget(resultStack);
-	tonemapGamma = new QLabel("1");
-	tonemapSlider = new QSlider(Qt::Horizontal, resultStack);
-	tonemapSlider->setTickPosition(QSlider::TicksAbove);
-	tonemapSlider->setValue(1);
 
-	hdrbox->layout()->addWidget(images->stack);
-	resultStack->layout()->addWidget(result);
-	resultStack->layout()->addWidget(tonemapGamma);
-	resultStack->layout()->addWidget(tonemapSlider);
+
+
+    hdrbox->setLayout(new QVBoxLayout);
+    settingsBox->setLayout(new QVBoxLayout);
+   // settingsBox->layout()->setContentsMargins(0,0,1500,0);
+    images = new StackImageWidget(hdrbox);
+    result = new ImageWidget(hdrbox);
+    hdrbox->layout()->addWidget(images->stack);
+
+    toneMapGamma = new QLabel("1");
+    toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
+    toneMapSlider->setTickPosition(QSlider::TicksAbove);
+    toneMapSlider->setValue(1);
+    settingsBox->layout()->addWidget(toneMapSlider);
+    settingsBox->layout()->addWidget(toneMapGamma);
+    widgetLayout->addWidget(hdrbox,0,0,1,8);
+    widgetLayout->addWidget(settingsBox,1,0,1,2);
+
+
+
+
 
     result->getQLabel()->setScaledContents(false);
-	hdrbox->layout()->addWidget(result->getQLabel());
-    QObject::connect(tonemapSlider, &QSlider::valueChanged, this, [=] () {
-        tonemapGamma->setText(QString::number(tonemapSlider->value() * 0.25f));
-		result->tonemapped = Tonemap::NONE; // rejoue la pipeline à partir de tonemap
+    hdrbox->layout()->addWidget(result->getQLabel());
+    QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
+        toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
+		result->tonemapped = Tonemap::NONE;
 		executePipeline();
     });
 }

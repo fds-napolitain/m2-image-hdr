@@ -44,9 +44,9 @@ private:
 	// widget d'affichage et fonctionnels
 	QWidget* widget;
 	QGroupBox* hdrbox;
-	QGroupBox* resultStack;
-    QLabel* tonemapGamma;
-    QSlider* tonemapSlider;
+    QGroupBox* settingsBox;
+    QLabel* toneMapGamma;
+    QSlider* toneMapSlider;
 	StackImageWidget* images;
 	ImageWidget* result;
 	Image cache;
