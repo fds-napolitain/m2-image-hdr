@@ -9,14 +9,13 @@
 
 Image::Image() = default;
 
-Image::Image(cv::Mat image) {
-	this->image = std::move(image);
+Image::Image(const cv::Mat& image) {
+	this->image = image.clone();
 }
 
 /**
  * Initialise une image avec OpenCV.
  * @param filename
- * @param isHDR
  */
 Image::Image(const QString& filename) {
 	loadImage(filename);
@@ -74,6 +73,15 @@ float Image::getExposure() const {
 	return exposure;
 }
 
+/**
+ * Renvoit l'histogramme
+ * @param mat
+ * @param size
+ * @param minRange
+ * @param maxRange
+ * @param result
+ * @return
+ */
 std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result) {
 
 	std::vector<cv::Mat> bgr_planes;

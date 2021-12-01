@@ -45,6 +45,7 @@ private:
 	QGroupBox* hdrbox;
 	StackImageWidget* images;
 	ImageWidget* result;
+	Image cache;
 	Pipeline pipeline;
 	ZoomedWindow* zoomedWindow;
 	void createActions();

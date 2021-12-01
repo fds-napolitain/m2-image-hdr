@@ -97,6 +97,7 @@ void MainWindow::createActions() {
 	connect(actionMergeMertens, &QAction::triggered, this, &MainWindow::mergeMertens);
 	actionGroupMerge = new QActionGroup(this);
 	actionGroupMerge->addAction(actionMergeDebevec);
+	actionGroupMerge->addAction(actionMergeRobertson);
 	actionGroupMerge->addAction(actionMergeMertens);
 	actionGroupMerge->setExclusive(true);
 
@@ -171,48 +172,54 @@ void MainWindow::executePipeline() {
 	if (images->aligned != pipeline.align) {
 		switch (pipeline.align) {
 			case Align::NONE:
+				result->merged = Merge::NONE;
 				break;
 			case Align::MTB:
 				images->alignMTB();
 				images->aligned = Align::MTB;
+				result->merged = Merge::NONE;
 				break;
 		}
 	}
-	if (result->merged != pipeline.merge || result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast) {
+	if (result->merged != pipeline.merge) {
 		switch (pipeline.merge) {
 			case Merge::NONE:
 				break;
 			case Merge::Debevec:
-				result->loadImage(images->mergeDebevec());
+				cache = Image(images->mergeDebevec().image);
 				result->merged = Merge::Debevec;
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Robertson:
-				result->loadImage(images->mergeRobertson());
+				cache = Image(images->mergeRobertson().image);
 				result->merged = Merge::Robertson;
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Mertens:
-				result->loadImage(images->mergeMertens());
+				cache = Image(images->mergeMertens().image);
 				result->merged = Merge::Mertens;
-                result->tonemapped = Tonemap::NONE;
+				result->tonemapped = Tonemap::NONE;
 				break;
 		}
+		result->loadImage(cache);
 	}
 	if (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast) {
+		result->loadImage(cache);
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
-				result->reloadImage();
+				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Drago:
 				result->getImage()->tonemapDrago();
 				result->reloadImage();
 				result->tonemapped = Tonemap::Drago;
+				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
 				result->getImage()->tonemapReinhard();
 				result->reloadImage();
 				result->tonemapped = Tonemap::Reinhard;
+				result->contrasted = Contrast::NONE;
 				break;
 		}
 	}

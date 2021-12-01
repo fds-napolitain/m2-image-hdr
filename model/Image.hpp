@@ -15,7 +15,7 @@ private:
 public:
 	cv::Mat image;
 	Image();
-	explicit Image(cv::Mat image);
+	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
 	~Image();
 	void loadImage(const QString& filename);

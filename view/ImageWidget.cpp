@@ -42,7 +42,7 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  * @param image à copier
  */
 void ImageWidget::loadImage(const Image& image) {
-	this->image = Image(image);
+	this->image = Image(image.image);
 	reloadImage();
 }
 
@@ -67,8 +67,8 @@ QLabel* ImageWidget::getQLabel() {
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
-	double w = img.width() / 200.0;
-	double h = img.height() / 300.0;
+	double w = img.width() / 500.0;
+	double h = img.height() / 500.0;
 	if (w > h) {
 		label->resize(img.width() / w, img.height() / w);
 	}

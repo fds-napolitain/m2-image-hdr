@@ -27,9 +27,8 @@ public:
 	// -- méthodes hdr
 	void alignMTB();
 	Image mergeDebevec();
-	Image mergeMertens();
-
 	Image mergeRobertson();
+	Image mergeMertens();
 };
 
 
