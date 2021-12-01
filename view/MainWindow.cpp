@@ -238,7 +238,7 @@ void MainWindow::executePipeline() {
 		}
 		result->loadImage(cache);
 	}
-	if (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast) {
+	if (result->merged != Merge::NONE && (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast)) {
 		result->loadImage(cache);
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
@@ -258,7 +258,7 @@ void MainWindow::executePipeline() {
 				break;
 		}
 	}
-	if (result->contrasted != pipeline.contrast) {
+	if (result->merged != Merge::NONE && (result->contrasted != pipeline.contrast)) {
 		switch (pipeline.contrast) {
 			case Contrast::NONE:
 				result->reloadImage();
