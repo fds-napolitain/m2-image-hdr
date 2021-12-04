@@ -2,8 +2,8 @@
 // Created by edgar on 01/12/2021.
 //
 
-#ifndef QTHDR_TONEMAPSETTINGS_H
-#define QTHDR_TONEMAPSETTINGS_H
+#ifndef QTHDR_TONEMAPSETTINGS_HPP
+#define QTHDR_TONEMAPSETTINGS_HPP
 #include <QWidget>
 #include <QSlider>
 #include <QLabel>
@@ -41,4 +41,4 @@ private:
 };
 
 
-#endif //QTHDR_TONEMAPSETTINGS_H
+#endif //QTHDR_TONEMAPSETTINGS_HPP

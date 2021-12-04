@@ -29,12 +29,12 @@ MainWindow::MainWindow() : QMainWindow() {
     result = new ImageWidget(hdrbox);
     hdrbox->layout()->addWidget(images->stack);
 
-    toneMapGamma = new QLabel("1");
-    toneMapSlider = new QSlider(Qt::Horizontal, hdrbox);
-    toneMapSlider->setTickPosition(QSlider::TicksAbove);
-    toneMapSlider->setValue(1);
-    settingsBox->layout()->addWidget(toneMapSlider);
-    settingsBox->layout()->addWidget(toneMapGamma);
+    tonemapGamma = new QLabel("1");
+    tonemapSlider = new QSlider(Qt::Horizontal, hdrbox);
+    tonemapSlider->setTickPosition(QSlider::TicksAbove);
+    tonemapSlider->setValue(1);
+    settingsBox->layout()->addWidget(tonemapSlider);
+    settingsBox->layout()->addWidget(tonemapGamma);
     widgetLayout->addWidget(hdrbox,0,0,1,8);
     widgetLayout->addWidget(settingsBox,1,0,1,2);
 
@@ -44,8 +44,8 @@ MainWindow::MainWindow() : QMainWindow() {
 
     result->getQLabel()->setScaledContents(false);
     hdrbox->layout()->addWidget(result->getQLabel());
-    QObject::connect(toneMapSlider, &QSlider::valueChanged, this, [=] () {
-        toneMapGamma->setText(QString::number(toneMapSlider->value() * 0.25f));
+    QObject::connect(tonemapSlider, &QSlider::valueChanged, this, [=] () {
+        tonemapGamma->setText(QString::number(tonemapSlider->value() * 0.25f));
 		result->tonemapped = Tonemap::NONE;
 		executePipeline();
     });
@@ -84,7 +84,6 @@ MainWindow::~MainWindow() {
 	delete zoomedWindow;
 	delete tonemapSlider;
 	delete tonemapGamma;
-	delete resultStack;
 }
 
 /**
