@@ -22,7 +22,7 @@ void StackImage::addImage(Image *image, int i) {
 std::vector<cv::Mat> StackImage::getMatrices() {
 	std::vector<cv::Mat> matrices(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		matrices[i] = images[i]->image;
+		matrices[i] = images[i]->matrix;
 	}
 	return matrices;
 }
@@ -102,4 +102,24 @@ Image StackImage::mergeMertens() {
 	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
 	mergeMertens->process(matrices, resultMertens);
 	return Image(resultMertens);
+}
+
+/**
+ * Must be aligned first, MTB for example.
+ * @return
+ */
+Image StackImage::mergeDenoise() {
+	cv::Mat resultDenoise(cv::Size(images[0]->matrix.rows, images[0]->matrix.cols), CV_8UC3);
+	resultDenoise = 0;
+	unsigned char *p = resultDenoise.data;
+	for (const auto &image: images) {
+		unsigned char *q = image->matrix.data;
+		for (int i = 0; i < image->matrix.total(); ++i) {
+			*p += *q;
+			q++;
+		}
+		p++;
+	}
+	resultDenoise /= images.size();
+	return Image(resultDenoise);
 }

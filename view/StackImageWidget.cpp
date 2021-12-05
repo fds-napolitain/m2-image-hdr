@@ -8,7 +8,7 @@
 StackImageWidget::StackImageWidget() = default;
 
 /**
- * Crée un stack d'image à partir d'un parent
+ * Crée un stack d'matrix à partir d'un parent
  * @param parent
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
@@ -98,4 +98,13 @@ Image StackImageWidget::mergeRobertson() {
 Image StackImageWidget::mergeMertens() {
 	std::cout << "3. Exécute le merge de Mertens.\n";
 	return getImages().mergeMertens();
+}
+
+/**
+ * Applique le merge de Mertens sur une StackImage.
+ * @return
+ */
+Image StackImageWidget::mergeDenoise() {
+	std::cout << "3. Exécute le merge de débruitage.\n";
+	return getImages().mergeDenoise();
 }

@@ -10,11 +10,11 @@
 Image::Image() = default;
 
 Image::Image(const cv::Mat& image) {
-	this->image = image.clone();
+	this->matrix = image.clone();
 }
 
 /**
- * Initialise une image avec OpenCV.
+ * Initialise une matrix avec OpenCV.
  * @param filename
  */
 Image::Image(const QString& filename) {
@@ -39,7 +39,7 @@ Image::Image(const QString& filename) {
  * @param image
  */
 Image::Image(const Image &image) {
-	this->image = image.image.clone();
+	this->matrix = image.matrix.clone();
 	this->exposure = image.getExposure();
 }
 
@@ -49,11 +49,11 @@ Image::Image(const Image &image) {
 Image::~Image() = default;
 
 /**
- * Charge une image avec OpenCV
- * @param filename chemin d'accès à l'image
+ * Charge une matrix avec OpenCV
+ * @param filename chemin d'accès à l'matrix
  */
 void Image::loadImage(const QString& filename) {
-	image = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
+	matrix = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
 }
 
 /**
@@ -62,8 +62,8 @@ void Image::loadImage(const QString& filename) {
  */
 std::string Image::getFlags() const {
 	std::string r;
-	uchar depth = image.type() & CV_MAT_DEPTH_MASK;
-	uchar chans = 1 + (image.type() >> CV_CN_SHIFT);
+	uchar depth = matrix.type() & CV_MAT_DEPTH_MASK;
+	uchar chans = 1 + (matrix.type() >> CV_CN_SHIFT);
 	switch (depth) {
 		case CV_8U:  r = "8U"; break;
 		case CV_8S:  r = "8S"; break;
@@ -85,16 +85,16 @@ std::string Image::getFlags() const {
  */
 cv::Mat Image::getMatrix() const {
 	if (getFlags() == "32FC3") {
-		cv::Mat image8 = cv::Mat(image.size(), CV_8UC3);
-		image.convertTo(image8, CV_8UC3, 255);
+		cv::Mat image8 = cv::Mat(matrix.size(), CV_8UC3);
+		matrix.convertTo(image8, CV_8UC3, 255);
 		return image8;
 	} else {
-		return image.clone();
+		return matrix.clone();
 	}
 }
 
 /**
- * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).
+ * Retourne une matrix au format QImage (à utiliser dans les widgets UI Qt).
  * @return
  */
 QImage Image::getQImage() const {
@@ -104,7 +104,7 @@ QImage Image::getQImage() const {
 }
 
 /**
- * Retourne le temps d'exposition de l'image
+ * Retourne le temps d'exposition de l'matrix
  * @return
  */
 float Image::getExposure() const {
@@ -204,8 +204,8 @@ float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
 	cv::Mat value;
 	cv::cvtColor(mat, value, cv::COLOR_BGR2GRAY);
-	constexpr int boxOffset = 8; // nombre de sous image par longueur
-	const int w = value.rows / boxOffset; // longueur, largeur sous image
+	constexpr int boxOffset = 8; // nombre de sous matrix par longueur
+	const int w = value.rows / boxOffset; // longueur, largeur sous matrix
 	const int h = value.cols / boxOffset;
 
     float entropy = 0.0; // entropie moyenne
@@ -234,21 +234,21 @@ float Image::getAverageEntropy() {
 }
 
 /**
- * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
+ * Applique sur place une matrix à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
 void Image::tonemapDrago( float gamma = 1.0, float saturation = 1.0, float bias = 0.85) {
 	std::cout << "4. Exécute le mappage ton-local de Drago\n";
 	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(gamma, saturation, bias);
-	tonemap->process(image, image);
+	tonemap->process(matrix, matrix);
 }
 
 /**
- * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
+ * Applique sur place une matrix à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
 void Image::tonemapReinhard(float gamma = 1.0, float intensity = 0.0, float lightAdapt = 1.0, float colorAdapt = 0.0) {
 	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
 	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard(gamma, intensity,lightAdapt,colorAdapt);
-	tonemap->process(image, image);
+	tonemap->process(matrix, matrix);
 }

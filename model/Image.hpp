@@ -5,7 +5,7 @@
 #include <opencv2/opencv.hpp>
 
 /**
- * Classe qui fait le pont entre une cv::Mat opencv (pour le traitement d'image) et QImage (pour l'interface graphique).
+ * Classe qui fait le pont entre une cv::Mat opencv (pour le traitement d'matrix) et QImage (pour l'interface graphique).
  */
 class Image {
 
@@ -13,7 +13,7 @@ private:
 	float exposure;
 	[[nodiscard]] cv::Mat getMatrix() const;
 public:
-	cv::Mat image;
+	cv::Mat matrix;
 	Image();
 	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
@@ -21,7 +21,7 @@ public:
 	~Image();
 	void loadImage(const QString& filename);
 	[[nodiscard]] std::string getFlags() const;
-	// -- méthodes sur une image
+	// -- méthodes sur une matrix
 	[[nodiscard]] float getExposure() const;
 	[[nodiscard]] QImage getQImage() const;
 	float getAverageEntropy();

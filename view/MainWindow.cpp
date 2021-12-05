@@ -104,9 +104,9 @@ void MainWindow::createActions() {
     actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
-    actionSave = new QAction(tr("&Save HDR image"), this);
+    actionSave = new QAction(tr("&Save HDR matrix"), this);
     actionSave->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
-    actionSave->setStatusTip(tr("Save HDR image"));
+    actionSave->setStatusTip(tr("Save HDR matrix"));
     connect(actionSave, &QAction::triggered, this, &MainWindow::save);
     actionQuit = new QAction(tr("&Quit"), this);
     actionQuit->setShortcut(QKeySequence(Qt::Key_Escape));
@@ -137,6 +137,10 @@ void MainWindow::createActions() {
 	actionMergeMertens->setStatusTip(tr("Merge files with Mertens method"));
 	actionMergeMertens->setCheckable(true);
 	connect(actionMergeMertens, &QAction::triggered, this, &MainWindow::mergeMertens);
+	actionMergeDenoise = new QAction(tr("&Merge to denoise"), this);
+	actionMergeDenoise->setStatusTip(tr("Merge denoising using average stacking method."));
+	actionMergeDenoise->setCheckable(true);
+	connect(actionMergeDenoise, &QAction::triggered, this, &MainWindow::mergeDenoise);
 	actionMergeKalantari = new QAction(tr("&Merged with Kalantari"), this);
 	actionMergeKalantari->setCheckable(true);
 	actionGroupMerge = new QActionGroup(this);
@@ -153,12 +157,12 @@ void MainWindow::createActions() {
 	connect(actionTonemapNone, &QAction::triggered, this, &MainWindow::tonemapNone);
 	actionTonemapDrago = new QAction(tr("&Tonemap with Drago"), this);
 	actionTonemapDrago->setShortcut(QKeySequence(Qt::Key_D));
-	actionTonemapDrago->setStatusTip(tr("Map images to a LDR image using Drago method"));
+	actionTonemapDrago->setStatusTip(tr("Map images to a LDR matrix using Drago method"));
 	actionTonemapDrago->setCheckable(true);
 	connect(actionTonemapDrago, &QAction::triggered, this, &MainWindow::tonemapDrago);
 	actionTonemapReinhard = new QAction(tr("&Tonemap with Reinhard"), this);
 	actionTonemapReinhard->setShortcut(QKeySequence(Qt::Key_C));
-	actionTonemapReinhard->setStatusTip(tr("Map images to a LDR image using Reinhard method"));
+	actionTonemapReinhard->setStatusTip(tr("Map images to a LDR matrix using Reinhard method"));
 	actionTonemapReinhard->setCheckable(true);
 	connect(actionTonemapReinhard, &QAction::triggered, this, &MainWindow::tonemapReinhard);
 	actionGroupTonemap = new QActionGroup(this);
@@ -199,7 +203,8 @@ void MainWindow::createMenus() {
 	menuMerge->addAction(actionMergeDebevec);
 	menuMerge->addAction(actionMergeRobertson);
 	menuMerge->addAction(actionMergeMertens);
-	menuMerge->addAction(actionMergeKalantari);
+	menuMerge->addAction(actionMergeDenoise);
+	//menuMerge->addAction(actionMergeKalantari);
 
 	menuTonemap = menuBar()->addMenu(tr("&Tonemap"));
 	menuTonemap->addAction(actionTonemapNone);
@@ -266,8 +271,13 @@ void MainWindow::executePipeline() {
 				result->merged = Merge::Mertens;
 				result->tonemapped = Tonemap::NONE;
 				break;
+			case Merge::Denoising:
+				cache = Image(images->mergeDenoise());
+				result->merged = Merge::Denoising;
+				result->tonemapped = Tonemap::NONE;
+				break;
 			case Merge::Kalantari:
-				cache = Image(result->getImage()->image);
+				cache = Image(result->getImage()->matrix);
 				result->merged = Merge::Kalantari;
 				result->tonemapped = Tonemap::NONE;
 				break;
@@ -300,7 +310,7 @@ void MainWindow::executePipeline() {
 			case Contrast::NONE:
 				result->contrasted = Contrast::NONE;
 			case Contrast::Histogram:
-				result->getImage()->image = result->getImage()->calcEqualization(true);
+				result->getImage()->matrix = result->getImage()->calcEqualization(true);
 				result->contrasted = Contrast::Histogram;
 				break;
 		}
@@ -358,15 +368,15 @@ void MainWindow::openFolder() {
 }
 
 /**
- * Enregistre l'image sur le système de fichiers.
+ * Enregistre l'matrix sur le système de fichiers.
  */
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
 		std::string filename = QFileDialog::getSaveFileName().toStdString();
-		cv::imwrite(filename, result->getImage()->image);
-		std::cout << "HDR image saved to " << filename << ".\n";
+		cv::imwrite(filename, result->getImage()->matrix);
+		std::cout << "HDR matrix saved to " << filename << ".\n";
 	} else {
-		std::cout << "No HDR image found.\n";
+		std::cout << "No HDR matrix found.\n";
 	}
 }
 
@@ -399,6 +409,14 @@ void MainWindow::mergeRobertson() {
  */
 void MainWindow::mergeMertens() {
 	pipeline.merge = Merge::Mertens;
+	executePipeline();
+}
+
+/**
+ * Slot action: merge les images avec la méthode de Debevec.
+ */
+void MainWindow::mergeDenoise() {
+	pipeline.merge = Merge::Denoising;
 	executePipeline();
 }
 

@@ -27,7 +27,7 @@ ImageWidget::~ImageWidget() {
 }
 
 /**
- * Charge une image et initialise ses composants graphiques.
+ * Charge une matrix et initialise ses composants graphiques.
  * @param filename
  */
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
@@ -37,16 +37,16 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 }
 
 /**
- * Charge une image à partir d'une image existante.
+ * Charge une matrix à partir d'une matrix existante.
  * @param image à copier
  */
 void ImageWidget::loadImage(const Image& image) {
-	this->image = Image(image.image);
+	this->image = Image(image.matrix);
 	reloadImage();
 }
 
 /**
- * Retourne l'image avec cv::Mat
+ * Retourne l'matrix avec cv::Mat
  * @return
  */
 Image* ImageWidget::getImage() {
@@ -54,7 +54,7 @@ Image* ImageWidget::getImage() {
 }
 
 /**
- * Retourne le label d'affichage de l'image.
+ * Retourne le label d'affichage de l'matrix.
  * @return
  */
 QLabel* ImageWidget::getQLabel() {
@@ -62,7 +62,7 @@ QLabel* ImageWidget::getQLabel() {
 }
 
 /**
- * Recharge l'image sur la page.
+ * Recharge l'matrix sur la page.
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
@@ -78,7 +78,7 @@ void ImageWidget::reloadImage() {
 }
 
 /**
- * Reset image view
+ * Reset matrix view
  */
 void ImageWidget::reset() {
 	label->clear();

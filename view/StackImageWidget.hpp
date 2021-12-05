@@ -29,6 +29,7 @@ public:
 	Image mergeDebevec();
 	Image mergeRobertson();
 	Image mergeMertens();
+	Image mergeDenoise();
 };
 
 

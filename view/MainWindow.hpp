@@ -35,6 +35,7 @@ private:
 	QAction* actionMergeDebevec;
 	QAction* actionMergeRobertson;
 	QAction* actionMergeMertens;
+	QAction* actionMergeDenoise;
 	QAction* actionMergeKalantari;
 	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapNone;
@@ -68,6 +69,7 @@ private slots:
 	void mergeDebevec();
 	void mergeRobertson();
 	void mergeMertens();
+	void mergeDenoise();
 	void tonemapNone();
 	void tonemapDrago();
 	void tonemapReinhard();

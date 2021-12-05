@@ -15,7 +15,7 @@
 #include <QMouseEvent>
 
 /**
- * Widget englobant une image.
+ * Widget englobant une matrix.
  */
 class ImageWidget : public QWidget {
 
