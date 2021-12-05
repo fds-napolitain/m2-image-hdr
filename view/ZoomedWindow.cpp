@@ -46,7 +46,7 @@ void ZoomedWindow::createMenus() {
 }
 
 /**
- * Initialise l'matrix
+ * Initialise l'image
  */
 void ZoomedWindow::setImage(const Image& image) {
 	result->loadImage(image);

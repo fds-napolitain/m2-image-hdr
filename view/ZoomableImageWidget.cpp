@@ -5,7 +5,7 @@
 #include "ZoomableImageWidget.hpp"
 
 /**
- * Ouvrir une matrix en plein écran dans une deuxième fenêtre.
+ * Ouvrir une image en plein écran dans une deuxième fenêtre.
  * @param e
  */
 void ZoomableImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {

@@ -8,7 +8,7 @@
 StackImageWidget::StackImageWidget() = default;
 
 /**
- * Crée un stack d'matrix à partir d'un parent
+ * Crée un stack d'images à partir d'un parent
  * @param parent
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {

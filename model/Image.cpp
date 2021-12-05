@@ -14,7 +14,7 @@ Image::Image(const cv::Mat& image) {
 }
 
 /**
- * Initialise une matrix avec OpenCV.
+ * Initialise une image avec OpenCV.
  * @param filename
  */
 Image::Image(const QString& filename) {
@@ -49,8 +49,8 @@ Image::Image(const Image &image) {
 Image::~Image() = default;
 
 /**
- * Charge une matrix avec OpenCV
- * @param filename chemin d'accès à l'matrix
+ * Charge une image avec OpenCV
+ * @param filename chemin d'accès à l'image
  */
 void Image::loadImage(const QString& filename) {
 	matrix = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
@@ -94,7 +94,7 @@ cv::Mat Image::getMatrix() const {
 }
 
 /**
- * Retourne une matrix au format QImage (à utiliser dans les widgets UI Qt).
+ * Retourne une image au format QImage (à utiliser dans les widgets UI Qt).
  * @return
  */
 QImage Image::getQImage() const {
@@ -104,7 +104,7 @@ QImage Image::getQImage() const {
 }
 
 /**
- * Retourne le temps d'exposition de l'matrix
+ * Retourne le temps d'exposition de l'image
  * @return
  */
 float Image::getExposure() const {
@@ -234,7 +234,7 @@ float Image::getAverageEntropy() {
 }
 
 /**
- * Applique sur place une matrix à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
+ * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
 void Image::tonemapDrago( float gamma = 1.0, float saturation = 1.0, float bias = 0.85) {
@@ -244,7 +244,7 @@ void Image::tonemapDrago( float gamma = 1.0, float saturation = 1.0, float bias 
 }
 
 /**
- * Applique sur place une matrix à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
+ * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
 void Image::tonemapReinhard(float gamma = 1.0, float intensity = 0.0, float lightAdapt = 1.0, float colorAdapt = 0.0) {

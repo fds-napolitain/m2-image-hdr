@@ -368,15 +368,15 @@ void MainWindow::openFolder() {
 }
 
 /**
- * Enregistre l'matrix sur le système de fichiers.
+ * Enregistre l'image sur le système de fichiers.
  */
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
 		std::string filename = QFileDialog::getSaveFileName().toStdString();
 		cv::imwrite(filename, result->getImage()->matrix);
-		std::cout << "HDR matrix saved to " << filename << ".\n";
+		std::cout << "HDR image saved to " << filename << ".\n";
 	} else {
-		std::cout << "No HDR matrix found.\n";
+		std::cout << "No HDR image found.\n";
 	}
 }
 
