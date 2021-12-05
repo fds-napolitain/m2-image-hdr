@@ -14,14 +14,13 @@ private:
 	[[nodiscard]] cv::Mat getMatrix() const;
 public:
 	cv::Mat image;
-	int flags;
 	Image();
 	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
 	Image(const Image& image);
 	~Image();
 	void loadImage(const QString& filename);
-	[[nodiscard]] std::string printFlags() const;
+	[[nodiscard]] std::string getFlags() const;
 	// -- méthodes sur une image
 	[[nodiscard]] float getExposure() const;
 	[[nodiscard]] QImage getQImage() const;
