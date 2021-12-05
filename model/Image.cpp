@@ -20,7 +20,6 @@ Image::Image(const cv::Mat& image) {
 Image::Image(const QString& filename) {
 	if (filename.endsWith(".hdr")) {
 		loadImage(filename);
-		std::cout << " f:" << this->flags << " ";
 	} else {
 		loadImage(filename);
 		QStringList tmp = filename.split('/');
@@ -55,11 +54,13 @@ Image::~Image() = default;
  */
 void Image::loadImage(const QString& filename) {
 	image = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
-	std::cout << "Depth: " << printFlags() << "\n";
-	this->flags = flags;
 }
 
-std::string Image::printFlags() const {
+/**
+ * Retourne le flags (CV_8C3 etc...)
+ * @return
+ */
+std::string Image::getFlags() const {
 	std::string r;
 	uchar depth = image.type() & CV_MAT_DEPTH_MASK;
 	uchar chans = 1 + (image.type() >> CV_CN_SHIFT);
@@ -83,8 +84,8 @@ std::string Image::printFlags() const {
  * @return
  */
 cv::Mat Image::getMatrix() const {
-	if (image.depth() == 5) {
-		cv::Mat image8;
+	if (getFlags() == "32FC3") {
+		cv::Mat image8 = cv::Mat(image.size(), CV_8UC3);
 		image.convertTo(image8, CV_8UC3, 255);
 		return image8;
 	} else {
@@ -98,6 +99,7 @@ cv::Mat Image::getMatrix() const {
  */
 QImage Image::getQImage() const {
 	cv::Mat mat = getMatrix();
+	std::cout << Image(mat).getFlags();
 	return QImage((uchar*) mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888).rgbSwapped();
 }
 
