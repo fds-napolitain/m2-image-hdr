@@ -5,7 +5,7 @@
 Une fois sur la page, cliquer sur Assets pour avoir les différents fichiers relatifs à la release qu'on choisit. 
 Les release sont classés par ordre chronologique inverse (récent vers ancien).
 
-https://github.com/fds-napolitain/m2-matrix-hdr/releases
+https://github.com/fds-napolitain/m2-image-hdr/releases
 
 ### Comment compiler
 
