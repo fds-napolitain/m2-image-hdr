@@ -235,9 +235,9 @@ float Image::getAverageEntropy() {
  * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
-void Image::tonemapDrago( float gamma = 1.0) {
+void Image::tonemapDrago( float gamma = 1.0, float saturation = 1.0, float bias = 0.85) {
 	std::cout << "4. Exécute le mappage ton-local de Drago\n";
-	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(gamma);
+	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(gamma, saturation, bias);
 	tonemap->process(image, image);
 }
 
@@ -245,8 +245,8 @@ void Image::tonemapDrago( float gamma = 1.0) {
  * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
-void Image::tonemapReinhard(float gamma = 1.0) {
+void Image::tonemapReinhard(float gamma = 1.0, float intensity = 0.0, float lightAdapt = 1.0, float colorAdapt = 0.0) {
 	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
-	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard(gamma);
+	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard(gamma, intensity,lightAdapt,colorAdapt);
 	tonemap->process(image, image);
 }

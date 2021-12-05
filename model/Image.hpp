@@ -27,8 +27,8 @@ public:
 	[[nodiscard]] QImage getQImage() const;
 	float getAverageEntropy();
 	static std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
-	void tonemapDrago(float gamma);
-	void tonemapReinhard(float gamma);
+	void tonemapDrago(float gamma, float saturation, float bias);
+	void tonemapReinhard(float gamma, float intensity, float lightAdapt, float colorAdapt);
 	cv::Mat calcEqualization(bool clahe);
 
 };
