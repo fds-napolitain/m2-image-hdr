@@ -30,7 +30,7 @@ Image::Image(const QString& filename) {
 		} else {
 			this->exposure = tmp.at(0).toFloat();
 		}
-		std::cout << this->exposure << "\n";
+		std::cout << "Exposure: " << this->exposure << "\n";
 	}
 }
 
@@ -99,7 +99,7 @@ cv::Mat Image::getMatrix() const {
  */
 QImage Image::getQImage() const {
 	cv::Mat mat = getMatrix();
-	std::cout << Image(mat).getFlags();
+	std::cout << "Profondeur: " << Image(mat).getFlags() << "\n";
 	return QImage((uchar*) mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888).rgbSwapped();
 }
 

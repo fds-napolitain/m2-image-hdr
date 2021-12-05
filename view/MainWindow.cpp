@@ -38,10 +38,6 @@ MainWindow::MainWindow() : QMainWindow() {
     widgetLayout->addWidget(hdrbox,0,0,1,8);
     widgetLayout->addWidget(settingsBox,1,0,1,2);
 
-
-
-
-
     result->getQLabel()->setScaledContents(false);
     hdrbox->layout()->addWidget(result->getQLabel());
     QObject::connect(tonemapSlider, &QSlider::valueChanged, this, [=] () {
@@ -353,8 +349,9 @@ void MainWindow::openFolder() {
  */
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
-		QString filename = QFileDialog::getSaveFileName();
-		result->getImage()->getQImage().save(filename);
+		std::string filename = QFileDialog::getSaveFileName().toStdString();
+		cv::imwrite(filename, result->getImage()->image);
+		std::cout << "HDR image saved to " << filename << ".\n";
 	} else {
 		std::cout << "No HDR image found.\n";
 	}
