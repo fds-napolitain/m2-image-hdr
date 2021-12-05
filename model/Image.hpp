@@ -14,15 +14,17 @@ private:
 	[[nodiscard]] cv::Mat getMatrix() const;
 public:
 	cv::Mat image;
+	int flags;
 	Image();
 	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
 	Image(const Image& image);
 	~Image();
 	void loadImage(const QString& filename);
-	[[nodiscard]] QImage getQImage() const;
+	[[nodiscard]] std::string printFlags() const;
 	// -- méthodes sur une image
 	[[nodiscard]] float getExposure() const;
+	[[nodiscard]] QImage getQImage() const;
 	float getAverageEntropy();
 	static std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
 	void tonemapDrago(float gamma);

@@ -34,6 +34,7 @@ private:
 	QAction* actionMergeDebevec;
 	QAction* actionMergeRobertson;
 	QAction* actionMergeMertens;
+	QAction* actionMergeKalantari;
 	QActionGroup* actionGroupTonemap;
 	QAction* actionTonemapNone;
 	QAction* actionTonemapDrago;

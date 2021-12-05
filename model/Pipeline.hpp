@@ -16,6 +16,7 @@ enum class Merge {
 	Debevec,
 	Mertens,
 	Robertson,
+	Kalantari,
 };
 
 enum class Tonemap {

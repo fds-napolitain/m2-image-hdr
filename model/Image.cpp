@@ -18,15 +18,21 @@ Image::Image(const cv::Mat& image) {
  * @param filename
  */
 Image::Image(const QString& filename) {
-	loadImage(filename);
-	QStringList tmp = filename.split('/');
-	tmp = tmp.at(tmp.size()-1).split('_').at(1).split('.');
-	if (tmp.size() == 3) { // floating point
-		this->exposure = (tmp.at(0) + "." + tmp.at(1)).toFloat();
+	if (filename.endsWith(".hdr")) {
+		loadImage(filename);
+		std::cout << " f:" << this->flags << " ";
 	} else {
-		this->exposure = tmp.at(0).toFloat();
+		loadImage(filename);
+		QStringList tmp = filename.split('/');
+		tmp = tmp.at(tmp.size()-1).split('_');
+		tmp = tmp.at(1).split('.');
+		if (tmp.size() == 3) { // floating point
+			this->exposure = (tmp.at(0) + "." + tmp.at(1)).toFloat();
+		} else {
+			this->exposure = tmp.at(0).toFloat();
+		}
+		std::cout << this->exposure << "\n";
 	}
-	std::cout << this->exposure << "\n";
 }
 
 /**
@@ -48,7 +54,28 @@ Image::~Image() = default;
  * @param filename chemin d'accès à l'image
  */
 void Image::loadImage(const QString& filename) {
-	image = cv::imread(filename.toStdString());
+	image = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
+	std::cout << "Depth: " << printFlags() << "\n";
+	this->flags = flags;
+}
+
+std::string Image::printFlags() const {
+	std::string r;
+	uchar depth = image.type() & CV_MAT_DEPTH_MASK;
+	uchar chans = 1 + (image.type() >> CV_CN_SHIFT);
+	switch (depth) {
+		case CV_8U:  r = "8U"; break;
+		case CV_8S:  r = "8S"; break;
+		case CV_16U: r = "16U"; break;
+		case CV_16S: r = "16S"; break;
+		case CV_32S: r = "32S"; break;
+		case CV_32F: r = "32F"; break;
+		case CV_64F: r = "64F"; break;
+		default:     r = "User"; break;
+	}
+	r += "C";
+	r += (chans+'0');
+	return r;
 }
 
 /**
@@ -58,7 +85,7 @@ void Image::loadImage(const QString& filename) {
 cv::Mat Image::getMatrix() const {
 	if (image.depth() == 5) {
 		cv::Mat image8;
-		image.convertTo(image8, CV_8U, 255);
+		image.convertTo(image8, CV_8UC3, 255);
 		return image8;
 	} else {
 		return image.clone();

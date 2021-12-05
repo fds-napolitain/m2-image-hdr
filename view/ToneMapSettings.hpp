@@ -9,13 +9,7 @@
 #include <QLabel>
 class ToneMapSettings : public QWidget{
 public:
-    ToneMapSettings(QWidget* parent, float step) :
-        QWidget(parent),
-        m_step(step),
-        m_gammaSlider(new QSlider(Qt::Horizontal)),
-        m_saturationSlider(new QSlider(Qt::Horizontal)),
-        m_biasSlider(new QSlider(Qt::Horizontal))
-        {}
+    ToneMapSettings(QWidget* parent, float step);
 
     QSlider* getGammaSlider();
     QSlider* getSaturationSlider();
