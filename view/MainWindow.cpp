@@ -104,9 +104,9 @@ void MainWindow::createActions() {
     actionOpenFolder->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     actionOpenFolder->setStatusTip(tr("Open a folder of images"));
     connect(actionOpenFolder, &QAction::triggered, this, &MainWindow::openFolder);
-    actionSave = new QAction(tr("&Save HDR matrix"), this);
+    actionSave = new QAction(tr("&Save HDR image"), this);
     actionSave->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
-    actionSave->setStatusTip(tr("Save HDR matrix"));
+    actionSave->setStatusTip(tr("Save HDR image"));
     connect(actionSave, &QAction::triggered, this, &MainWindow::save);
     actionQuit = new QAction(tr("&Quit"), this);
     actionQuit->setShortcut(QKeySequence(Qt::Key_Escape));
@@ -372,9 +372,10 @@ void MainWindow::openFolder() {
  */
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
-		std::string filename = QFileDialog::getSaveFileName().toStdString();
-		cv::imwrite(filename, result->getImage()->matrix);
-		std::cout << "HDR image saved to " << filename << ".\n";
+		QString filename = QFileDialog::getSaveFileName();
+		result->getImage()->getQImage().save(filename);
+		cv::imwrite(filename.toStdString(), result->getImage()->matrix);
+		std::cout << "HDR image saved to " << filename.toStdString() << ".\n";
 	} else {
 		std::cout << "No HDR image found.\n";
 	}

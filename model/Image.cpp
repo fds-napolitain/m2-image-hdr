@@ -252,3 +252,20 @@ void Image::tonemapReinhard(float gamma = 1.0, float intensity = 0.0, float ligh
 	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard(gamma, intensity,lightAdapt,colorAdapt);
 	tonemap->process(matrix, matrix);
 }
+
+/**
+ * Explications sur le rapport signal à bruit et l'astrophotographie : https://jonrista.com/the-astrophotographers-guide/astrophotography-basics/snr/
+ * But : retourner un rapport signal à bruit sur une image.
+ * But (final) : améliorer une image, en réduisant son bruit par fusion d'images. Normalement on doit voir une amélioration du SNR.
+ * @return SNR = S/SQRT(S)
+ */
+float Image::getSNR() const {
+	float signal = 0;
+	unsigned char *p = matrix.data;
+	for (int i = 0; i < matrix.total(); ++i) {
+		signal += *p;
+		p++;
+	}
+	signal /= matrix.total();
+	return signal / sqrt(signal);
+}

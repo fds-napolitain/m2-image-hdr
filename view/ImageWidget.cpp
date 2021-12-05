@@ -73,7 +73,8 @@ void ImageWidget::reloadImage() {
 	} else {
 		label->resize(img.width() / h, img.height() / h);
 	}
-	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
+	std::cout << "Entropie locale moyenne: " << image.getAverageEntropy() << "\n";
+	std::cout << "SNR: " << image.getSNR() << "\n";
 	label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
