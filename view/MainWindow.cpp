@@ -17,33 +17,44 @@ MainWindow::MainWindow() : QMainWindow() {
     createMenus();
     hdrbox      = new QGroupBox(widget);
     settingsBox = new QGroupBox(widget);
-//    settingsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    settingsBox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
+    hdrbox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
 
 
 
 
     hdrbox->setLayout(new QVBoxLayout);
     settingsBox->setLayout(new QVBoxLayout);
-   // settingsBox->layout()->setContentsMargins(0,0,1500,0);
     images = new StackImageWidget(hdrbox);
     result = new ImageWidget(hdrbox);
     hdrbox->layout()->addWidget(images->stack);
 
-    tonemapGamma = new QLabel("1");
-    tonemapSlider = new QSlider(Qt::Horizontal, hdrbox);
-    tonemapSlider->setTickPosition(QSlider::TicksAbove);
-    tonemapSlider->setValue(1);
-    settingsBox->layout()->addWidget(tonemapSlider);
-    settingsBox->layout()->addWidget(tonemapGamma);
+    toneMapSettings = new ToneMapSettings(hdrbox, 0.25f);
+    settingsBox->layout()->addWidget(toneMapSettings);
     widgetLayout->addWidget(hdrbox,0,0,1,8);
     widgetLayout->addWidget(settingsBox,1,0,1,2);
 
+
+
+    toneMapSettings->hide();
+
     result->getQLabel()->setScaledContents(false);
     hdrbox->layout()->addWidget(result->getQLabel());
-    QObject::connect(tonemapSlider, &QSlider::valueChanged, this, [=] () {
-        tonemapGamma->setText(QString::number(tonemapSlider->value() * 0.25f));
-		result->tonemapped = Tonemap::NONE;
-		executePipeline();
+// exemple de si jamais on a besoin de l'event du changement de valeurs d'UN slider en particulier
+//    QObject::connect(toneMapSettings, &ToneMapSettings::gammeValueChanged, this, [=] () {
+//		result->tonemapped = Tonemap::NONE;
+//		executePipeline();
+//    });
+//
+//    QObject::connect(toneMapSettings, &ToneMapSettings::saturationValueChanged, this, [=] () {
+//        result->tonemapped = Tonemap::NONE;
+//        executePipeline();
+//    });
+
+//event si n'importe quel silder change de valeur
+    QObject::connect(toneMapSettings, &ToneMapSettings::anyValueChanged, this, [=] () {
+        result->tonemapped = Tonemap::NONE;
+        executePipeline();
     });
 }
 
@@ -78,8 +89,7 @@ MainWindow::~MainWindow() {
 	delete menuMerge;
 	delete menuTonemap;
 	delete zoomedWindow;
-	delete tonemapSlider;
-	delete tonemapGamma;
+	delete toneMapSettings;
 }
 
 /**
@@ -266,17 +276,20 @@ void MainWindow::executePipeline() {
 	}
 	if (result->merged != Merge::NONE && (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast)) {
 		result->loadImage(cache);
+        toneMapSettings->setToneMap(pipeline.tonemap);
+        toneMapSettings->show();
 		switch (pipeline.tonemap) {
 			case Tonemap::NONE:
+                toneMapSettings->hide();
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Drago:
-				result->getImage()->tonemapDrago(tonemapSlider->value());
+				result->getImage()->tonemapDrago(toneMapSettings->getGammaValue(), toneMapSettings->getSaturationValue(), toneMapSettings->getBiasValue());
 				result->tonemapped = Tonemap::Drago;
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
-				result->getImage()->tonemapReinhard(tonemapSlider->value());
+				result->getImage()->tonemapReinhard(toneMapSettings->getGammaValue(), toneMapSettings->getIntensityValue(), toneMapSettings->getLightAdapatationValue(), toneMapSettings->getColorAdapatationValue());
 				result->tonemapped = Tonemap::Reinhard;
 				result->contrasted = Contrast::NONE;
 				break;

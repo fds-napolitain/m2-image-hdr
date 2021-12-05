@@ -7,6 +7,7 @@
 #include "ZoomableImageWidget.hpp"
 #include "../model/Pipeline.hpp"
 #include "ZoomedWindow.hpp"
+#include "ToneMapSettings.hpp"
 
 class MainWindow : public QMainWindow {
 
@@ -46,8 +47,8 @@ private:
 	QWidget* widget;
 	QGroupBox* hdrbox;
     QGroupBox* settingsBox;
-    QLabel* tonemapGamma;
-    QSlider* tonemapSlider;
+
+    ToneMapSettings* toneMapSettings;
 	StackImageWidget* images;
 	ImageWidget* result;
 	Image cache;
