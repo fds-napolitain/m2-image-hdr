@@ -104,14 +104,17 @@ Image StackImage::mergeDenoise() {
 	cv::Mat resultDenoise(cv::Size(images[0]->matrix.rows, images[0]->matrix.cols), CV_8UC3);
 	resultDenoise = 0;
 	unsigned char *p = resultDenoise.data;
+	int tmp;
+	int size = images.size();
 	for (const auto &image: images) {
 		unsigned char *q = image->matrix.data;
+		tmp = 0;
 		for (int i = 0; i < image->matrix.total(); ++i) {
-			*p += *q;
+			tmp += (int) *q;
 			q++;
 		}
+		*p = (unsigned char) (tmp / size);
 		p++;
 	}
-	resultDenoise /= images.size();
 	return Image(resultDenoise);
 }

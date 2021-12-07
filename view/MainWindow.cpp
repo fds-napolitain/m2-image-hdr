@@ -147,6 +147,7 @@ void MainWindow::createActions() {
 	actionGroupMerge->addAction(actionMergeDebevec);
 	actionGroupMerge->addAction(actionMergeRobertson);
 	actionGroupMerge->addAction(actionMergeMertens);
+	actionGroupMerge->addAction(actionMergeDenoise);
 	actionGroupMerge->addAction(actionMergeKalantari);
 	actionGroupMerge->setExclusive(true);
 
