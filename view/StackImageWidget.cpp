@@ -2,7 +2,6 @@
 // Created by Maxime Boucher on 14/11/2021.
 //
 
-#include <QHBoxLayout>
 #include "StackImageWidget.hpp"
 
 StackImageWidget::StackImageWidget() = default;

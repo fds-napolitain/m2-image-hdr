@@ -4,10 +4,11 @@
 #include <QtWidgets>
 #include <QString>
 #include "StackImageWidget.hpp"
-#include "ZoomableImageWidget.hpp"
 #include "../model/Pipeline.hpp"
-#include "ZoomedWindow.hpp"
 #include "ToneMapSettings.hpp"
+#include <QPixmap>
+#include <iostream>
+#include <QSizePolicy>
 
 class MainWindow : public QMainWindow {
 
@@ -54,7 +55,6 @@ private:
 	ImageWidget* result;
 	Image cache;
 	Pipeline pipeline;
-	ZoomedWindow* zoomedWindow;
 	void createActions();
 	void createMenus();
 	void resetAll();

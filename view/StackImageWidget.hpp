@@ -10,6 +10,7 @@
 #include "ImageWidget.hpp"
 #include "../model/StackImage.hpp"
 #include "../model/Pipeline.hpp"
+#include <QHBoxLayout>
 
 class StackImageWidget : public QWidget {
 

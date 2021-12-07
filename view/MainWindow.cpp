@@ -1,7 +1,5 @@
 #include "MainWindow.hpp"
-#include <QPixmap>
-#include <iostream>
-#include <QSizePolicy>
+
 /**
  * Fenêtre principale
  */
@@ -88,7 +86,6 @@ MainWindow::~MainWindow() {
 	delete menuAlign;
 	delete menuMerge;
 	delete menuTonemap;
-	delete zoomedWindow;
 	delete toneMapSettings;
 }
 

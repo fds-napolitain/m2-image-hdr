@@ -2,6 +2,7 @@
 #define QTHDR_IMAGE_HPP
 
 #include <QImage>
+#include <utility>
 #include <opencv2/opencv.hpp>
 
 /**
