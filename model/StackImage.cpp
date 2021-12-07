@@ -3,16 +3,8 @@
 
 StackImage::StackImage() = default;
 
-StackImage::StackImage(int n) {
-	images.resize(n);
-}
-
 void StackImage::addImage(Image *image) {
 	images.push_back(image);
-}
-
-void StackImage::addImage(Image *image, int i) {
-	images[i] = image;
 }
 
 /**

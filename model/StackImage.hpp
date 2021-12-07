@@ -12,9 +12,9 @@ private:
 	std::vector<Image*> images;
 public:
 	StackImage();
-	explicit StackImage(int n);
+
 	void addImage(Image* image);
-	void addImage(Image* image, int i);
+
 	[[nodiscard]] std::vector<cv::Mat> getMatrices();
 	[[nodiscard]] std::vector<float> getExposures();
 	// -- méthodes sur des images (ex: HDR)

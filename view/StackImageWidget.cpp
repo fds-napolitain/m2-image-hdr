@@ -34,7 +34,7 @@ StackImageWidget::~StackImageWidget() {
  */
 void StackImageWidget::loadImages(const QStringList &filenames) {
 	std::cout << "1. Charge les images\n";
-	for (const auto &image: images) {
+	for (auto &image: images) {
 		delete image;
 	}
 	aligned = Align::NONE;
@@ -55,7 +55,7 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
  */
 StackImage StackImageWidget::getImages() {
 	StackImage stackImage;
-	for (const auto &image: images) {
+	for (auto &image: images) {
 		stackImage.addImage(image->getImage());
 	}
 	return stackImage;
@@ -68,7 +68,7 @@ StackImage StackImageWidget::getImages() {
 void StackImageWidget::alignMTB() {
 	std::cout << "2. Exécute l'alignement MTB\n";
 	getImages().alignMTB();
-	for (const auto &image: images) {
+	for (auto &image: images) {
 		image->reloadImage();
 	}
 }

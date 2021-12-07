@@ -66,6 +66,7 @@ QLabel* ImageWidget::getQLabel() {
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
+	if (img.isNull()) return;
 	double w = img.width() / 400.0;
 	double h = img.height() / 400.0;
 	if (w > h) {

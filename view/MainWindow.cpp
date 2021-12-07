@@ -113,7 +113,7 @@ void MainWindow::createActions() {
     actionQuit->setStatusTip(tr("Quit"));
     connect(actionQuit, &QAction::triggered, this, &MainWindow::quit);
 
-	actionAlignMTB = new QAction(tr("&Align images"), this);
+	actionAlignMTB = new QAction(tr("&Align with MTB"), this);
 	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
 	actionAlignMTB->setStatusTip(tr("Align images using MTB"));
 	actionAlignMTB->setCheckable(true);
@@ -373,8 +373,8 @@ void MainWindow::openFolder() {
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
 		QString filename = QFileDialog::getSaveFileName();
-		result->getImage()->getQImage().save(filename);
-		cv::imwrite(filename.toStdString(), result->getImage()->matrix);
+		result->getImage()->getQImage().save(filename + tr(".png"));
+		cv::imwrite((filename + tr(".hdr")).toStdString(), result->getImage()->matrix);
 		std::cout << "HDR image saved to " << filename.toStdString() << ".\n";
 	} else {
 		std::cout << "No HDR image found.\n";
