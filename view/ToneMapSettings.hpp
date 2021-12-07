@@ -25,8 +25,8 @@ public:
     float getSaturationValue();
     float getGammaValue();
     float getIntensityValue();
-    float getLightAdapatationValue();
-    float getColorAdapatationValue();
+    float getLightAdaptationValue();
+    float getColorAdaptationValue();
 
 
 private:

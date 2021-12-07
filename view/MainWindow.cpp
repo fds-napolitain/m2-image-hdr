@@ -282,7 +282,7 @@ void MainWindow::executePipeline() {
 		}
 		result->loadImage(cache);
 	}
-	if (result->merged != Merge::NONE && (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast)) {
+	if ((result->merged != Merge::NONE && result->merged != Merge::Denoising) && (result->tonemapped != pipeline.tonemap || result->contrasted != pipeline.contrast)) {
 		result->loadImage(cache);
         toneMapSettings->setToneMap(pipeline.tonemap);
         toneMapSettings->show();
@@ -297,7 +297,9 @@ void MainWindow::executePipeline() {
 				result->contrasted = Contrast::NONE;
 				break;
 			case Tonemap::Reinhard:
-				result->getImage()->tonemapReinhard(toneMapSettings->getGammaValue(), toneMapSettings->getIntensityValue(), toneMapSettings->getLightAdapatationValue(), toneMapSettings->getColorAdapatationValue());
+				result->getImage()->tonemapReinhard(toneMapSettings->getGammaValue(), toneMapSettings->getIntensityValue(),
+													toneMapSettings->getLightAdaptationValue(),
+													toneMapSettings->getColorAdaptationValue());
 				result->tonemapped = Tonemap::Reinhard;
 				result->contrasted = Contrast::NONE;
 				break;
@@ -371,7 +373,7 @@ void MainWindow::openFolder() {
 void MainWindow::save() {
 	if (result->merged != Merge::NONE) {
 		QString filename = QFileDialog::getSaveFileName();
-		result->getImage()->getQImage().save(filename + tr(".png"));
+		result->getImage()->getQImage().save(filename + tr(".jpg"));
 		cv::imwrite((filename + tr(".hdr")).toStdString(), result->getImage()->matrix);
 		std::cout << "HDR image saved to " << filename.toStdString() << ".\n";
 	} else {

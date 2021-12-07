@@ -57,7 +57,7 @@ Image StackImage::mergeDebevec() {
 	calibrateDebevec->process(matrices, responseDebevec, exposures);
 
 	cv::Ptr<cv::MergeDebevec> mergeDebevec = cv::createMergeDebevec();
-	mergeDebevec->process(matrices, resultDebevec, exposures, responseDebevec);
+	mergeDebevec->process(matrices, resultDebevec, exposures);
 	return Image(resultDebevec);
 }
 
@@ -76,7 +76,7 @@ Image StackImage::mergeRobertson() {
 	calibrateRobertson->process(matrices, responseRobertson, exposures);
 
 	cv::Ptr<cv::MergeRobertson> mergeRobertson = cv::createMergeRobertson();
-	mergeRobertson->process(matrices, resultRobertson, exposures, responseRobertson);
+	mergeRobertson->process(matrices, resultRobertson, exposures);
 	return Image(resultRobertson);
 }
 

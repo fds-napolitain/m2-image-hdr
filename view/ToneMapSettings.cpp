@@ -183,10 +183,10 @@ float ToneMapSettings::getIntensityValue() {
     return (float) m_intensitySlider->value() * m_step;
 }
 
-float ToneMapSettings::getLightAdapatationValue() {
+float ToneMapSettings::getLightAdaptationValue() {
     return (float) m_lightAdaptSlider->value() * m_step;
 }
 
-float ToneMapSettings::getColorAdapatationValue() {
+float ToneMapSettings::getColorAdaptationValue() {
     return (float) m_colorAdaptSlider->value() * m_step;
 }
