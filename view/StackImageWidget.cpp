@@ -13,6 +13,7 @@ StackImageWidget::StackImageWidget() = default;
 StackImageWidget::StackImageWidget(QWidget *parent) {
 	stack = new QGroupBox(parent);
     stack->setLayout(new QHBoxLayout);
+	stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
 	this->parent = parent;
 	this->setParent(parent);
 }

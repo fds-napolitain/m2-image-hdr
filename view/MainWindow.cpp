@@ -6,38 +6,33 @@
 MainWindow::MainWindow() : QMainWindow() {
 	widget = new QWidget;
     QGridLayout* widgetLayout = new QGridLayout(widget);
-    widget->setLayout(widgetLayout);
+	widget->setLayout(widgetLayout);
 
-    //widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	setCentralWidget(widget);
 
     createActions();
     createMenus();
-    hdrbox      = new QGroupBox(widget);
-    settingsBox = new QGroupBox(widget);
+    hdrbox = new QGroupBox(widget); // crée la grande box
+	hdrbox->setLayout(new QVBoxLayout); // vertical
+	images = new StackImageWidget(hdrbox); // ajoute la stack du dessus
+	hdrbox->layout()->addWidget(images->stack);
+	result = new ImageWidget(hdrbox); // ajoute le resultat
+	result->getQLabel()->setScaledContents(true);
+	//resultbox->layout()->addWidget(result->getQLabel());
+	settingsBox = new QGroupBox(hdrbox); // ajoute les settings tonemap
+	settingsBox->setLayout(new QVBoxLayout);
     settingsBox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-    hdrbox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-
-
-
-
-    hdrbox->setLayout(new QVBoxLayout);
-    settingsBox->setLayout(new QVBoxLayout);
-    images = new StackImageWidget(hdrbox);
-    result = new ImageWidget(hdrbox);
-    hdrbox->layout()->addWidget(images->stack);
+    hdrbox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 
     toneMapSettings = new ToneMapSettings(hdrbox, 0.25f);
     settingsBox->layout()->addWidget(toneMapSettings);
     widgetLayout->addWidget(hdrbox,0,0,1,8);
-    widgetLayout->addWidget(settingsBox,1,0,1,2);
-
-
+    widgetLayout->addWidget(result->getQLabel(),1,0,1,6);
+    widgetLayout->addWidget(settingsBox,1,6,1,2);
 
     toneMapSettings->hide();
 
-    result->getQLabel()->setScaledContents(false);
-    hdrbox->layout()->addWidget(result->getQLabel());
 // exemple de si jamais on a besoin de l'event du changement de valeurs d'UN slider en particulier
 //    QObject::connect(toneMapSettings, &ToneMapSettings::gammeValueChanged, this, [=] () {
 //		result->tonemapped = Tonemap::NONE;
