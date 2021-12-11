@@ -11,12 +11,15 @@
 #include "../model/StackImage.hpp"
 #include "../model/Pipeline.hpp"
 #include <QHBoxLayout>
+#include <QScrollBar>
+#include <QScrollArea>
 
 class StackImageWidget : public QWidget {
 
 private:
 	std::vector<ImageWidget*> images;
 	QWidget* parent;
+	QScrollArea* scroll;
 public:
 	Align aligned = Align::NONE;
 	QGroupBox* stack;

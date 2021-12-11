@@ -23,6 +23,9 @@ private:
 	QWidget* parent;
 	Image image;
 	QLabel* label;
+	QBoxLayout *layout;
+	float arWidth; // aspect ratio width
+	float arHeight; // aspect ratio height
 public:
 	Merge merged = Merge::NONE;
 	Tonemap tonemapped = Tonemap::NONE;
@@ -36,6 +39,7 @@ public:
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();
 	void reset();
+	void resizeEvent(QResizeEvent *event) override;
 
 };
 

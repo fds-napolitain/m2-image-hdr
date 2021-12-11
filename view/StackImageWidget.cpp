@@ -11,9 +11,12 @@ StackImageWidget::StackImageWidget() = default;
  * @param parent
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
-	stack = new QGroupBox(parent);
-    stack->setLayout(new QHBoxLayout);
+	scroll = new QScrollArea(parent);
+	stack = new QGroupBox(scroll);
+	stack->setLayout(new QHBoxLayout);
 	stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
+	scroll->setWidget(stack);
+	scroll->show();
 	this->parent = parent;
 	this->setParent(parent);
 }

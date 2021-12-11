@@ -13,9 +13,17 @@ ImageWidget::ImageWidget() = default;
  */
 ImageWidget::ImageWidget(QWidget* parent) {
 	this->parent = parent;
+
+	layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+
+	// add spacer, then your widget, then spacer
+	layout->addItem(new QSpacerItem(0, 0));
 	label = new QLabel(parent);
+	layout->addWidget(label);
+	layout->addItem(new QSpacerItem(0, 0));
+
 	label->setScaledContents(true);
-	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	label->show();
 }
 
@@ -65,13 +73,10 @@ QLabel* ImageWidget::getQLabel() {
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
 	if (img.isNull()) return;
-	double w = img.width() / 400.0;
-	double h = img.height() / 400.0;
-	if (w > h) {
-		label->resize(img.width() / w, img.height() / w);
-	} else {
-		label->resize(img.width() / h, img.height() / h);
-	}
+	double h = 400.0 / static_cast<double>(img.height());
+	arHeight = 400.0;
+	arWidth = img.width() * h;
+	label->resize(static_cast<int>(this->arWidth), static_cast<int>(this->arHeight));
 	std::cout << "Entropie locale moyenne: " << image.getAverageEntropy() << "\n";
 	//std::cout << "SNR: " << image.getSNR() << "\n";
 	label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
@@ -83,3 +88,28 @@ void ImageWidget::reloadImage() {
 void ImageWidget::reset() {
 	label->clear();
 }
+
+/**
+ *
+ * @param event
+ */
+void ImageWidget::resizeEvent(QResizeEvent *event) {
+	float thisAspectRatio = static_cast<float>(event->size().width()) / static_cast<float>(event->size().height());
+	int widgetStretch, outerStretch;
+
+	if (thisAspectRatio > (arWidth/arHeight)) // too wide
+	{
+		layout->setDirection(QBoxLayout::LeftToRight);
+		widgetStretch = static_cast<int>(static_cast<float>(this->height()) * (this->arWidth / this->arHeight)); // i.e., my width
+		outerStretch = (width() - widgetStretch) / 2 + 0.5;
+	}
+	else // too tall
+	{
+		layout->setDirection(QBoxLayout::TopToBottom);
+		widgetStretch = width() * (arHeight/arWidth); // i.e., my height
+		outerStretch = (height() - widgetStretch) / 2 + 0.5;
+	}
+
+	layout->setStretch(0, outerStretch);
+	layout->setStretch(1, widgetStretch);
+	layout->setStretch(2, outerStretch);}
