@@ -20,12 +20,7 @@ StackImageWidget::StackImageWidget(QWidget *parent) {
 /**
  * Destructeur
  */
-StackImageWidget::~StackImageWidget() {
-	for (auto &image: images) {
-		delete image;
-	}
-	delete stack;
-}
+StackImageWidget::~StackImageWidget() = default;
 
 /**
  * Charge un lot d'images et supprimes si besoin les anciennes images chargées.
@@ -103,7 +98,7 @@ Image StackImageWidget::mergeMertens() {
  * Applique le merge de Mertens sur une StackImage.
  * @return
  */
-Image StackImageWidget::mergeDenoise() {
+Image StackImageWidget::merge() {
 	std::cout << "3. Exécute le merge de débruitage.\n";
-	return getImages().mergeDenoise();
+	return getImages().merge();
 }

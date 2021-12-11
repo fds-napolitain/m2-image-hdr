@@ -22,9 +22,7 @@ ImageWidget::ImageWidget(QWidget* parent) {
 /**
  * Destructeur
  */
-ImageWidget::~ImageWidget() {
-	delete label;
-}
+ImageWidget::~ImageWidget() = default;
 
 /**
  * Charge une image et initialise ses composants graphiques.

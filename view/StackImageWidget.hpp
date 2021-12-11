@@ -27,10 +27,10 @@ public:
 	StackImage getImages();
 	// -- méthodes hdr
 	void alignMTB();
+	Image merge();
 	Image mergeDebevec();
 	Image mergeRobertson();
 	Image mergeMertens();
-	Image mergeDenoise();
 };
 
 

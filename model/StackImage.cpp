@@ -100,7 +100,7 @@ Image StackImage::mergeMertens() {
  * Must be aligned first, MTB for example.
  * @return
  */
-Image StackImage::mergeDenoise() {
+Image StackImage::merge() {
 	cv::Mat resultDenoise(cv::Size(images[0]->matrix.cols, images[0]->matrix.rows), CV_8UC3);
 	resultDenoise = 0;
 	int size = images.size();

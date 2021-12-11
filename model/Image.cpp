@@ -17,7 +17,7 @@ Image::Image(const cv::Mat& image) {
  * @param filename
  */
 Image::Image(const QString& filename) {
-	if (filename.endsWith(".hdr")) {
+	if (!filename.contains("_")) {
 		loadImage(filename);
 	} else {
 		loadImage(filename);

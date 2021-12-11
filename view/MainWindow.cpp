@@ -60,34 +60,7 @@ MainWindow::MainWindow() : QMainWindow() {
  * Destructeur
  * TODO: vérifier que ca marche
  */
-MainWindow::~MainWindow() {
-	delete widget;
-	delete hdrbox;
-	delete images;
-	delete result;
-	delete actionOpenFiles;
-	delete actionOpenFolder;
-	delete actionSave;
-	delete actionQuit;
-	delete actionAlignMTB;
-	delete actionGroupAlign;
-	delete actionMergeDebevec;
-	delete actionMergeRobertson;
-	delete actionMergeMertens;
-	delete actionGroupMerge;
-	delete actionTonemapNone;
-	delete actionTonemapDrago;
-	delete actionTonemapReinhard;
-	delete actionGroupTonemap;
-	delete actionContrastNone;
-	delete actionContrastHistogram;
-	delete actionGroupContrast;
-	delete menuFile;
-	delete menuAlign;
-	delete menuMerge;
-	delete menuTonemap;
-	delete toneMapSettings;
-}
+MainWindow::~MainWindow() = default;
 
 /**
  * Crée les actions de la barre de menu.
@@ -270,7 +243,7 @@ void MainWindow::executePipeline() {
 				result->tonemapped = Tonemap::NONE;
 				break;
 			case Merge::Denoising:
-				cache = Image(images->mergeDenoise());
+				cache = Image(images->merge());
 				result->merged = Merge::Denoising;
 				result->tonemapped = Tonemap::NONE;
 				break;
