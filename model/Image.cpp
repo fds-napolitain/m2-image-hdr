@@ -138,9 +138,9 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	calcHist( &bgr_planes[2], 1, nullptr, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
 	calcHist( &mat, 1, &x, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
 
-	normalize(b_hist, b_hist, 0.0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-	normalize(g_hist, g_hist, 0.0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-	normalize(r_hist, r_hist, 0.0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(b_hist, b_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(g_hist, g_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(r_hist, r_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
 
 	result.resize(4);
 	result[0] = r_hist;

@@ -354,7 +354,7 @@ void MainWindow::mergeDebevec() {
 }
 
 /**
- * Slot action: merge les images avec la méthode de Debevec.
+ * Slot action: merge les images avec la méthode de Robertson.
  */
 void MainWindow::mergeRobertson() {
 	pipeline.merge = Merge::Robertson;
@@ -362,7 +362,7 @@ void MainWindow::mergeRobertson() {
 }
 
 /**
- * Slot action: merge les images avec la méthode de Debevec.
+ * Slot action: merge les images avec la méthode de Mertens.
  */
 void MainWindow::mergeMertens() {
 	pipeline.merge = Merge::Mertens;
@@ -370,7 +370,7 @@ void MainWindow::mergeMertens() {
 }
 
 /**
- * Slot action: merge les images avec la méthode de Debevec.
+ * Slot action: merge les images par moyenne simple.
  */
 void MainWindow::mergeDenoise() {
 	pipeline.merge = Merge::Denoising;
