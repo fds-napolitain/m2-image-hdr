@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QString>
 #include "StackImageWidget.hpp"
+#include "ImageWidget.hpp"
 #include "Pipeline.hpp"
 #include "ToneMapSettings.hpp"
 #include <QPixmap>

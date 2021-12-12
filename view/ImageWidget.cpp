@@ -3,6 +3,7 @@
 //
 
 #include "ImageWidget.hpp"
+#include <QGuiApplication>
 
 
 ImageWidget::ImageWidget() = default;
@@ -11,20 +12,29 @@ ImageWidget::ImageWidget() = default;
  * Initialise un widget Image à partir de son parent.
  * @param parent
  */
-ImageWidget::ImageWidget(QWidget* parent) {
-	this->parent = parent;
+ImageWidget::ImageWidget(QWidget* parent)
+{
+    this->parent = parent;
+    layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 
-	layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    label = new QLabel(parent);
 
-	// add spacer, then your widget, then spacer
-	layout->addItem(new QSpacerItem(0, 0));
-	label = new QLabel(parent);
-	layout->addWidget(label);
-	layout->addItem(new QSpacerItem(0, 0));
+    // add spacer, then your widget, then spacer
+    layout->addItem(new QSpacerItem(0, 0));
+    layout->addWidget(label);
+    layout->addItem(new QSpacerItem(0, 0));
 
-	label->setScaledContents(true);
-	label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	label->show();
+    label->setBackgroundRole(QPalette::Base);
+    label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    label->setScaledContents(true);
+
+    scrollArea= new QScrollArea(this);
+
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setWidget(label);
+    scrollArea->setVisible(true);
+
+//    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 /**
@@ -73,8 +83,8 @@ QLabel* ImageWidget::getQLabel() {
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
 	if (img.isNull()) return;
-	double h = 400.0 / static_cast<double>(img.height());
-	arHeight = 400.0;
+    double h = RESULT_SIZE / static_cast<double>(img.height());
+    arHeight = RESULT_SIZE;
 	arWidth = img.width() * h;
 	label->resize(static_cast<int>(this->arWidth), static_cast<int>(this->arHeight));
 	std::cout << "Entropie locale moyenne: " << image.getAverageEntropy() << "\n";

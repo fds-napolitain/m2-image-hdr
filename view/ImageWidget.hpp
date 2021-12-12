@@ -5,6 +5,7 @@
 #ifndef QTHDR_IMAGEWIDGET_HPP
 #define QTHDR_IMAGEWIDGET_HPP
 
+#define RESULT_SIZE 600.00
 
 #include <QLabel>
 #include "../model/Image.hpp"
@@ -13,6 +14,7 @@
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QMouseEvent>
+#include <QScrollArea>
 
 /**
  * Widget englobant une image.
@@ -26,6 +28,7 @@ private:
 	QBoxLayout *layout;
 	float arWidth; // aspect ratio width
 	float arHeight; // aspect ratio height
+    QScrollArea *scrollArea;
 public:
 	Merge merged = Merge::NONE;
 	Tonemap tonemapped = Tonemap::NONE;

@@ -44,7 +44,7 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 	images.resize(filenames.size());
 	QSize size;
 	for (int i = 0; i < filenames.size(); i++) {
-		images[i] = new ImageWidget(stack);
+        images[i] = new ImageViewerUp(stack);
 		images[i]->loadImage(filenames[i], stack);
 		size = images[i]->getQLabel()->size();
 	}

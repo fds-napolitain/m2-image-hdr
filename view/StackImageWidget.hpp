@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <QGroupBox>
-#include "ImageWidget.hpp"
+#include "ImageViewerUp.hpp"
 #include "../model/StackImage.hpp"
 #include "Pipeline.hpp"
 #include <QHBoxLayout>
@@ -17,7 +17,7 @@
 class StackImageWidget : public QWidget {
 
 private:
-	std::vector<ImageWidget*> images;
+    std::vector<ImageViewerUp*> images;
 	QWidget* parent;
 	QScrollArea* scroll;
 	QVBoxLayout* scrollLayout;
