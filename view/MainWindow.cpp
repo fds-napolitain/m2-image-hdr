@@ -73,10 +73,6 @@ void MainWindow::createActions() {
     actionSave->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
     actionSave->setStatusTip(tr("Save HDR image"));
     connect(actionSave, &QAction::triggered, this, &MainWindow::save);
-    actionQuit = new QAction(tr("&Quit"), this);
-    actionQuit->setShortcut(QKeySequence(Qt::Key_Escape));
-    actionQuit->setStatusTip(tr("Quit"));
-    connect(actionQuit, &QAction::triggered, this, &MainWindow::quit);
 
 	actionAlignMTB = new QAction(tr("&Align with MTB"), this);
 	actionAlignMTB->setShortcut(QKeySequence(Qt::Key_A));
@@ -160,7 +156,6 @@ void MainWindow::createMenus() {
 	menuFile->addAction(actionOpenFiles);
     menuFile->addAction(actionOpenFolder);
     menuFile->addAction(actionSave);
-    menuFile->addAction(actionQuit);
 
 	menuAlign = menuBar()->addMenu(tr("&Align"));
 	menuAlign->addAction(actionAlignMTB);
@@ -285,13 +280,6 @@ void MainWindow::executePipeline() {
 	}
 	result->reloadImage();
 	std::cout << "========== PIPELINE RUN END ===========\n";
-}
-
-/**
- * Quitte l'application
- */
-void MainWindow::quit() {
-	QApplication::quit();
 }
 
 /**

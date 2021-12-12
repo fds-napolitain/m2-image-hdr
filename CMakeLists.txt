@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
 find_package(OpenCV REQUIRED)
 
 
-add_executable(QtHDR main.cpp view/MainWindow.cpp view/MainWindow.hpp model/Image.cpp model/Image.hpp model/StackImage.cpp model/StackImage.hpp view/ImageWidget.cpp view/ImageWidget.hpp view/StackImageWidget.cpp view/StackImageWidget.hpp model/Pipeline.hpp view/ToneMapSettings.cpp view/ToneMapSettings.hpp)
+add_executable(QtHDR main.cpp view/MainWindow.cpp view/MainWindow.hpp model/Image.cpp model/Image.hpp model/StackImage.cpp model/StackImage.hpp view/ImageWidget.cpp view/ImageWidget.hpp view/StackImageWidget.cpp view/StackImageWidget.hpp view/Pipeline.hpp view/ToneMapSettings.cpp view/ToneMapSettings.hpp)
 target_link_libraries(QtHDR
         Qt5::Core
         Qt5::Gui

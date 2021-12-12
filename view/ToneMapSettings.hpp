@@ -9,7 +9,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QStackedLayout>
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
 class ToneMapSettings : public QWidget{
     Q_OBJECT
 public:

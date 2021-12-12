@@ -4,7 +4,7 @@
 #include <QtWidgets>
 #include <QString>
 #include "StackImageWidget.hpp"
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
 #include "ToneMapSettings.hpp"
 #include <QPixmap>
 #include <iostream>
@@ -29,7 +29,6 @@ private:
 	QAction* actionOpenFiles;
     QAction* actionOpenFolder;
     QAction* actionSave;
-    QAction* actionQuit;
 	QActionGroup* actionGroupAlign;
 	QAction* actionAlignMTB;
 	QActionGroup* actionGroupMerge;
@@ -61,7 +60,6 @@ private:
 	void executePipeline();
 
 private slots:
-	static void quit();
 	void openFiles();
 	void openFolder();
 	void save();

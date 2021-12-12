@@ -9,7 +9,7 @@
 #include <QGroupBox>
 #include "ImageWidget.hpp"
 #include "../model/StackImage.hpp"
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
 #include <QHBoxLayout>
 #include <QScrollBar>
 #include <QScrollArea>

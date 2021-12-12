@@ -8,7 +8,7 @@
 
 #include <QLabel>
 #include "../model/Image.hpp"
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QGridLayout>
