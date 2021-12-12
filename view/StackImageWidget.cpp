@@ -11,11 +11,16 @@ StackImageWidget::StackImageWidget() = default;
  * @param parent
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
+	scrollLayout = new QVBoxLayout(this);
+	scrollLayout->setParent(this);
 	scroll = new QScrollArea(parent);
+	scrollLayout->addWidget(scroll);
 	stack = new QGroupBox(scroll);
 	stack->setLayout(new QHBoxLayout);
 	stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
 	scroll->setWidget(stack);
+	scroll->setHorizontalScrollBar(new QScrollBar);
+	//scroll->setFixedWidth(700);
 	scroll->show();
 	this->parent = parent;
 	this->setParent(parent);

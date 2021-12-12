@@ -20,6 +20,7 @@ private:
 	std::vector<ImageWidget*> images;
 	QWidget* parent;
 	QScrollArea* scroll;
+	QVBoxLayout* scrollLayout;
 public:
 	Align aligned = Align::NONE;
 	QGroupBox* stack;
