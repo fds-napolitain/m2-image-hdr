@@ -4,34 +4,41 @@
  * Fenêtre principale
  */
 MainWindow::MainWindow() : QMainWindow() {
-	widget = new QWidget;
+    widget = new QWidget();
+
+//    widget->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     widget->hide();
     QGridLayout* widgetLayout = new QGridLayout(widget);
-	widget->setLayout(widgetLayout);
+    widget->setLayout(widgetLayout);
 
-	widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	setCentralWidget(widget);
+    setCentralWidget(widget);
 
     createActions();
     createMenus();
     hdrbox = new QGroupBox(widget); // crée la grande box
-	hdrbox->setLayout(new QVBoxLayout); // vertical
-	images = new StackImageWidget(hdrbox); // ajoute la stack du dessus
-	hdrbox->layout()->addWidget(images->stack);
-	result = new ImageWidget(hdrbox); // ajoute le resultat
-	result->getQLabel()->setScaledContents(true);
-	//resultbox->layout()->addWidget(result->getQLabel());
-	settingsBox = new QGroupBox(widget); // ajoute les settings tonemap
-	settingsBox->setLayout(new QHBoxLayout);
+    hdrbox->setLayout(new QVBoxLayout); // vertical
+    images = new StackImageWidget(hdrbox); // ajoute la stack du dessus
+    hdrbox->layout()->addWidget(images->stack);
+    result = new ImageWidget(settingsBox); // ajoute le resultat
+    result->getQLabel()->setScaledContents(true);
+    //resultbox->layout()->addWidget(result->getQLabel());
+    settingsBox = new QGroupBox(hdrbox); // ajoute les settings tonemap
+    settingsBox->setLayout(new QHBoxLayout);
     settingsBox->layout()->addWidget(result->getQLabel());
-    settingsBox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-    hdrbox->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);
+    hdrbox->setMaximumSize(1000, 500);
+    images->stack->setMinimumSize(500, 400);
+    hdrbox->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+    settingsBox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Maximum);
+
+    images->stack->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+
 
     toneMapSettings = new ToneMapSettings(settingsBox, 0.25f);
     settingsBox->layout()->addWidget(toneMapSettings);
-    widgetLayout->setHorizontalSpacing(200);
-    widgetLayout->addWidget(hdrbox,0,0);
-    widgetLayout->addWidget(settingsBox,1,0, Qt::AlignCenter);
+    widgetLayout->addWidget(hdrbox,0,0, Qt::AlignLeft);
+    widgetLayout->addWidget(settingsBox,1,0, Qt::AlignLeft);
+
+
 
     toneMapSettings->hide();
 

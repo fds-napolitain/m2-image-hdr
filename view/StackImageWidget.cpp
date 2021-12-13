@@ -12,23 +12,23 @@ StackImageWidget::StackImageWidget() = default;
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
     scrollLayout = new QVBoxLayout(this);
-	scrollLayout->setParent(this);
+
 	scroll = new QScrollArea(parent);
     scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollLayout->addWidget(scroll);
-	stack = new QGroupBox(scroll);
+	stack = new QGroupBox(parent);
 	stack->setLayout(new QHBoxLayout);
 
 //    stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-
-    QSizePolicy myPol;
-    //myPol.setWidthForHeight(true);
-    //myPol.setHeightForWidth(true);
-    myPol.setRetainSizeWhenHidden(true);
-    myPol.setHorizontalPolicy(QSizePolicy::Fixed);
-    myPol.setVerticalPolicy(QSizePolicy::MinimumExpanding);
-    stack->setSizePolicy(myPol);
+//
+//    QSizePolicy myPol;
+//    //myPol.setWidthForHeight(true);
+//    //myPol.setHeightForWidth(true);
+//    myPol.setRetainSizeWhenHidden(true);
+//    myPol.setHorizontalPolicy(QSizePolicy::Fixed);
+//    myPol.setVerticalPolicy(QSizePolicy::MinimumExpanding);
+//    stack->setSizePolicy(myPol);
 
     scroll->setWidget(stack);
 	scroll->setHorizontalScrollBar(new QScrollBar);

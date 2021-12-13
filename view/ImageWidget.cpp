@@ -20,21 +20,17 @@ ImageWidget::ImageWidget(QWidget* parent)
     layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 
     label = new QLabel(parent);
-
     // add spacer, then your widget, then spacer
-    layout->addItem(new QSpacerItem(0, 0));
     layout->addWidget(label);
-    layout->addItem(new QSpacerItem(0, 0));
 
     label->setBackgroundRole(QPalette::Base);
-    label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     label->setScaledContents(true);
 
-    scrollArea= new QScrollArea(this);
+   // scrollArea= new QScrollArea(this);
 
-    scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollArea->setWidget(label);
-    scrollArea->setVisible(true);
+//    scrollArea->setBackgroundRole(QPalette::Dark);
+//    scrollArea->setWidget(label);
+//    scrollArea->setVisible(true);
 
 //    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
