@@ -34,7 +34,7 @@ public:
 	Image merge();
 	Image mergeDebevec();
 	Image mergeRobertson();
-	Image mergeMertens();
+	Image mergeMertens(bool s = false);
 };
 
 

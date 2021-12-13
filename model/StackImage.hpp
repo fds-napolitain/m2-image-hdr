@@ -20,7 +20,7 @@ public:
 	// -- méthodes sur des images (ex: HDR)
 	void alignMTB();
 	Image mergeDebevec();
-	Image mergeMertens();
+	Image mergeMertens(bool s = false);
 	Image mergeRobertson();
 	Image merge();
 };

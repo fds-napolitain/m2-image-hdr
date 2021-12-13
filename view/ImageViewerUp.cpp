@@ -37,7 +37,9 @@ ImageViewerUp::ImageViewerUp(QWidget* parent) {
 /**
  * Destructeur
  */
-ImageViewerUp::~ImageViewerUp() = default;
+ImageViewerUp::~ImageViewerUp() {
+	delete label;
+};
 
 /**
  * Charge une image et initialise ses composants graphiques.

@@ -115,7 +115,7 @@ Image StackImageWidget::mergeRobertson() {
  * Applique le merge de Mertens sur une StackImage.
  * @return
  */
-Image StackImageWidget::mergeMertens() {
+Image StackImageWidget::mergeMertens(bool s) {
 	std::cout << "3. Exécute le merge de Mertens.\n";
 	return getImages().mergeMertens();
 }

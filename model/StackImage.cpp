@@ -86,14 +86,20 @@ Image StackImage::mergeRobertson() {
  * https://learnopencv.com/exposure-fusion-using-opencv-cpp-python/
  * @return
  */
-Image StackImage::mergeMertens() {
+Image StackImage::mergeMertens(bool s) {
 	cv::Mat resultMertens;
 	std::vector<cv::Mat> matrices = getMatrices();
-	std::vector<float> exposures = getExposures();
-
-	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
-	mergeMertens->process(matrices, resultMertens);
-	return Image(resultMertens);
+	if (!s) {
+		cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
+		mergeMertens->process(matrices, resultMertens);
+		return Image(resultMertens);
+	} else {
+		resultMertens = 0.0;
+		double size = static_cast<double>(this->images.size());
+		for (const auto &image: images) {
+			resultMertens += image->matrix / size;
+		}
+	}
 }
 
 /**
@@ -102,8 +108,8 @@ Image StackImage::mergeMertens() {
  */
 Image StackImage::merge() {
 	cv::Mat resultDenoise(cv::Size(images[0]->matrix.cols, images[0]->matrix.rows), CV_8UC3);
-	resultDenoise = 0;
-	int size = images.size();
+	resultDenoise = 0.0;
+	double size = static_cast<double>(this->images.size());
 	for (const auto &image: images) {
 		resultDenoise += image->matrix / size;
 	}

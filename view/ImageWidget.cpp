@@ -6,7 +6,9 @@
 #include <QGuiApplication>
 
 
-ImageWidget::ImageWidget() = default;
+ImageWidget::ImageWidget() {
+	delete label;
+}
 
 /**
  * Initialise un widget Image à partir de son parent.
