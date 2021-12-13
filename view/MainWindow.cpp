@@ -5,6 +5,7 @@
  */
 MainWindow::MainWindow() : QMainWindow() {
 	widget = new QWidget;
+    widget->hide();
     QGridLayout* widgetLayout = new QGridLayout(widget);
 	widget->setLayout(widgetLayout);
 
@@ -287,21 +288,22 @@ void MainWindow::executePipeline() {
  */
 void MainWindow::openFiles() {
 	QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Images"), "../images/", tr("Image Files (*.png *.jpg *.JPG *.bmp *.hdr *.HDR)"));
-	if (fileNames.empty()) {
-		qDebug() << tr("Empty file list");
-		return;
-	}
-	if (fileNames[0].endsWith(tr(".hdr"))) { // hdr
-		pipeline.merge = Merge::Kalantari;
-		result->loadImage(fileNames[0], hdrbox);
-		actionMergeKalantari->setChecked(true);
-		executePipeline();
-	} else {
-		images->loadImages(fileNames); // ldr images
-		resetAll();
-		result->reset();
-	}
-	qDebug() << fileNames;
+    if (fileNames.empty()) {
+        qDebug() << tr("Empty file list");
+        return;
+    }
+    if (fileNames[0].endsWith(tr(".hdr"))) { // hdr
+        pipeline.merge = Merge::Kalantari;
+        result->loadImage(fileNames[0], hdrbox);
+        actionMergeKalantari->setChecked(true);
+        executePipeline();
+    } else {
+        images->loadImages(fileNames); // ldr images
+        resetAll();
+        result->reset();
+    }
+    qDebug() << fileNames;
+    widget->show();
 }
 
 /**
@@ -309,18 +311,19 @@ void MainWindow::openFiles() {
  */
 void MainWindow::openFolder() {
     QDir directory(QFileDialog::getExistingDirectory(this, tr("Open folder"), "../images/"));
-	QStringList fileNames = directory.entryList(QStringList() << tr("*.jpg") << tr("*.JPG") << tr("*.png")  << tr("*.bmp"), QDir::Files);
-	for (QString& fileName: fileNames) {
-		fileName = directory.path().append(tr("/")).append(fileName);
-	}
-	if (fileNames.empty()) {
-		qDebug() << tr("Empty folder");
-		return;
-	}
-	images->loadImages(fileNames);
-	resetAll();
-	result->reset();
-	qDebug() << fileNames;
+    QStringList fileNames = directory.entryList(QStringList() << tr("*.jpg") << tr("*.JPG") << tr("*.png")  << tr("*.bmp"), QDir::Files);
+    for (QString& fileName: fileNames) {
+        fileName = directory.path().append(tr("/")).append(fileName);
+    }
+    if (fileNames.empty()) {
+        qDebug() << tr("Empty folder");
+        return;
+    }
+    images->loadImages(fileNames);
+    resetAll();
+    result->reset();
+    qDebug() << fileNames;
+    widget->show();
 }
 
 /**
