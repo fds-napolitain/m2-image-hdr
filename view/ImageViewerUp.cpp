@@ -12,27 +12,28 @@ ImageViewerUp::ImageViewerUp() = default;
  * @param parent
  */
 ImageViewerUp::ImageViewerUp(QWidget* parent) {
-	this->parent = parent;
-	layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    this->parent = parent;
+    layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 
-	// add spacer, then your widget, then spacer
-	layout->addItem(new QSpacerItem(0, 0));
-	label = new QLabel(parent);
-	layout->addWidget(label);
-	layout->addItem(new QSpacerItem(0, 0));
+    // add spacer, then your widget, then spacer
+    layout->addItem(new QSpacerItem(0, 0));
+    label = new QLabel(parent);
+    layout->addWidget(label);
+    layout->addItem(new QSpacerItem(0, 0));
 
-	label->setScaledContents(true);
-	//label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	QSizePolicy myPol;
-	//myPol.setWidthForHeight(true);
-	myPol.setHeightForWidth(true);
-	myPol.setRetainSizeWhenHidden(true);
-	myPol.setVerticalPolicy(QSizePolicy::Maximum);
-	myPol.setHorizontalPolicy(QSizePolicy::Maximum);
-	label->setSizePolicy(myPol);
+    label->setScaledContents(true);
+    //label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSizePolicy myPol;
+    myPol.setWidthForHeight(true);
+    //myPol.setHeightForWidth(true);
+    myPol.setRetainSizeWhenHidden(true);
+    myPol.setVerticalPolicy(QSizePolicy::Ignored);
+    myPol.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
+    label->setSizePolicy(myPol);
 
-	//label->show();
+    label->show();
 }
+
 /**
  * Destructeur
  */
@@ -83,6 +84,7 @@ void ImageViewerUp::reloadImage() {
     arHeight = 400.0;
     arWidth = img.width() * h;
     label->resize(static_cast<int>(this->arWidth), static_cast<int>(this->arHeight));
+    label->setScaledContents(false);
     std::cout << "Entropie locale moyenne: " << image.getAverageEntropy() << "\n";
     //std::cout << "SNR: " << image.getSNR() << "\n";
     label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));

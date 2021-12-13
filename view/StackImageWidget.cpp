@@ -11,16 +11,31 @@ StackImageWidget::StackImageWidget() = default;
  * @param parent
  */
 StackImageWidget::StackImageWidget(QWidget *parent) {
-	scrollLayout = new QVBoxLayout(this);
+    scrollLayout = new QVBoxLayout(this);
 	scrollLayout->setParent(this);
 	scroll = new QScrollArea(parent);
-	scrollLayout->addWidget(scroll);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollLayout->addWidget(scroll);
 	stack = new QGroupBox(scroll);
 	stack->setLayout(new QHBoxLayout);
-	stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-	scroll->setWidget(stack);
+
+//    stack->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
+
+    QSizePolicy myPol;
+    //myPol.setWidthForHeight(true);
+    //myPol.setHeightForWidth(true);
+    myPol.setRetainSizeWhenHidden(true);
+    myPol.setHorizontalPolicy(QSizePolicy::Fixed);
+    myPol.setVerticalPolicy(QSizePolicy::MinimumExpanding);
+    stack->setSizePolicy(myPol);
+
+    scroll->setWidget(stack);
 	scroll->setHorizontalScrollBar(new QScrollBar);
-	//scroll->setFixedWidth(700);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    //scroll->setFixedWidth(700);
+
 	scroll->show();
 	this->parent = parent;
 	this->setParent(parent);
@@ -49,7 +64,9 @@ void StackImageWidget::loadImages(const QStringList &filenames) {
 		size = images[i]->getQLabel()->size();
 	}
 	stack->resize(size.width()*filenames.size(), size.height());
+    stack->setMinimumWidth(size.width()*filenames.size());
 	parent->resize(size.width()*filenames.size(), size.height()*2);
+    scroll->show();
 }
 
 /**
