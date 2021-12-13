@@ -21,16 +21,17 @@ MainWindow::MainWindow() : QMainWindow() {
 	result = new ImageWidget(hdrbox); // ajoute le resultat
 	result->getQLabel()->setScaledContents(true);
 	//resultbox->layout()->addWidget(result->getQLabel());
-	settingsBox = new QGroupBox(hdrbox); // ajoute les settings tonemap
-	settingsBox->setLayout(new QVBoxLayout);
+	settingsBox = new QGroupBox(widget); // ajoute les settings tonemap
+	settingsBox->setLayout(new QHBoxLayout);
+    settingsBox->layout()->addWidget(result->getQLabel());
     settingsBox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::MinimumExpanding);
-    hdrbox->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    hdrbox->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);
 
-    toneMapSettings = new ToneMapSettings(hdrbox, 0.25f);
+    toneMapSettings = new ToneMapSettings(settingsBox, 0.25f);
     settingsBox->layout()->addWidget(toneMapSettings);
-    widgetLayout->addWidget(hdrbox,0,0,1,8);
-    widgetLayout->addWidget(result->getQLabel(),1,0,1,6);
-    widgetLayout->addWidget(settingsBox,1,6,1,2);
+    widgetLayout->setHorizontalSpacing(200);
+    widgetLayout->addWidget(hdrbox,0,0);
+    widgetLayout->addWidget(settingsBox,1,0, Qt::AlignCenter);
 
     toneMapSettings->hide();
 
