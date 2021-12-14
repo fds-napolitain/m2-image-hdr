@@ -3,16 +3,8 @@
 
 StackImage::StackImage() = default;
 
-StackImage::StackImage(int n) {
-	images.resize(n);
-}
-
 void StackImage::addImage(Image *image) {
 	images.push_back(image);
-}
-
-void StackImage::addImage(Image *image, int i) {
-	images[i] = image;
 }
 
 /**
@@ -22,7 +14,7 @@ void StackImage::addImage(Image *image, int i) {
 std::vector<cv::Mat> StackImage::getMatrices() {
 	std::vector<cv::Mat> matrices(images.size());
 	for (int i = 0; i < images.size(); ++i) {
-		matrices[i] = images[i]->image;
+		matrices[i] = images[i]->matrix;
 	}
 	return matrices;
 }
@@ -65,7 +57,7 @@ Image StackImage::mergeDebevec() {
 	calibrateDebevec->process(matrices, responseDebevec, exposures);
 
 	cv::Ptr<cv::MergeDebevec> mergeDebevec = cv::createMergeDebevec();
-	mergeDebevec->process(matrices, resultDebevec, exposures, responseDebevec);
+	mergeDebevec->process(matrices, resultDebevec, exposures);
 	return Image(resultDebevec);
 }
 
@@ -84,7 +76,7 @@ Image StackImage::mergeRobertson() {
 	calibrateRobertson->process(matrices, responseRobertson, exposures);
 
 	cv::Ptr<cv::MergeRobertson> mergeRobertson = cv::createMergeRobertson();
-	mergeRobertson->process(matrices, resultRobertson, exposures, responseRobertson);
+	mergeRobertson->process(matrices, resultRobertson, exposures);
 	return Image(resultRobertson);
 }
 
@@ -94,12 +86,32 @@ Image StackImage::mergeRobertson() {
  * https://learnopencv.com/exposure-fusion-using-opencv-cpp-python/
  * @return
  */
-Image StackImage::mergeMertens() {
+Image StackImage::mergeMertens(bool s) {
 	cv::Mat resultMertens;
 	std::vector<cv::Mat> matrices = getMatrices();
-	std::vector<float> exposures = getExposures();
+	if (!s) {
+		cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
+		mergeMertens->process(matrices, resultMertens);
+		return Image(resultMertens);
+	} else {
+		resultMertens = 0.0;
+		double size = static_cast<double>(this->images.size());
+		for (const auto &image: images) {
+			resultMertens += image->matrix / size;
+		}
+	}
+}
 
-	cv::Ptr<cv::MergeMertens> mergeMertens = cv::createMergeMertens();
-	mergeMertens->process(matrices, resultMertens);
-	return Image(resultMertens);
+/**
+ * Must be aligned first, MTB for example.
+ * @return
+ */
+Image StackImage::merge() {
+	cv::Mat resultDenoise(cv::Size(images[0]->matrix.cols, images[0]->matrix.rows), CV_8UC3);
+	resultDenoise = 0.0;
+	double size = static_cast<double>(this->images.size());
+	for (const auto &image: images) {
+		resultDenoise += image->matrix / size;
+	}
+	return Image(resultDenoise);
 }

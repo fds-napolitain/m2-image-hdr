@@ -5,14 +5,16 @@
 #ifndef QTHDR_IMAGEWIDGET_HPP
 #define QTHDR_IMAGEWIDGET_HPP
 
+#define RESULT_SIZE 600.00
 
 #include <QLabel>
 #include "../model/Image.hpp"
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QMouseEvent>
+#include <QScrollArea>
 
 /**
  * Widget englobant une image.
@@ -23,9 +25,14 @@ private:
 	QWidget* parent;
 	Image image;
 	QLabel* label;
+	QBoxLayout *layout;
+	float arWidth; // aspect ratio width
+	float arHeight; // aspect ratio height
+    QScrollArea *scrollArea;
 public:
 	Merge merged = Merge::NONE;
 	Tonemap tonemapped = Tonemap::NONE;
+	Contrast contrasted = Contrast::NONE;
 	ImageWidget();
 	explicit ImageWidget(QWidget* parent);
 	~ImageWidget() override;
@@ -35,7 +42,7 @@ public:
 	void loadImage(const QString& filename, QGroupBox *stack);
 	QLabel* getQLabel();
 	void reset();
-	void mouseDoubleClickEvent(QMouseEvent *e) override;
+	void resizeEvent(QResizeEvent *event) override;
 
 };
 

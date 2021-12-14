@@ -3,28 +3,42 @@
 //
 
 #include "ImageWidget.hpp"
+#include <QGuiApplication>
 
 
-ImageWidget::ImageWidget() = default;
+ImageWidget::ImageWidget() {
+	delete label;
+}
 
 /**
  * Initialise un widget Image à partir de son parent.
  * @param parent
  */
-ImageWidget::ImageWidget(QWidget* parent) {
-	this->parent = parent;
-	label = new QLabel(parent);
-	label->setScaledContents(true);
-	label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-	label->show();
+ImageWidget::ImageWidget(QWidget* parent)
+{
+    this->parent = parent;
+    layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+
+    label = new QLabel(parent);
+    // add spacer, then your widget, then spacer
+    layout->addWidget(label);
+
+    label->setBackgroundRole(QPalette::Base);
+    label->setScaledContents(true);
+
+   // scrollArea= new QScrollArea(this);
+
+//    scrollArea->setBackgroundRole(QPalette::Dark);
+//    scrollArea->setWidget(label);
+//    scrollArea->setVisible(true);
+
+//    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 /**
  * Destructeur
  */
-ImageWidget::~ImageWidget() {
-	delete label;
-}
+ImageWidget::~ImageWidget() = default;
 
 /**
  * Charge une image et initialise ses composants graphiques.
@@ -32,7 +46,6 @@ ImageWidget::~ImageWidget() {
  */
 void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
 	image = Image(filename);
-    label->setGeometry(QRect(20, 10, 371, 311));
 	reloadImage();
     stack->layout()->addWidget(label);
 }
@@ -42,7 +55,7 @@ void ImageWidget::loadImage(const QString& filename, QGroupBox *stack) {
  * @param image à copier
  */
 void ImageWidget::loadImage(const Image& image) {
-	this->image = Image(image);
+	this->image = Image(image.matrix);
 	reloadImage();
 }
 
@@ -67,26 +80,14 @@ QLabel* ImageWidget::getQLabel() {
  */
 void ImageWidget::reloadImage() {
 	QImage img = image.getQImage();
-	double w = img.width() / 300.0;
-	double h = img.height() / 400.0;
-	if (w > h) {
-		label->resize(img.width() / w, img.height() / w);
-	}
-	else {
-		label->resize(img.width() / h, img.height() / h);
-	}
-	std::cout << "Entropy: " << image.getAverageEntropy() << "\n";
+	if (img.isNull()) return;
+    double h = RESULT_SIZE / static_cast<double>(img.height());
+    arHeight = RESULT_SIZE;
+	arWidth = img.width() * h;
+	label->resize(static_cast<int>(this->arWidth), static_cast<int>(this->arHeight));
+	std::cout << "Entropie locale moyenne: " << image.getAverageEntropy() << "\n";
+	//std::cout << "SNR: " << image.getSNR() << "\n";
 	label->setPixmap(QPixmap::fromImage(img.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-}
-
-/**
- * Ouvrir une image en plein écran dans une deuxième fenêtre.
- * @param e
- */
-void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
-	if (e->button() == Qt::LeftButton) {
-
-	}
 }
 
 /**
@@ -95,3 +96,28 @@ void ImageWidget::mouseDoubleClickEvent(QMouseEvent *e) {
 void ImageWidget::reset() {
 	label->clear();
 }
+
+/**
+ *
+ * @param event
+ */
+void ImageWidget::resizeEvent(QResizeEvent *event) {
+	float thisAspectRatio = static_cast<float>(event->size().width()) / static_cast<float>(event->size().height());
+	int widgetStretch, outerStretch;
+
+	if (thisAspectRatio > (arWidth/arHeight)) // too wide
+	{
+		layout->setDirection(QBoxLayout::LeftToRight);
+		widgetStretch = static_cast<int>(static_cast<float>(this->height()) * (this->arWidth / this->arHeight)); // i.e., my width
+		outerStretch = (width() - widgetStretch) / 2 + 0.5;
+	}
+	else // too tall
+	{
+		layout->setDirection(QBoxLayout::TopToBottom);
+		widgetStretch = width() * (arHeight/arWidth); // i.e., my height
+		outerStretch = (height() - widgetStretch) / 2 + 0.5;
+	}
+
+	layout->setStretch(0, outerStretch);
+	layout->setStretch(1, widgetStretch);
+	layout->setStretch(2, outerStretch);}

@@ -7,15 +7,20 @@
 
 #include <vector>
 #include <QGroupBox>
-#include "ImageWidget.hpp"
+#include "ImageViewerUp.hpp"
 #include "../model/StackImage.hpp"
-#include "../model/Pipeline.hpp"
+#include "Pipeline.hpp"
+#include <QHBoxLayout>
+#include <QScrollBar>
+#include <QScrollArea>
 
 class StackImageWidget : public QWidget {
 
 private:
-	std::vector<ImageWidget*> images;
+    std::vector<ImageViewerUp*> images;
 	QWidget* parent;
+	QScrollArea* scroll;
+	QVBoxLayout* scrollLayout;
 public:
 	Align aligned = Align::NONE;
 	QGroupBox* stack;
@@ -26,10 +31,10 @@ public:
 	StackImage getImages();
 	// -- méthodes hdr
 	void alignMTB();
+	Image merge();
 	Image mergeDebevec();
-	Image mergeMertens();
-
 	Image mergeRobertson();
+	Image mergeMertens(bool s = false);
 };
 
 

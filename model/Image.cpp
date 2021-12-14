@@ -3,31 +3,43 @@
 //
 
 
-#include <utility>
 #include "Image.hpp"
 
 
 Image::Image() = default;
 
-Image::Image(cv::Mat image) {
-	this->image = std::move(image);
+Image::Image(const cv::Mat& image) {
+	this->matrix = image.clone();
 }
 
 /**
  * Initialise une image avec OpenCV.
  * @param filename
- * @param isHDR
  */
 Image::Image(const QString& filename) {
-	loadImage(filename);
-	QStringList tmp = filename.split('/');
-	tmp = tmp.at(tmp.size()-1).split('_').at(1).split('.');
-	if (tmp.size() == 3) { // floating point
-		this->exposure = (tmp.at(0) + "." + tmp.at(1)).toFloat();
+	if (!filename.contains("_")) {
+		loadImage(filename);
 	} else {
-		this->exposure = tmp.at(0).toFloat();
+		loadImage(filename);
+		QStringList tmp = filename.split('/');
+		tmp = tmp.at(tmp.size()-1).split('_');
+		tmp = tmp.at(1).split('.');
+		if (tmp.size() == 3) { // floating point
+			this->exposure = (tmp.at(0) + "." + tmp.at(1)).toFloat();
+		} else {
+			this->exposure = tmp.at(0).toFloat();
+		}
+		std::cout << "Exposure: " << this->exposure << "\n";
 	}
-	std::cout << this->exposure << "\n";
+}
+
+/**
+ * Constructeur par recopie
+ * @param image
+ */
+Image::Image(const Image &image) {
+	this->matrix = image.matrix.clone();
+	this->exposure = image.getExposure();
 }
 
 /**
@@ -40,7 +52,30 @@ Image::~Image() = default;
  * @param filename chemin d'accès à l'image
  */
 void Image::loadImage(const QString& filename) {
-	image = cv::imread(filename.toStdString());
+	matrix = cv::imread(filename.toStdString(), cv::IMREAD_UNCHANGED);
+}
+
+/**
+ * Retourne le flags (CV_8C3 etc...)
+ * @return
+ */
+std::string Image::getFlags() const {
+	std::string r;
+	uchar depth = matrix.type() & CV_MAT_DEPTH_MASK;
+	uchar chans = 1 + (matrix.type() >> CV_CN_SHIFT);
+	switch (depth) {
+		case CV_8U:  r = "8U"; break;
+		case CV_8S:  r = "8S"; break;
+		case CV_16U: r = "16U"; break;
+		case CV_16S: r = "16S"; break;
+		case CV_32S: r = "32S"; break;
+		case CV_32F: r = "32F"; break;
+		case CV_64F: r = "64F"; break;
+		default:     r = "User"; break;
+	}
+	r += "C";
+	r += (chans+'0');
+	return r;
 }
 
 /**
@@ -48,12 +83,12 @@ void Image::loadImage(const QString& filename) {
  * @return
  */
 cv::Mat Image::getMatrix() const {
-	if (image.depth() == 5) {
-		cv::Mat image8;
-		image.convertTo(image8, CV_8U, 255);
+	if (getFlags() == "32FC3") {
+		cv::Mat image8 = cv::Mat(matrix.size(), CV_8UC3);
+		matrix.convertTo(image8, CV_8UC3, 255.0);
 		return image8;
 	} else {
-		return image.clone();
+		return matrix.clone();
 	}
 }
 
@@ -63,7 +98,8 @@ cv::Mat Image::getMatrix() const {
  */
 QImage Image::getQImage() const {
 	cv::Mat mat = getMatrix();
-	return QImage((uchar*) mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888).rgbSwapped();
+	std::cout << "Profondeur: " << Image(mat).getFlags() << "\n";
+	return QImage(mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888).rgbSwapped();
 }
 
 /**
@@ -74,6 +110,15 @@ float Image::getExposure() const {
 	return exposure;
 }
 
+/**
+ * Renvoit l'histogramme
+ * @param mat
+ * @param size
+ * @param minRange
+ * @param maxRange
+ * @param result
+ * @return
+ */
 std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result) {
 
 	std::vector<cv::Mat> bgr_planes;
@@ -93,9 +138,9 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	calcHist( &bgr_planes[2], 1, nullptr, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
 	calcHist( &mat, 1, &x, cv::Mat(), r_hist, 1, &histSize, histRange, true, false );
 
-	normalize(b_hist, b_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-	normalize(g_hist, g_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-	normalize(r_hist, r_hist, 0, mat.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(b_hist, b_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(g_hist, g_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
+	normalize(r_hist, r_hist, 0.0, static_cast<double>(mat.rows), cv::NORM_MINMAX, -1, cv::Mat() );
 
 	result.resize(4);
 	result[0] = r_hist;
@@ -104,39 +149,43 @@ std::vector<cv::Mat> Image::getHistogram(cv::Mat& mat, int size, float minRange,
 	result[3] = complete_hist;
 
 	int hist_w = 512, hist_h = 400;
-	int bin_w = cvRound( (double) hist_w/histSize );
-	cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
+	int bin_w = cvRound(static_cast<double>(hist_w)/static_cast<double>(histSize) );
+	cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0.0,0.0,0.0) );
 	for( int i = 1; i < histSize; i++ )
 	{
 		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ),
 			  cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
-			  cv::Scalar( 255, 0, 0), 2, 8, 0  );
+			  cv::Scalar( 255.0, 0.0, 0.0), 2, 8, 0  );
 		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ),
 			  cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
-			  cv::Scalar( 0, 255, 0), 2, 8, 0  );
+			  cv::Scalar( 0.0, 255.0, 0.0), 2, 8, 0  );
 		line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ),
 			  cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
-			  cv::Scalar( 0, 0, 255), 2, 8, 0  );
+			  cv::Scalar( 0.0, 0.0, 255.0), 2, 8, 0  );
 	}
 
 	cv::imshow("Histogramme", histImage);
 	return result;
 }
 
+/**
+ * Égalisation d'histogramme pour amélioration de contraste.
+ * @param Clahe
+ * @return
+ */
 cv::Mat Image::calcEqualization(bool Clahe){
-    cv::Mat mat = this->getMatrix();
+	std::cout << "5. Exécute l'égalisation d'histogramme.\n";
+
+	cv::Mat mat = this->getMatrix();
     cv::Mat value;
     cv::Mat matrices[3];
     cv::cvtColor(mat, value, cv::COLOR_BGR2HSV);
     cv::split(value, matrices);
 
-    if(Clahe)
-    {
+    if (Clahe) {
         cv::Ptr<cv::CLAHE> cl  =  cv::createCLAHE(2.0);
         cl->apply(matrices[2], matrices[2]);
-    }
-    else
-    {
+    } else {
         cv::equalizeHist(matrices[2], matrices[2]);
     }
 
@@ -154,8 +203,8 @@ float Image::getAverageEntropy() {
 	cv::Mat mat = getMatrix();
 	cv::Mat value;
 	cv::cvtColor(mat, value, cv::COLOR_BGR2GRAY);
-	constexpr int boxOffset = 8; // nombre de sous image par longueur
-	const int w = value.rows / boxOffset; // longueur, largeur sous image
+	constexpr int boxOffset = 8; // nombre de sous matrix par longueur
+	const int w = value.rows / boxOffset; // longueur, largeur sous matrix
 	const int h = value.cols / boxOffset;
 
     float entropy = 0.0; // entropie moyenne
@@ -163,7 +212,7 @@ float Image::getAverageEntropy() {
         for (int j = 0; j < boxOffset; ++j) {
             cv::Mat subImg = value(cv::Range(w * i, w * (i + 1)), cv::Range(h * j, h * (j + 1)));
             //cv::cvtColor(subImg, subImg, cv::COLOR_BGR2GRAY);
-            std::vector<float> histogram(256);
+            std::vector<float> histogram(256.0);
             //getHistogram(subImg, 256, 0.f, 255.f, histogram);
             //cv::normalize(histogram, histogram, 0, 255, cv::NORM_MINMAX);
             unsigned char* p = subImg.data;
@@ -172,8 +221,8 @@ float Image::getAverageEntropy() {
                 p++;
             }
             for (int k = 0; k < 256; ++k) {
-                float pi = histogram[k] / (float) subImg.total();
-                if (pi != 0) {
+                float pi = histogram[k] / static_cast<float>(subImg.total());
+                if (pi != 0.0) {
                     entropy -= (pi * log2(pi)); //histogram[k] * log(1.0/histogram[k]);
                 }
             }
@@ -187,18 +236,35 @@ float Image::getAverageEntropy() {
  * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
-void Image::tonemapDrago() {
+void Image::tonemapDrago( float gamma = 1.0, float saturation = 1.0, float bias = 0.85) {
 	std::cout << "4. Exécute le mappage ton-local de Drago\n";
-	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago();
-	tonemap->process(image, image);
+	cv::Ptr<cv::TonemapDrago> tonemap = cv::createTonemapDrago(gamma, saturation, bias);
+	tonemap->process(matrix, matrix);
 }
 
 /**
  * Applique sur place une image à gamme dynamique classique mais étalonnée à partir des images HDR, de 0 à 255.
  * @return
  */
-void Image::tonemapReinhard() {
+void Image::tonemapReinhard(float gamma = 1.0, float intensity = 0.0, float lightAdapt = 1.0, float colorAdapt = 0.0) {
 	std::cout << "4. Exécute le mappage ton-local de Reinhard\n";
-	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard();
-	tonemap->process(image, image);
+	cv::Ptr<cv::TonemapReinhard> tonemap = cv::createTonemapReinhard(gamma, intensity,lightAdapt,colorAdapt);
+	tonemap->process(matrix, matrix);
+}
+
+/**
+ * Explications sur le rapport signal à bruit et l'astrophotographie : https://jonrista.com/the-astrophotographers-guide/astrophotography-basics/snr/
+ * But : retourner un rapport signal à bruit sur une image.
+ * But (final) : améliorer une image, en réduisant son bruit par fusion d'images. Normalement on doit voir une amélioration du SNR.
+ * @return SNR = S/SQRT(S)
+ */
+float Image::getSNR() const {
+	float signal = static_cast<float>(0);
+	unsigned char *p = matrix.data;
+	for (int i = 0; i < matrix.total(); ++i) {
+		signal += static_cast<float>(*p);
+		p++;
+	}
+	signal /= static_cast<float>(this->matrix.total());
+	return signal / sqrt(signal);
 }

@@ -2,6 +2,7 @@
 #define QTHDR_IMAGE_HPP
 
 #include <QImage>
+#include <utility>
 #include <opencv2/opencv.hpp>
 
 /**
@@ -13,20 +14,23 @@ private:
 	float exposure;
 	[[nodiscard]] cv::Mat getMatrix() const;
 public:
-	cv::Mat image;
+	cv::Mat matrix;
 	Image();
-	explicit Image(cv::Mat image);
+	explicit Image(const cv::Mat& image);
 	explicit Image(const QString& filename);
+	Image(const Image& image);
 	~Image();
 	void loadImage(const QString& filename);
-	[[nodiscard]] QImage getQImage() const;
+	[[nodiscard]] std::string getFlags() const;
+	// -- méthodes sur une matrix
 	[[nodiscard]] float getExposure() const;
-    cv::Mat calcEqualization(bool clahe);
-	std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
+	[[nodiscard]] QImage getQImage() const;
 	float getAverageEntropy();
-	// -- méthodes sur une image
-	void tonemapDrago();
-	void tonemapReinhard();
+	[[nodiscard]] float getSNR() const;
+	static std::vector<cv::Mat> getHistogram(cv::Mat& mat, int size, float minRange, float maxRange, std::vector<cv::Mat>& result);
+	void tonemapDrago(float gamma, float saturation, float bias);
+	void tonemapReinhard(float gamma, float intensity, float lightAdapt, float colorAdapt);
+	cv::Mat calcEqualization(bool clahe);
 
 };
 
